@@ -1,5 +1,5 @@
 import '../../assets/css/bulma.scss';
-
+import '../../assets/css/tailwind.css';
 import Link from 'next/link'
 
 export default ({children}) => {
