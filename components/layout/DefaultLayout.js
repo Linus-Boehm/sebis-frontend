@@ -35,7 +35,12 @@ export default ({children}) => {
                         <div className="navbar-end">
                             <div className="navbar-item">
                                 <div className="buttons">
-                                    <a onClick={() => alert('You clicked the button!')} className="button is-primary">Click</a>
+                                    <Link prefetch href="/auth/signup">
+                                        <a  className="button is-primary">Sign Up</a>
+                                    </Link>
+                                    <Link prefetch href="/auth/signin">
+                                        <a  className="button is-link">Sign In</a>
+                                    </Link>
                                 </div>
                             </div>
                         </div>

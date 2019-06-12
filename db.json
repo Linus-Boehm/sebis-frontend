@@ -1,0 +1,20 @@
+{
+  "teams": [
+    {
+      "id": "1",
+      "name": "Team1",
+      "organization_id": "1"
+    },
+    {
+      "id": "2",
+      "name": "Team2",
+      "organization_id": "1"
+    }
+  ],
+  "organizations": [
+    {
+      "id": 1,
+      "name": "orga"
+    }
+  ]
+}
