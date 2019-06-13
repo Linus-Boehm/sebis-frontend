@@ -1,125 +1,125 @@
 import Router from 'next/router';
-import axios from 'axios';
+import api from '../../services/BackendApi';
 import { AUTHENTICATE, DEAUTHENTICATE, USER } from '../types/auth';
-import { API_URL } from '../../config';
 
 // register user
-const register = ({ firstname, lastname, mobile_no, email_id, password, confirm_password }, type) => {
-    if (type !== 'register') {
-        throw new Error('Wrong API call!');
+const register = (userInfo) => {
+  const { firstname, lastname, mobile_no, email_id, password, confirm_password } = userInfo
+
+  return async (dispatch) => {
+    try {
+      const response = await BackendApi.register(userInfo);
+      Router.push('/signin');
+      console.log(response.data.meta.message);
+
+    } catch (error) {
+      switch (error.response.status) {
+        case 422:
+          alert(error.response.data.meta.message);
+          break;
+        case 401:
+          alert(error.response.data.meta.message);
+          break;
+        case 500:
+          alert('Interval server error! Try again!');
+          break;
+        default:
+          alert(error.response.data.meta.message);
+          break;
+      }
     }
-    return (dispatch) => {
-        axios.post(`${API_URL}/${type}`, {firstname, lastname, mobile_no, email_id, password, confirm_password })
-            .then((response) => {
-                Router.push('/signin');
-                console.log(response.data.meta.message);
-            })
-            .catch((err) => {
-                switch (error.response.status) {
-                    case 422:
-                        alert(error.response.data.meta.message);
-                        break;
-                    case 401:
-                        alert(error.response.data.meta.message);
-                        break;
-                    case 500:
-                        alert('Interval server error! Try again!');
-                        break;
-                    default:
-                        alert(error.response.data.meta.message);
-                        break;
-                }
-            });
-    };
+  };
 };
+
 // gets token from the api and stores it in the redux store and in cookie
 const authenticate = ({ email_id, password }, type) => {
-    if (type !== 'login') {
-        throw new Error('Wrong API call!');
-    }
-    return (dispatch) => {
-        console.log(email_id)
-        axios.post(`${API_URL}/${type}`, { email_id, password })
-            .then((response) => {
-                console.log(response.data.data.user.token);
-                //setCookie('token', response.data.data.user.token);
-                Router.push('/users');
-                dispatch({type: AUTHENTICATE, payload: response.data.data.user.token});
-            })
-            .catch((err) => {
-                console.log(err);
-                switch (error.response.status) {
-                    case 422:
-                        alert(error.response.data.meta.message);
-                        break;
-                    case 401:
-                        alert(error.response.data.meta.message);
-                        break;
-                    case 500:
-                        alert('Interval server error! Try again!');
-                        break;
-                    default:
-                        alert(error.response.data.meta.message);
-                        break;
-                }
+  if (type !== 'login') {
+    throw new Error('Wrong API call!');
+  }
+  return (dispatch) => {
+    console.log(email_id)
+    axios.post(`${API_URL}/${type}`, { email_id, password })
+      .then((response) => {
+        console.log(response.data.data.user.token);
+        //setCookie('token', response.data.data.user.token);
+        Router.push('/users');
+        dispatch({ type: AUTHENTICATE, payload: response.data.data.user.token });
+      })
+      .catch((err) => {
+        console.log(err);
+        switch (error.response.status) {
+          case 422:
+            alert(error.response.data.meta.message);
+            break;
+          case 401:
+            alert(error.response.data.meta.message);
+            break;
+          case 500:
+            alert('Interval server error! Try again!');
+            break;
+          default:
+            alert(error.response.data.meta.message);
+            break;
+        }
 
-            });
-    };
+      });
+  };
 };
 
 // gets the token from the cookie and saves it in the store
 const reauthenticate = (token) => {
-    return (dispatch) => {
-        dispatch({type: AUTHENTICATE, payload: token});
-    };
+  return (dispatch) => {
+    dispatch({ type: AUTHENTICATE, payload: token });
+  };
 };
 
 // removing the token
 const deauthenticate = () => {
-    return (dispatch) => {
-        //removeCookie('token');
-        Router.push('/');
-        dispatch({type: DEAUTHENTICATE});
-    };
+  return (dispatch) => {
+    //removeCookie('token');
+    Router.push('/');
+    dispatch({ type: DEAUTHENTICATE });
+  };
 };
 
 const getUser = ({ token }, type) => {
-    console.log(token)
-    return (dispatch) => {
-        axios.get(`${API_URL}/${type}`,{headers: {
-                "Authorization" : "bearer " + token
-            }
-        })
-            .then((response) => {
-                dispatch({ type: USER, payload: response.data.data.user });
-            })
-            .catch((error) => {
-                switch (error.response.status) {
-                    case 401:
-                        Router.push('/');
-                        break;
-                    case 422:
-                        alert(error.response.data.meta.message);
-                        break;
-                    case 500:
-                        alert('Interval server error! Try again!');
-                    case 503:
-                        alert(error.response.data.meta.message);
-                        Router.push('/');
-                        break;
-                    default:
-                        alert(error.response.data.meta.message);
-                        break;
-                }
-            });
-    };
+  console.log(token)
+  return (dispatch) => {
+    axios.get(`${API_URL}/${type}`, {
+      headers: {
+        "Authorization": "bearer " + token
+      }
+    })
+      .then((response) => {
+        dispatch({ type: USER, payload: response.data.data.user });
+      })
+      .catch((error) => {
+        switch (error.response.status) {
+          case 401:
+            Router.push('/');
+            break;
+          case 422:
+            alert(error.response.data.meta.message);
+            break;
+          case 500:
+            alert('Interval server error! Try again!');
+          case 503:
+            alert(error.response.data.meta.message);
+            Router.push('/');
+            break;
+          default:
+            alert(error.response.data.meta.message);
+            break;
+        }
+      });
+  };
 };
 
 
 export default {
-    register,
-    authenticate,
-    reauthenticate,
-    deauthenticate,
-    getUser,
+  register,
+  authenticate,
+  reauthenticate,
+  deauthenticate,
+  getUser,
 };

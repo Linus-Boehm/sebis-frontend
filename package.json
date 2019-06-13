@@ -16,6 +16,7 @@
     "next": "^8.1.0",
     "next-redux-wrapper": "^3.0.0-alpha.3",
     "node-sass": "^4.12.0",
+    "qs": "^6.7.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-redux": "^7.1.0",
@@ -27,6 +28,10 @@
   "scripts": {
     "dev": "next -p 8080",
     "build": "next build",
-    "start": "next start -p 8080"
+    "start": "next start -p 8080",
+    "start-json-server": "json-server --watch db.json -H 0.0.0.0 --delay 25 -p 3001"
+  },
+  "devDependencies": {
+    "json-server": "^0.15.0"
   }
 }
