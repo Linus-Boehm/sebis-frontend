@@ -26,12 +26,14 @@
     "tailwindcss": "^1.0.4"
   },
   "scripts": {
-    "dev": "next -p 8080",
-    "build": "next build",
+    "dev": "cross-env NODE_ENV=development && next -p 8080",
+    "build": "cross-env NODE_ENV=production && next build",
     "start": "next start -p 8080",
     "start-json-server": "json-server --watch db.json -H 0.0.0.0 --delay 25 -p 3001"
   },
   "devDependencies": {
+    "babel-plugin-root-import": "^6.2.0",
+    "cross-env": "^5.2.0",
     "json-server": "^0.15.0"
   }
 }

@@ -2,11 +2,14 @@ import React from 'react';
 import {connect} from "react-redux";
 import DefaultLayout from "../components/layout/DefaultLayout";
 import {fetchTeams} from "../store/actions/teams";
+import * as actions from "../store/actions/auth";
 
 class Teams extends React.Component {
 
 
     static async getInitialProps({store}) {
+
+
         console.log("Init Teams")
         await store.dispatch(fetchTeams());
         return {};
@@ -15,13 +18,12 @@ class Teams extends React.Component {
 
 
     render() {
-        console.log("State",this.props);
         const teamItems = this.props.teams.teams.map(team => (
             <div key={team.id}>
                 <h3>{team.name}</h3>
             </div>
         ));
-        return <DefaultLayout>
+        return <DefaultLayout forceAuth={true}>
             <div className="container">
 
                 <div className="content">

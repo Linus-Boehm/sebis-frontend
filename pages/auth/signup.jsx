@@ -1,38 +1,41 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import Layout from "../../components/layout/DefaultLayout";
-import actions from '../../store/actions/index';
+import * as actions from '../../store/actions/auth';
 
 class Signup extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      firstname: '',
-      lastname: '',
-      email_id: '',
-      mobile_no: '',
-      password: '',
-      confirm_password: ''
+      form: {
+        firstname: '',
+        lastname: '',
+        email: '',
+        password: '',
+        confirm_password: ''
+      }
     };
+    this.onChange = this.onChange.bind(this)
   }
 
   static getInitialProps(ctx) {
   }
 
-  handleSubmit(e) {
+  async handleSubmit(e) {
     e.preventDefault();
-    console.log(this.state);
-    this.props.register(
-      {
-        firstname: this.state.firstname,
-        lastname: this.state.lastname,
-        email_id: this.state.email_id,
-        mobile_no: this.state.mobile_no,
-        password: this.state.password,
-        confirm_password: this.state.confirm_password
-      },
-      'register'
-    );
+    try{
+      await this.props.register(this.state.form, 'register');
+    }catch (e) {
+      console.log(e)
+      //TODO add notification
+    }
+
+
+
+
+  }
+  onChange(e) {
+    this.setState({ form:{...this.state.form, [ e.target.name ]: e.target.value }})
   }
 
   render() {
@@ -49,10 +52,11 @@ class Signup extends React.Component {
               <input
                 className="input"
                 type="text"
+                name="firstname"
                 placeholder="Firstname"
                 required
-                value={this.state.firstname}
-                onChange={e => this.setState({ firstname: e.target.value })}
+                value={this.state.form.firstname}
+                onChange={this.onChange}
               />
             </p>
           </div>
@@ -63,32 +67,23 @@ class Signup extends React.Component {
                 type="text"
                 placeholder="LastName"
                 required
-                value={this.state.lastname}
-                onChange={e => this.setState({ lastname: e.target.value })}
+                name="lastname"
+                value={this.state.form.lastname}
+                onChange={this.onChange}
               />
             </p>
           </div>
-          <div className="field">
-            <p className="control">
-              <input
-                className="input"
-                type="text"
-                placeholder="Phone Number"
-                required
-                value={this.state.mobile_no}
-                onChange={e => this.setState({ mobile_no: e.target.value })}
-              />
-            </p>
-          </div>
+
           <div className="field">
             <p className="control">
               <input
                 className="input"
                 type="email"
-                placeholder="Email ID"
+                placeholder="Email"
+                name="email"
                 required
-                value={this.state.email_id}
-                onChange={e => this.setState({ email_id: e.target.value })}
+                value={this.state.form.email}
+                onChange={this.onChange}
               />
             </p>
           </div>
@@ -99,8 +94,9 @@ class Signup extends React.Component {
                 type="password"
                 placeholder="Password"
                 required
-                value={this.state.password}
-                onChange={e => this.setState({ password: e.target.value })}
+                name="password"
+                value={this.state.form.password}
+                onChange={this.onChange}
               />
             </p>
           </div>
@@ -111,8 +107,9 @@ class Signup extends React.Component {
                 type="password"
                 placeholder="Password"
                 required
-                value={this.state.confirm_password}
-                onChange={e => this.setState({ confirm_password: e.target.value })}
+                name="confirm_password"
+                value={this.state.form.confirm_password}
+                onChange={this.onChange}
               />
             </p>
           </div>

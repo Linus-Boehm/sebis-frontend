@@ -4,5 +4,6 @@ import teamReducer from './teams';
 
 
 export default combineReducers({
-    teams: teamReducer
+    teams: teamReducer,
+    auth: authReducer
 })

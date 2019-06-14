@@ -1,0 +1,8 @@
+node_modules
+.git
+db.json
+**/Dockerfile*
+**/docker-compose*
+yarn-error.log
+exec_in_docker.sh
+.dockerignore

@@ -1,21 +1,40 @@
 import Axios from 'axios';
 
 export class Request {
+    static current_instance = 0;
+    constructor() {
+        this._token = null;
+         let instance = Axios.create({
+            timeout: 10000,
+        });
+        instance.interceptors.request.use((config) => {
+            if(this._token){
+                config.headers.Authorization =   `Bearer ${this._token}`;
+            }else{
+                config.headers = {};
+            }
 
-  constructor() {
-    this.axios = Axios.create({
-      timeout: 10000
-    });
-  }
+            return config;
+        });
+        this.axios = instance
 
-  performRequest = async (url, body, type) => {
-    return this.axios[ type ](url, body);
-  };
+    }
+    setToken(token){
+        this._token = token;
+    }
+    getToken(){
+        return this._token;
+    }
 
-  get = async (url) => this.performRequest(url, null, 'get');
-  post = async (url, body) => this.performRequest(url, body, 'post');
-  patch = async (url, body) => this.performRequest(url, body, 'patch');
-  delete = async (url, body) => this.performRequest(url, body, 'delete');
+    performRequest = (url, body, type, config) => {
+        return this.axios[type](url, body);
+    };
+
+    get = (url, config = {}) => this.performRequest(url, null, 'get', config);
+    post = (url, body, config = {}) => this.performRequest(url, body, 'post', config);
+    put = (url, body, config = {}) => this.performRequest(url, body, 'put', config);
+    patch = (url, body, config = {}) => this.performRequest(url, body, 'patch', config);
+    delete = (url, body, config = {}) => this.performRequest(url, body, 'delete', config);
 }
 
 export default new Request();

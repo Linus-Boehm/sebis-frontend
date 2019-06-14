@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import Layout from "../../components/layout/DefaultLayout";
-import actions from '../../store/actions/index';
+import * as actions from '../../store/actions/auth';
 
 class Signup extends React.Component {
   constructor(props) {
@@ -14,13 +14,18 @@ class Signup extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this)
   }
 
-  static getInitialProps(ctx) {
+  static async getInitialProps({store, req}) {
 
   }
 
-  handleSubmit(e) {
+  async handleSubmit(e) {
     e.preventDefault();
-    console.log(this.state);
+    try{
+      await this.props.login({email: this.state.email, password: this.state.password})
+    }catch (e) {
+      console.error(e)
+    }
+    
 
   }
 

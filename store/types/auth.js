@@ -1,4 +1,5 @@
 export const REGISTER = 'register';
 export const AUTHENTICATE = 'authenticate';
-export const DEAUTHENTICATE = 'deauthenticate';
+export const REAUTHENTICATE = 'reauthenticate';
+export const LOGOUT = 'logout';
 export const USER = 'user';
