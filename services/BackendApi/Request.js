@@ -1,7 +1,6 @@
 import Axios from 'axios';
 
 export class Request {
-    static current_instance = 0;
     constructor() {
         this._token = null;
          let instance = Axios.create({
@@ -27,7 +26,7 @@ export class Request {
     }
 
     performRequest = (url, body, type, config) => {
-        return this.axios[type](url, body);
+        return this.axios[type](url, body, config);
     };
 
     get = (url, config = {}) => this.performRequest(url, null, 'get', config);
