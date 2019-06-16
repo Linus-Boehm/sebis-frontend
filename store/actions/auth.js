@@ -11,9 +11,16 @@ export const register = (userInfo) => async (dispatch) => {
             return data
         }
     } catch (e) {
+        switch (e.response.status) {
+            case 400:
+                throw new Error("User with Email exist already")
+            case 422:
+                //TODO proper output of invalid fields
+                throw new Error("invalid input, check password strength and email format")
+        }
         console.error(e)
     }
-    throw new Error("error on Sigin")
+    throw new Error("error on Sigup")
 
 };
 

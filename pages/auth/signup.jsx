@@ -12,7 +12,8 @@ class Signup extends React.Component {
         lastname: '',
         email: '',
         password: '',
-        confirm_password: ''
+        confirm_password: '',
+        organization_name: ''
       }
     };
     this.onChange = this.onChange.bind(this)
@@ -48,7 +49,7 @@ class Signup extends React.Component {
           style={{ width: '540px' }}
         >
           <div className="field">
-            <p className="control">
+            <div className="control">
               <input
                 className="input"
                 type="text"
@@ -58,10 +59,10 @@ class Signup extends React.Component {
                 value={this.state.form.firstname}
                 onChange={this.onChange}
               />
-            </p>
+            </div>
           </div>
           <div className="field">
-            <p className="control">
+            <div className="control">
               <input
                 className="input"
                 type="text"
@@ -71,24 +72,36 @@ class Signup extends React.Component {
                 value={this.state.form.lastname}
                 onChange={this.onChange}
               />
-            </p>
+            </div>
           </div>
-
           <div className="field">
-            <p className="control">
+            <div className="control">
+              <input
+                  className="input"
+                  type="email"
+                  placeholder="Email"
+                  name="email"
+                  required
+                  value={this.state.form.email}
+                  onChange={this.onChange}
+              />
+            </div>
+          </div>
+          <div className="field">
+            <div className="control">
               <input
                 className="input"
-                type="email"
-                placeholder="Email"
-                name="email"
+                type="text"
+                placeholder="Organization Name"
+                name="organization_name"
                 required
-                value={this.state.form.email}
+                value={this.state.form.organization_name}
                 onChange={this.onChange}
               />
-            </p>
+            </div>
           </div>
           <div className="field">
-            <p className="control">
+            <div className="control">
               <input
                 className="input"
                 type="password"
@@ -98,10 +111,10 @@ class Signup extends React.Component {
                 value={this.state.form.password}
                 onChange={this.onChange}
               />
-            </p>
+            </div>
           </div>
           <div className="field">
-            <p className="control">
+            <div className="control">
               <input
                 className="input"
                 type="password"
@@ -111,14 +124,14 @@ class Signup extends React.Component {
                 value={this.state.form.confirm_password}
                 onChange={this.onChange}
               />
-            </p>
+            </div>
           </div>
           <div className="field">
-            <p className="control has-text-centered">
+            <div className="control has-text-centered">
               <button type="submit" className="button is-success">
                 Register
               </button>
-            </p>
+            </div>
           </div>
         </form>
       </Layout>
