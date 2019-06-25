@@ -1,36 +1,35 @@
-import React from 'react';
-import { connect } from 'react-redux';
+import React from "react";
+import { connect } from "react-redux";
 import Layout from "../../components/layout/DefaultLayout";
-import * as actions from '../../store/actions/auth';
+import * as actions from "../../store/actions/auth";
 
 class Signup extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: '',
-      password: '',
+      email: "",
+      password: ""
     };
     this.onChange = this.onChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  static async getInitialProps({store, req}) {
-
-  }
+  static async getInitialProps({ store, req }) {}
 
   async handleSubmit(e) {
     e.preventDefault();
-    try{
-      await this.props.login({email: this.state.email, password: this.state.password})
-    }catch (e) {
-      console.error(e)
+    try {
+      await this.props.login({
+        email: this.state.email,
+        password: this.state.password
+      });
+    } catch (e) {
+      console.error(e);
     }
-    
-
   }
 
   onChange(e) {
-    this.setState({ [ e.target.name ]: e.target.value })
+    this.setState({ [e.target.name]: e.target.value });
   }
 
   render() {
@@ -40,9 +39,8 @@ class Signup extends React.Component {
         <form
           onSubmit={this.handleSubmit}
           className="container"
-          style={{ width: '540px' }}
+          style={{ width: "540px" }}
         >
-
           <div className="field">
             <p className="control">
               <input
@@ -51,7 +49,7 @@ class Signup extends React.Component {
                 name="email"
                 placeholder="Email"
                 required
-                value={this.state.email_id}
+                value={this.state.email}
                 onChange={this.onChange}
               />
             </p>
