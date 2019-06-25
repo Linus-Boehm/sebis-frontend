@@ -35,6 +35,7 @@ const logout = () => {
 
     return {user:null, token:null, isAuthenticated: false}
 }
+
 const setToken = (accessToken) => {
     // Saves user access token to localStorage
     try {

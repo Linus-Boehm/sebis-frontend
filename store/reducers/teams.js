@@ -1,18 +1,30 @@
-import {FETCH_TEAMS,NEW_TEAM} from '../types/team'
+import {ASSIGN_TEAMS, ASSIGN_TEAM, RESET_TEAM} from '../types/team'
+import {keyBy} from "lodash";
 
 const initialState = {
-    team: {},
-    teams: []
+    team: {
+        name:null
+    },
+    teamList: []
 };
 export default (state = initialState, {type, data}) => {
     console.log("reducer:teams:"+type);
     switch (type) {
-        case FETCH_TEAMS:
+        case ASSIGN_TEAMS:
             return {
                 ...state,
-                teams: data
+                teamList: {...state.teamList, ...keyBy(data, '_id')}
             };
-        case NEW_TEAM:
+        case ASSIGN_TEAM:
+            return {
+                ...state,
+                team: {...state.team, data}
+            };
+        case RESET_TEAM:
+            return {
+                ...state,
+                team: {...initialState.team}
+            }
         default:
             return state;
     }

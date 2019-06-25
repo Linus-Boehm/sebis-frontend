@@ -1,15 +1,14 @@
 import React from 'react';
 import {connect} from "react-redux";
-import DefaultLayout from "../components/layout/DefaultLayout";
-import {fetchTeams} from "../store/actions/teams";
-import * as actions from "../store/actions/auth";
+import DefaultLayout from "../../components/layout/DefaultLayout";
+import {fetchTeams} from "../../store/actions/teams";
+import Link from 'next/link'
+import * as actions from "../../store/actions/auth";
 
-class Teams extends React.Component {
+class Index extends React.Component {
 
 
     static async getInitialProps({store}) {
-
-
         console.log("Init Teams")
         await store.dispatch(fetchTeams());
         return {};
@@ -17,15 +16,18 @@ class Teams extends React.Component {
 
 
 
+
     render() {
-        const teamItems = this.props.teams.teams.map(team => (
+        const teamItems = Object.values(this.props.teams.teamList).map(team => (
             <div key={team.id}>
                 <h3>{team.name}</h3>
             </div>
         ));
         return <DefaultLayout forceAuth={true}>
             <div className="container">
-
+                <Link prefetch href="/teams/new">
+                    <button className="button is-primary">Neu erstellen</button>
+                </Link>
                 <div className="content">
                     <h1>Teams</h1>
                     {teamItems}
@@ -35,4 +37,4 @@ class Teams extends React.Component {
         </DefaultLayout>;
     }
 }
-export default connect(state => state,{})(Teams);
+export default connect(state => state,{})(Index);

@@ -2,11 +2,19 @@ import Request from '../Request';
 import { API_URL, MOCK_API_URL } from '../../../config';
 
 function baseUrl() {
-    return MOCK_API_URL+"/teams";
+    return API_URL+"/teams";
 }
 
 export function fetchAll() {
     return Request.get(`${baseUrl()}/`);
+}
+
+export function fetchById(id) {
+    return Request.get(`${baseUrl()}/${id}`);
+}
+
+export function create(payload) {
+    return Request.post(`${baseUrl()}`, payload);
 }
 
 
