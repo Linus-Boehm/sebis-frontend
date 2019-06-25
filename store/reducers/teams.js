@@ -3,7 +3,7 @@ import {keyBy} from "lodash";
 
 const initialState = {
     team: {
-        name:null
+        name: ""
     },
     teamList: []
 };
@@ -18,7 +18,7 @@ export default (state = initialState, {type, data}) => {
         case ASSIGN_TEAM:
             return {
                 ...state,
-                team: {...state.team, data}
+                team: {...state.team, ...data}
             };
         case RESET_TEAM:
             return {
