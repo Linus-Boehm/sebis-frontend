@@ -1,5 +1,6 @@
 import Router from 'next/router';
 import api from '~/services/BackendApi';
+import Request from '~/services/BackendApi/Request';
 import {AUTHENTICATE, LOGOUT, USER} from '../types/auth';
 
 // register user
@@ -55,7 +56,24 @@ export const login = ({email, password}) => async (dispatch) => {
 
 };
 
-export const reauthenticate = () =>  {
+export const reauthenticate = async (dispatch) => {
+    console.log("action:auth:reauthenticate");
+    if (process.browser && localStorage.getItem('access_token')) {
+        console.log("action:auth:reauthenticate:tokenfound");
+        let token = localStorage.getItem('access_token')
+        try {
+            Request.setToken(token)
+            let {status, data} = await api.users.me();
+            console.log(status)
+            if(status === 200){
+                console.log(data)
+                dispatch({type: AUTHENTICATE, payload: {token: token, user: data}});
+                return true
+            }
+        }catch (e) {
+            console.error(e)
+        }
+    }
     return false
 }
 
@@ -69,11 +87,10 @@ export const isAutheticated = () => async (dispatch, getState) => {
     console.log(state)
     console.log("auth:isAutheticated")
     //TODO: Check if jwt claims are still valid
-    if(!state.auth.isAuthenticated){
-        if (!await reauthenticate()){
+    if (!state.auth.isAuthenticated) {
+        if (!await reauthenticate(dispatch)) {
             //TODO set redirect
             console.log("auth:notAuthenticated")
-            dispatch({type: LOGOUT, payload: null})
             return false
         }
     }

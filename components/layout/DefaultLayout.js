@@ -9,8 +9,8 @@ import {fetchTeams} from "../../store/actions/teams";
 
 class DefaultLayout extends React.Component{
   async componentDidMount() {
-    if(this.props.forceAuth && !await this.props.isAutheticated("")){
-        Router.push("/auth/signin")
+    if(this.props.forceAuth && !await this.props.dispatch(actions.isAutheticated())){
+      Router.push("/auth/signin")
     }
 
     return {};
@@ -85,4 +85,4 @@ class DefaultLayout extends React.Component{
   }
 
 }
-export default connect(state => state,actions)(DefaultLayout);
+export default connect(state => state)(DefaultLayout);

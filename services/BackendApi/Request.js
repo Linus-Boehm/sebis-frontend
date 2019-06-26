@@ -9,8 +9,6 @@ export class Request {
         instance.interceptors.request.use((config) => {
             if(this._token){
                 config.headers.Authorization =   `Bearer ${this._token}`;
-            }else{
-                config.headers = {};
             }
 
             return config;
@@ -29,7 +27,7 @@ export class Request {
         return this.axios[type](url, body, config);
     };
 
-    get = (url, config = {}) => this.performRequest(url, null, 'get', config);
+    get = (url, config = null) => this.performRequest(url, null, 'get', config);
     post = (url, body, config = {}) => this.performRequest(url, body, 'post', config);
     put = (url, body, config = {}) => this.performRequest(url, body, 'put', config);
     patch = (url, body, config = {}) => this.performRequest(url, body, 'patch', config);

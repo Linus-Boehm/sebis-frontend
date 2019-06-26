@@ -1,9 +1,9 @@
-import * as userApi from './routes/users';
+import * as users from './routes/users';
 import * as auth from './routes/auth';
 import * as teams from './routes/teams';
 
 export default {
-  user: userApi,
+  users: users,
   auth: auth,
   teams: teams
 };

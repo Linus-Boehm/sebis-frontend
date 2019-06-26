@@ -13,6 +13,7 @@ class New extends React.Component {
         return {};
     }
      handleOnSubmit = async (e) =>{
+        e.preventDefault()
         try{
             await this.props.dispatch(createTeam(this.props.teams.team))
         }catch (e) {
@@ -39,4 +40,4 @@ class New extends React.Component {
         </DefaultLayout>;
     }
 }
-export default connect(state => state,{})(New);
+export default connect(state => state)(New);

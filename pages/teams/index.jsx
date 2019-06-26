@@ -4,18 +4,15 @@ import DefaultLayout from "../../components/layout/DefaultLayout";
 import {fetchTeams} from "../../store/actions/teams";
 import Link from 'next/link'
 import * as actions from "../../store/actions/auth";
-
+import Router from 'next/router'
 class Index extends React.Component {
 
+    async componentDidMount() {
+        await this.props.dispatch(fetchTeams());
 
-    static async getInitialProps({store}) {
-        console.log("Init Teams")
-        await store.dispatch(fetchTeams());
         return {};
     }
-
-
-
+    
 
     render() {
         const teamItems = Object.values(this.props.teams.teamList).map(team => (
@@ -37,4 +34,4 @@ class Index extends React.Component {
         </DefaultLayout>;
     }
 }
-export default connect(state => state,{})(Index);
+export default connect(state => state)(Index);
