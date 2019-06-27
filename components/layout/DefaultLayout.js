@@ -1,88 +1,112 @@
-import '../../assets/css/bulma.scss';
 import '../../assets/css/tailwind.css';
+import '../../assets/css/bulma.scss';
 import Link from 'next/link'
 import {connect} from "react-redux";
 import React from "react";
 import Router from 'next/router';
 import * as actions from "../../store/actions/auth";
 import {fetchTeams} from "../../store/actions/teams";
+import MenuSidebar from "./MenuSIdebar";
 
-class DefaultLayout extends React.Component{
-  async componentDidMount() {
-    if(this.props.forceAuth && !await this.props.dispatch(actions.isAutheticated())){
-      Router.push("/auth/signin")
+class DefaultLayout extends React.Component {
+    async componentDidMount() {
+        if (!await this.props.dispatch(actions.isAutheticated())) {
+            if (this.props.forceAuth) {
+                Router.push("/auth/signin")
+            }
+        } else {
+            //Dispatch this store actions if user is logged in
+            //this.props.dispatch()
+
+        }
+
+        return {};
     }
 
-    return {};
-  }
-  toggleStyles(e) {
-    //document.querySelector('#burger').classList.toggle('is-active')
-    //document.querySelector('#navbarmenu').classList.toggle('is-active')
-  }
-  render() {
-    return (
-        <div>
-          <header>
-            <nav className="navbar" role="navigation" aria-label="main navigation">
-              <div className="navbar-brand">
-                <a className="navbar-item">
-                  <img src="/static/logo.png"/>
-                </a>
-                <a id="burger" onClick={this.toggleStyles()}
-                   role="button" className="navbar-burger burger" aria-label="menu" aria-expanded="false"
-                   data-target="navbarmenu">
-                  <span aria-hidden="true"></span>
-                  <span aria-hidden="true"></span>
-                  <span aria-hidden="true"></span>
-                </a>
-              </div>
-              <div id="navbarmenu" className="navbar-menu">
-                <div className="navbar-start">
-                  <Link prefetch href="/">
-                    <a className="navbar-item">Home</a>
-                  </Link>
-                  <Link prefetch href="/teams">
-                    <a className="navbar-item">Teams</a>
-                  </Link>
-                </div>
-                <div className="navbar-end">
-                  <div className="navbar-item">
-                    {
-                      !this.props.auth.isAuthenticated?(
-                          <div className="buttons">
-                            <Link prefetch href="/auth/signup">
-                              <a className="button is-primary">Sign Up</a>
-                            </Link>
-                            <Link prefetch href="/auth/signin">
-                              <a className="button is-link">Sign In</a>
-                            </Link>
-                          </div>
-                      ): (
-                          <div className="buttons">
-                            <Link prefetch href="/app/dashboard">
-                              <a className="button is-primary">Hi {this.props.auth.user.firstname}</a>
-                            </Link>
-                            <a onClick={this.props.logout} className="button is-warning">Logout</a>
-                          </div>
-                      )
-                    }
+    toggleStyles(e) {
+        //document.querySelector('#burger').classList.toggle('is-active')
+        //document.querySelector('#navbarmenu').classList.toggle('is-active')
+    }
 
-                  </div>
-                </div>
-              </div>
-            </nav>
-          </header>
-          <div className="section">
-            {this.props.children}
-          </div>
-          <footer className="footer">
-            <div className="content has-text-centered">
-              <span> I'm the footer</span>
+    render() {
+        return (
+            <div className="main-wrapper flex flex-col">
+                <header>
+                    <nav className="navbar border-b-2 border-gray-200" role="navigation" aria-label="main navigation">
+                        <div className="navbar-brand">
+                            <a className="navbar-item">
+                                <img src="/static/logo.png"/>
+                            </a>
+                            <a id="burger" onClick={this.toggleStyles()}
+                               role="button" className="navbar-burger burger" aria-label="menu" aria-expanded="false"
+                               data-target="navbarmenu">
+                                <span aria-hidden="true"></span>
+                                <span aria-hidden="true"></span>
+                                <span aria-hidden="true"></span>
+                            </a>
+                        </div>
+                        <div id="navbarmenu" className="navbar-menu">
+                            <div className="navbar-start">
+                                <Link prefetch href="/">
+                                    <a className="navbar-item">Home</a>
+                                </Link>
+                                <Link prefetch href="/teams">
+                                    <a className="navbar-item">Teams</a>
+                                </Link>
+                            </div>
+                            <div className="navbar-end">
+                                <div className="navbar-item">
+                                    {
+                                        !this.props.auth.isAuthenticated ? (
+                                            <div className="buttons">
+                                                <Link prefetch href="/auth/signup">
+                                                    <a className="button is-primary">Sign Up</a>
+                                                </Link>
+                                                <Link prefetch href="/auth/signin">
+                                                    <a className="button is-link">Sign In</a>
+                                                </Link>
+                                            </div>
+                                        ) : (
+                                            <div className="buttons">
+                                                <Link prefetch href="/app/dashboard">
+                                                    <a className="button is-primary">Hi {this.props.auth.user.firstname}</a>
+                                                </Link>
+                                                <a onClick={this.props.logout} className="button is-warning">Logout</a>
+                                            </div>
+                                        )
+                                    }
+
+                                </div>
+                            </div>
+                        </div>
+                    </nav>
+                </header>
+                <section className="main-content columns flex-1">
+                    {
+                        this.props.auth.isAuthenticated &&
+                        <MenuSidebar/>
+
+                    }
+                    <div className="column section">
+
+                        {this.props.children}
+                    </div>
+                </section>
+
+                <footer className="footer">
+                    <div className="content has-text-centered">
+                        <span> I'm the footer</span>
+                    </div>
+                </footer>
+                <style jsx global>{`
+                  html, body, #__next, .main-wrapper {
+                    min-height: 100vh;
+                  }
+                `}</style>
             </div>
-          </footer>
-        </div>
-    );
-  }
+        );
+    }
 
 }
+
 export default connect(state => state)(DefaultLayout);
