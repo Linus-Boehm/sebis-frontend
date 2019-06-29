@@ -16,6 +16,7 @@ import ButtonGroup from "../../../components/utils/buttons/ButtonGroup";
 import BaseModal from "../../../components/utils/modal/BaseModal";
 import ConfirmModal from "../../../components/utils/modal/ConfirmModal";
 import AccountMultipleIcon from "mdi-react/AccountMultipleIcon";
+import TeamMemberDropdown from "../../../components/teams/TeamMemberDropdown";
 
 class Index extends React.Component {
     constructor(props) {
@@ -56,12 +57,13 @@ class Index extends React.Component {
                 <td>0</td>
                 <td>
                     <ButtonGroup>
-                        <Link href={'/admin/teams/members?id=' + team._id}>
-                        <BaseButton type="is-info">
-                            <AccountMultipleIcon size="1em"/>
-                            {this.props.children}
-                        </BaseButton>
-                        </Link>
+                        <TeamMemberDropdown>
+                            <BaseButton type="is-info">
+                                <AccountMultipleIcon size="1em"/>
+                                {this.props.children}
+                            </BaseButton>
+                        </TeamMemberDropdown>
+
                         <Link href={'/admin/teams/edit?id=' + team._id}>
                             <EditButton/>
                         </Link>
