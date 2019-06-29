@@ -10,6 +10,7 @@ import * as actions from "../../store/actions/auth";
 import {fetchTeams} from "../../store/actions/teams";
 import MenuSidebar from "./MenuSIdebar";
 import UserAvatar from "../utils/user/UserAvatar";
+import {logout} from "../../store/actions/auth";
 
 
 class DefaultLayout extends React.Component {
@@ -18,7 +19,10 @@ class DefaultLayout extends React.Component {
         this.addNotification = this.addNotification.bind(this);
         this.notificationDOMRef = React.createRef();
     }
-
+    logoutUser = async (e) =>{
+        e.preventDefault()
+        this.props.dispatch(logout())
+    }
     addNotification() {
         this.notificationDOMRef.current.addNotification({
             title: "Awesomeness",
@@ -111,7 +115,7 @@ class DefaultLayout extends React.Component {
                                                         My Account
                                                     </a>
                                                     <hr className="navbar-divider"/>
-                                                    <a className="navbar-item has-text-danger" onClick={this.props.logout}>
+                                                    <a className="navbar-item has-text-danger" onClick={this.logoutUser}>
                                                         Logout
                                                     </a>
                                                 </div>
