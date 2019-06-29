@@ -24,7 +24,7 @@ class Index extends React.Component {
 
 
     render() {
-        const userItems = Object.values(this.props.users.userList).map(user => (
+        const userItems = Object.values(this.props.users.userList).length === 0? (<tr></tr>):Object.values(this.props.users.userList).map(user => (
             <tr key={user._id}>
                 <td>{user.email}</td>
                 <td>{user.firstname}</td>
@@ -58,7 +58,7 @@ class Index extends React.Component {
                         </tr>
                         </thead>
                         <tbody>
-                        {teamItems}
+                        {userItems}
                         </tbody>
                     </table>
 
