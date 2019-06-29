@@ -15,6 +15,7 @@ import ShowButton from "../../../components/utils/buttons/ShowButton";
 import ButtonGroup from "../../../components/utils/buttons/ButtonGroup";
 import BaseModal from "../../../components/utils/modal/BaseModal";
 import ConfirmModal from "../../../components/utils/modal/ConfirmModal";
+import AccountMultipleIcon from "mdi-react/AccountMultipleIcon";
 
 class Index extends React.Component {
     constructor(props) {
@@ -24,11 +25,13 @@ class Index extends React.Component {
             selectedTeam: {}
         };
     }
+
     async componentDidMount() {
         await this.props.dispatch(fetchTeams());
 
         return {};
     }
+
     closeModal = (e) => {
         e.preventDefault();
         this.setState({
@@ -53,11 +56,16 @@ class Index extends React.Component {
                 <td>0</td>
                 <td>
                     <ButtonGroup>
-                            <ShowButton />
-                            <Link href={'/admin/teams/edit?id='+team._id}>
+                        <Link href={'/admin/teams/members?id=' + team._id}>
+                        <BaseButton type="is-info">
+                            <AccountMultipleIcon size="1em"/>
+                            {this.props.children}
+                        </BaseButton>
+                        </Link>
+                        <Link href={'/admin/teams/edit?id=' + team._id}>
                             <EditButton/>
-                            </Link>
-                            <DeleteButton onClick={this.confirmDelete}/>
+                        </Link>
+                        <DeleteButton onClick={this.confirmDelete}/>
 
 
                     </ButtonGroup>
@@ -94,7 +102,9 @@ class Index extends React.Component {
                     </table>
 
                 </div>
-                <ConfirmModal title="Attention!" active={this.state.modalActive} confirmButtonType="is-danger" confirmButtonText="Delete" onCloseModal={this.closeModal}>Do you realy like to delete this team?</ConfirmModal>
+                <ConfirmModal title="Attention!" active={this.state.modalActive} confirmButtonType="is-danger"
+                              confirmButtonText="Delete" onCloseModal={this.closeModal}>Do you realy like to delete this
+                    team?</ConfirmModal>
             </div>
 
         </DefaultLayout>;
