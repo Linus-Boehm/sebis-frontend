@@ -1,9 +1,11 @@
 import { combineReducers } from 'redux';
 import authReducer from './auth';
-import teamReducer from './teams';
+import teamsReducer from './teams';
+import goalsReducer from './goals';
 
 
 export default combineReducers({
-    teams: teamReducer,
-    auth: authReducer
+  teams: teamsReducer,
+  auth: authReducer,
+  goals: goalsReducer
 })

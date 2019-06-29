@@ -1,29 +1,29 @@
 import React from 'react';
-import {connect} from "react-redux";
+import { connect } from "react-redux";
 import DefaultLayout from "~/components/layout/DefaultLayout";
-import {fetchTeams} from "~/store/actions/teams";
+import GoalsDashboardContainer from "~/components/goals/GoalsDashboardContainer";
 
 class Dashboard extends React.Component {
 
 
-    static async getInitialProps({store}) {
+  static async getInitialProps({ store }) {
 
-        return {};
-    }
+    return {};
+  }
 
 
+  render() {
 
-    render() {
-
-        return <DefaultLayout forceAuth={true}>
-            <div className="container">
-
-                <div className="content">
-                    <h1>My Goals</h1>
-                </div>
-            </div>
-
-        </DefaultLayout>;
-    }
+    return (
+      <DefaultLayout forceAuth={true}>
+        <div className="container">
+          <div className="content">
+            <GoalsDashboardContainer />
+          </div>
+        </div>
+      </DefaultLayout>
+    );
+  }
 }
-export default connect(state => state,{})(Dashboard);
+
+export default connect(state => state, {})(Dashboard);
