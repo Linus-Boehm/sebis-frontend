@@ -67,14 +67,9 @@ class Index extends React.Component {
             <tr key={team._id}>
                 <td>{team.name}</td>
                 <td/>
-                <td>0</td>
+                <td>{team.team_roles.length}</td>
                 <td>
                     <ButtonGroup>
-                        <TeamMemberDropdown teamId={team._id}>
-                            <BaseButton type="is-info">
-                                <AccountMultipleIcon size="1em"/>
-                            </BaseButton>
-                        </TeamMemberDropdown>
                         <Link href={"/admin/teams/edit?id=" + team._id}>
                             <EditButton/>
                         </Link>

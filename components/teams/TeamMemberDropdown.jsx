@@ -25,14 +25,21 @@ class TeamMemberDropdown extends React.Component {
     }
 
     render() {
-        let team = this.props.teams.teamList[this.props.teamId];
-        const teamMemberList = team.team_roles && team.team_roles.length>0?team.team_roles.map(user => (
-            <div className="flex justify-between">
-                <UserAvatar user={user}/>
-                <span>{user.firstname} {user.lastname}</span>
-                <a className="delete"></a>
-            </div>
-        )): (<span>No Users in Team</span>)
+        let team = this.props.teams.teamList[this.props.teamId] || this.props.teams.team;
+        let teamMemberList = (<span>No Users in Team</span>)
+        if(team && team.team_roles){
+            let teamUsers = team.team_roles.map(user => {
+                return this.props.users.userList[user.user_id]
+            })
+            console.log(teamUsers)
+            teamMemberList = teamUsers && teamUsers.length>0?teamUsers.map(user => (
+                <div className="flex justify-between" key={user._id}>
+                    <UserAvatar user={user}/>
+                    <span>{user.firstname} {user.lastname}</span>
+                    <a className="delete"></a>
+                </div>
+            )): (<span>No Users in Team</span>)
+        }
         return <div className="dropdown-wrapper relative" onClick={this.props.onClick}>
             <div className="dropdown-trigger" onClick={this.toggleDropdown}>
                 {this.props.children}

@@ -14,7 +14,10 @@ import Router from "next/router";
 import TeamsForm from "../../../components/teams/TeamsForm";
 import ButtonGroup from "../../../components/utils/buttons/ButtonGroup";
 import Link from "next/link";
-class New extends React.Component {
+import TeamMemberDropdown from "../../../components/teams/TeamMemberDropdown";
+import AccountMultipleIcon from "mdi-react/AccountMultipleIcon";
+import BaseButton from "../../../components/utils/buttons/BaseButton";
+class EditTeam extends React.Component {
   static async getInitialProps({ query }) {
     return { currentId: query.id };
   }
@@ -43,7 +46,16 @@ class New extends React.Component {
       <DefaultLayout forceAuth={true}>
         <div className="container">
           <div className="content">
-            <h1>Edit Team</h1>
+            <div className="flex">
+              <h1>Edit Team</h1>
+              <div>
+              <TeamMemberDropdown teamId={this.props.teams.team._id}>
+                <BaseButton type="is-info">
+                  <AccountMultipleIcon size="1em"/>
+                </BaseButton>
+              </TeamMemberDropdown>
+              </div>
+            </div>
             <form onSubmit={this.handleOnSubmit}>
               <TeamsForm />
               <ButtonGroup className="mt-8">
@@ -61,4 +73,4 @@ class New extends React.Component {
     );
   }
 }
-export default connect(state => state)(New);
+export default connect(state => state)(EditTeam);
