@@ -16,6 +16,9 @@ export function fetchById(id) {
 export function create(payload) {
     return Request.post(`${baseUrl()}`, payload);
 }
+export function update(id, payload) {
+    return Request.put(`${baseUrl()}/${id}`, payload);
+}
 
 
 

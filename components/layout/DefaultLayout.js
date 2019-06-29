@@ -1,5 +1,7 @@
 import '../../assets/css/tailwind.css';
 import '../../assets/css/bulma.scss';
+import ReactNotification from "react-notifications-component";
+import "react-notifications-component/dist/theme.css";
 import Link from 'next/link'
 import {connect} from "react-redux";
 import React from "react";
@@ -7,8 +9,30 @@ import Router from 'next/router';
 import * as actions from "../../store/actions/auth";
 import {fetchTeams} from "../../store/actions/teams";
 import MenuSidebar from "./MenuSIdebar";
+import UserAvatar from "../utils/user/UserAvatar";
+
 
 class DefaultLayout extends React.Component {
+    constructor(props) {
+        super(props);
+        this.addNotification = this.addNotification.bind(this);
+        this.notificationDOMRef = React.createRef();
+    }
+
+    addNotification() {
+        this.notificationDOMRef.current.addNotification({
+            title: "Awesomeness",
+            message: "Awesome Notifications!",
+            type: "success",
+            insert: "top",
+            container: "top-right",
+            animationIn: ["animated", "fadeIn"],
+            animationOut: ["animated", "fadeOut"],
+            dismiss: {duration: 2000},
+            dismissable: {click: true}
+        });
+    }
+
     async componentDidMount() {
         if (!await this.props.dispatch(actions.isAutheticated())) {
             if (this.props.forceAuth) {
@@ -54,10 +78,12 @@ class DefaultLayout extends React.Component {
                                     <a className="navbar-item">Teams</a>
                                 </Link>
                             </div>
-                            <div className="navbar-end">
-                                <div className="navbar-item">
+                            <div className="navbar-end pr-4">
+
+
                                     {
                                         !this.props.auth.isAuthenticated ? (
+                                            <div className="navbar-item">
                                             <div className="buttons">
                                                 <Link prefetch href="/auth/signup">
                                                     <a className="button is-primary">Sign Up</a>
@@ -66,17 +92,43 @@ class DefaultLayout extends React.Component {
                                                     <a className="button is-link">Sign In</a>
                                                 </Link>
                                             </div>
+                                            </div>
                                         ) : (
-                                            <div className="buttons">
+                                            <div className="navbar-item has-dropdown is-hoverable">
+                                                <div className="navbar-link">
+                                                    <div className="pl-12">
+                                                        <UserAvatar user={this.props.auth.user}
+                                                                    className="cursor-pointer"/>
+                                                    </div>
+                                                </div>
+
+                                                <div className="navbar-dropdown">
+                                                    <span className="navbar-item">
+                                                        Hi {this.props.auth.user.firstname}
+                                                    </span>
+                                                    <hr className="navbar-divider"/>
+                                                    <a className="navbar-item" >
+                                                        My Account
+                                                    </a>
+                                                    <hr className="navbar-divider"/>
+                                                    <a className="navbar-item has-text-danger" onClick={this.props.logout}>
+                                                        Logout
+                                                    </a>
+                                                </div>
+
+
+                                            </div>
+
+
+                                        )
+                                    }
+                                    {/*<div className="buttons">
                                                 <Link prefetch href="/app/dashboard">
                                                     <a className="button is-primary">Hi {this.props.auth.user.firstname}</a>
                                                 </Link>
                                                 <a onClick={this.props.logout} className="button is-warning">Logout</a>
-                                            </div>
-                                        )
-                                    }
+                                            </div>*/}
 
-                                </div>
                             </div>
                         </div>
                     </nav>
@@ -91,13 +143,17 @@ class DefaultLayout extends React.Component {
 
                         {this.props.children}
                     </div>
-                </section>
 
+                </section>
                 <footer className="footer">
                     <div className="content has-text-centered">
                         <span> I'm the footer</span>
+                        <button onClick={this.addNotification} className="btn btn-primary">
+                            Add Awesome Notification
+                        </button>
                     </div>
                 </footer>
+                <ReactNotification ref={this.notificationDOMRef}/>
                 <style jsx global>{`
                   html, body, #__next, .main-wrapper {
                     min-height: 100vh;

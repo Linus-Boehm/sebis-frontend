@@ -34,6 +34,25 @@ export const createTeam = (team) => async(dispatch) => {
 
     }
 }
+export const updateTeam = (id, team) => async(dispatch) => {
+    try{
+        console.log("action:team:update")
+        console.log(team)
+        let {data, status} = await api.teams.update(id, team)
+        if(status === 200){
+            dispatch({
+                type: ASSIGN_TEAM,
+                data: data
+            });
+            dispatch({
+                type: ASSIGN_TEAMS,
+                data: data
+            });
+        }
+    }catch (e) {
+
+    }
+}
 
 export const fetchTeams = () => async(dispatch) => {
   try {
@@ -55,12 +74,13 @@ export const fetchTeams = () => async(dispatch) => {
   throw new Error("error on loading teams")
 };
 
-export const fetchTeam = (id, force = false) => async(dispatch, getState) => {
+export const fetchTeamById = (id, force = false) => async(dispatch, getState) => {
     //IF Team is alredy present in teamList
-    if(!!getState.teams.teams[id] && !force){
+    console.log(getState())
+    if(!!getState().teams.teamList[id] && !force){
         dispatch({
             type: ASSIGN_TEAM,
-            data: getState.teams.teams[id]
+            data: getState().teams.teamList[id]
         });
     }else{
         try{

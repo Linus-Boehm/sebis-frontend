@@ -5,7 +5,7 @@ const initialState = {
     team: {
         name: ""
     },
-    teamList: []
+    teamList: {}
 };
 export default (state = initialState, {type, data}) => {
     console.log("reducer:teams:"+type);
