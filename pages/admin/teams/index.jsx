@@ -16,12 +16,9 @@ import ButtonGroup from "../../../components/utils/buttons/ButtonGroup";
 import BaseModal from "../../../components/utils/modal/BaseModal";
 import ConfirmModal from "../../../components/utils/modal/ConfirmModal";
 import AccountMultipleIcon from "mdi-react/AccountMultipleIcon";
-<<<<<<< HEAD
 import { deleteTeam } from "../../../store/actions/teams";
-=======
 import TeamMemberDropdown from "../../../components/teams/TeamMemberDropdown";
 
->>>>>>> b79e426416c573988ab6fc639b2d4c521110f69f
 class Index extends React.Component {
   constructor(props) {
     super(props);
@@ -59,42 +56,11 @@ class Index extends React.Component {
       console.error(e);
       //TODO add fancy notification
     }
-<<<<<<< HEAD
     this.setState({
       ...this.state,
       modalActive: false
     });
   };
-=======
-    confirmDelete = (e) => {
-        console.log("onDelete")
-        e.preventDefault();
-        this.setState({
-            ...this.state,
-            modalActive: true
-        })
-    }
-
-    render() {
-        const teamItems = Object.values(this.props.teams.teamList).map(team => (
-            <tr key={team._id}>
-                <td>{team.name}</td>
-                <td></td>
-                <td>0</td>
-                <td>
-                    <ButtonGroup>
-                        <TeamMemberDropdown>
-                            <BaseButton type="is-info">
-                                <AccountMultipleIcon size="1em"/>
-                                {this.props.children}
-                            </BaseButton>
-                        </TeamMemberDropdown>
-
-                        <Link href={'/admin/teams/edit?id=' + team._id}>
-                            <EditButton/>
-                        </Link>
-                        <DeleteButton onClick={this.confirmDelete}/>
->>>>>>> b79e426416c573988ab6fc639b2d4c521110f69f
 
   render() {
     const teamItems = Object.values(this.props.teams.teamList).map(team => (
