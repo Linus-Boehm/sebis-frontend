@@ -9,9 +9,9 @@ class ButtonGroup extends React.Component {
         const buttons = this.props.children.map(button => {
                 i++;
                 return (
-                    <p key={i} className="control">
+                    <div key={i} className="control">
                         {button}
-                    </p>
+                    </div>
                 )
             }
         )

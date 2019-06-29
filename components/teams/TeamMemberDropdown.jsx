@@ -25,7 +25,8 @@ class TeamMemberDropdown extends React.Component {
     }
 
     render() {
-        const teamMemberList = this.props.users?this.props.users.map(user => (
+        let team = this.props.teams.teamList[this.props.teamId];
+        const teamMemberList = team.team_roles?team.team_roles.map(user => (
             <div className="flex justify-between">
                 <UserAvatar user={user}/>
                 <span>{user.firstname} {user.lastname}</span>
