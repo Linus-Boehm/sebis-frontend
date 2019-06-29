@@ -26,7 +26,7 @@ class TeamMemberDropdown extends React.Component {
 
     render() {
         const teamMemberList = this.props.users?this.props.users.map(user => (
-            <div className="flex">
+            <div className="flex justify-between">
                 <UserAvatar user={user}/>
                 <span>{user.firstname} {user.lastname}</span>
                 <a className="delete"></a>
@@ -41,7 +41,7 @@ class TeamMemberDropdown extends React.Component {
                     <div className="flex flex-col">
                         <h4>Members</h4>
                         {teamMemberList}
-                        <button className="button is-link">Invite</button>
+                        <button className="button is-link mt-4">Invite</button>
                     </div>
                 </div>
 
@@ -53,6 +53,7 @@ class TeamMemberDropdown extends React.Component {
                     `
                     .team-member-dropdown-inner {
                         z-index: 40;
+                        min-width: 280px;
                     }
 
                     .team-member-dropdown {
