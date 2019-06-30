@@ -1,5 +1,18 @@
-import { ASSIGN_USER, ASSIGN_USERS, DELETE_USER } from "../types/user";
+import {
+  ASSIGN_USER,
+  ASSIGN_USERS,
+  DELETE_USER,
+  RESET_USER
+} from "../types/user";
+import Router from "next/router";
+import Request from "~/services/BackendApi/Request";
 import api from "~/services/BackendApi";
+
+export const resetUser = () => async dispatch => {
+  dispatch({
+    type: RESET_USER
+  });
+};
 
 export const assignUser = user => async dispatch => {
   dispatch({
@@ -9,23 +22,28 @@ export const assignUser = user => async dispatch => {
   return user;
 };
 
-export const createUser = user => async dispatch => {
+export const createUser = user => async (dispatch, getState) => {
+  user.organization_id = getState().auth.user.organization_id;
+  user.password = "Testpw123";
+  user.role = "employee";
   try {
-    console.log("action:user:create");
-    console.log(user);
-    let { data, status } = await api.users.create(user);
+    const { data, status } = await api.users.create(user);
     if (status === 200) {
-      dispatch({
-        type: ASSIGN_USER,
-        data: data
-      });
-      dispatch({
-        type: ASSIGN_USERS,
-        data: data
-      });
+      return data;
     }
-  } catch (e) {}
+  } catch (e) {
+    switch (e.response.status) {
+      case 400:
+        throw new Error("User with Email exist already");
+      case 422:
+        //TODO proper output of invalid fields
+        throw new Error("invalid input, check email format");
+    }
+    console.error(e);
+  }
+  throw new Error("error on Signup");
 };
+
 export const updateUser = (id, user) => async dispatch => {
   try {
     console.log("action:user:update");
