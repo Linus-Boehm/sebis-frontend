@@ -2,12 +2,32 @@ import React from 'react';
 
 class GoalItem extends React.Component {
 
+  highlightByFilter = (text, filter) => {
+    if (filter === '')
+      return <span>{text}</span>
+
+    const regex = new RegExp(filter, 'ig');
+    const parts = text.split(regex);
+    const matches = text.match(regex);
+
+    console.log(JSON.stringify(matches) + ' ' + JSON.stringify(parts))
+
+    return parts.map((part, i) => [
+      <span>{part}</span>,
+      matches && matches[ i ] && matches[ i ] !== ''
+        ? <span className="font-bold">{matches[ i ]}</span>
+        : null
+    ]);
+  };
+
+
   render() {
     const {
       goal,
       isSubGoal,
       onSelect,
-      isSelected
+      isSelected,
+      searchFilter
     } = this.props;
 
     const {
@@ -25,7 +45,7 @@ class GoalItem extends React.Component {
         }}
       >
         <span className="ml-3">
-          {title}
+          {this.highlightByFilter(title, searchFilter)}
         </span>
       </div>
     )

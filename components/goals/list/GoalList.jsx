@@ -14,6 +14,13 @@ class GoalList extends React.Component {
     </div>
   );
 
+  checkFilters(goal) {
+    const { title = '' } = goal;
+
+    const regex = new RegExp(this.props.searchFilter, 'i');
+    return !!title.match(regex)
+  }
+
   splitChildAndParentGoals = (goals) => {
     const parentGoals = [];
 
@@ -42,14 +49,13 @@ class GoalList extends React.Component {
       shouldRenderSubGoals,
       selectedGoal,
       onSelectGoal,
-      onAddNewGoal
+      onAddNewGoal,
+      searchFilter
     } = this.props;
 
     let goals = this.props.goals || [];
-    if (goals.length === 0)
-      return (<span className="pl-2 is-size-6">No goals</span>)
 
-    const {
+    let {
       parentGoals,
       subGoalsByParentId
     } = this.splitChildAndParentGoals(goals);
@@ -57,6 +63,10 @@ class GoalList extends React.Component {
 
     return parentGoals.map((goal) => {
       let subGoals = Object.values(subGoalsByParentId[ goal._id ] || {});
+      subGoals = subGoals.filter(subGoal => this.checkFilters(subGoal));
+      if (subGoals.length === 0 && !this.checkFilters(goal)) {
+        return null;
+      }
 
       return (
         <React.Fragment>
@@ -64,6 +74,7 @@ class GoalList extends React.Component {
             key={goal._id}
             goal={goal}
             onSelect={onSelectGoal}
+            searchFilter={searchFilter}
             isSelected={selectedGoal && selectedGoal._id === goal._id}
           />
           {
@@ -73,6 +84,7 @@ class GoalList extends React.Component {
                   goal={subGoal}
                   onSelect={onSelectGoal}
                   isSelected={selectedGoal && selectedGoal._id === subGoal._id}
+                  searchFilter={searchFilter}
                   isSubGoal
                 />
               )

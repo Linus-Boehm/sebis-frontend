@@ -4,6 +4,14 @@ import GoalList from "./list/GoalList";
 
 class GoalsDashboard extends React.Component {
 
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      searchFilter: ''
+    };
+  }
+
   render() {
     const {
       assignedGoals,
@@ -19,13 +27,18 @@ class GoalsDashboard extends React.Component {
       onAddNewGoal
     } = this.props;
 
+    const {
+      searchFilter
+    } = this.state;
+
 
     return (
       <div>
         <div className="flex w-full justify-end">
           <SearchInput
-            value=""
-            onChange={() => {
+            value={this.state.searchFilter}
+            onChange={(e) => {
+              this.setState({ searchFilter: e.target.value })
             }}
           />
         </div>
@@ -40,6 +53,7 @@ class GoalsDashboard extends React.Component {
             onAddNewGoal={(parentGoal) => {
               return onAddNewGoal('my', parentGoal)
             }}
+            searchFilter={searchFilter}
             shouldRenderSubGoals
           />
           <GoalList
@@ -51,6 +65,7 @@ class GoalsDashboard extends React.Component {
             onAddNewGoal={(parentGoal) => {
               return onAddNewGoal('team', parentGoal)
             }}
+            searchFilter={searchFilter}
             fetchItems={fetchTeamGoals}/>
           <GoalList
             key="organization_goal"
@@ -61,6 +76,7 @@ class GoalsDashboard extends React.Component {
             onAddNewGoal={(parentGoal) => {
               return onAddNewGoal('organization', parentGoal)
             }}
+            searchFilter={searchFilter}
             fetchItems={fetchOrganizationGoals}
           />
         </div>
