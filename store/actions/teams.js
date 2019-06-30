@@ -1,11 +1,11 @@
 import {
   ASSIGN_TEAM,
   ASSIGN_TEAMS,
-  C,
   RESET_TEAM,
   DELETE_TEAM
 } from "../types/team";
 import api from "~/services/BackendApi";
+import {ASSIGN_USERS} from "../types/user";
 
 export const resetTeam = () => async dispatch => {
   dispatch({
@@ -94,25 +94,31 @@ export const fetchTeamById = (id, force = false) => async (
   getState
 ) => {
   //IF Team is alredy present in teamList
-  console.log(getState());
-  if (!!getState().teams.teamList[id] && !force) {
+
+  //Disabled Team caching for users
+  /*if (!!getState().teams.teamList[id] && !force) {
     dispatch({
       type: ASSIGN_TEAM,
       data: getState().teams.teamList[id]
     });
-  } else {
+  } else {*/
     try {
       let { data, status } = await api.teams.fetchById(id);
       if (status === 200) {
-        dispatch({
-          type: ASSIGN_TEAM,
-          data
+        await dispatch({
+          type: ASSIGN_USERS,
+          data: data.users
         });
+        await dispatch({
+          type: ASSIGN_TEAM,
+          data: data.team
+        });
+
         return data;
       }
     } catch (e) {
       console.error(e);
     }
     throw new Error("error on loading teams");
-  }
+  //}
 };

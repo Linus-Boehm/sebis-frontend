@@ -6,22 +6,54 @@ import GoalsDashboard from './GoalsDashboard';
 
 class GoalsDashboardContainer extends React.Component {
 
-  selectGoal = async (id) => {
-    await this.props.dispatch(GoalActions.fetchGoalById(id))
-    const goal = pick(this.props.goals, id);
+  onAddNewGoal = (context, parentGoal) => {
+    // TODO context = my|team|organization ; parentGoal=set if subgoal --> Update selectedGoal
+    this.props.dispatch(GoalActions.assignSelectedGoal({
+      _id: 'new-uuid', // TODO generate
+      title: 'New ' + context + ' Goal',
+      parent_goal: parentGoal ? parentGoal._id : undefined
+    }))
+  }
+
+  onSelectGoal = async (id) => {
+    this.props.dispatch(GoalActions.assignSelectedGoal({ _id: id, isFetching: true }))
+
+    try {
+      await this.props.dispatch(GoalActions.fetchGoalById(id));
+    } catch (e) {
+      // TODO display error
+      console.log(e);
+    }
+
+    const goal = Object.values(pick(this.props.goals, id))[ 0 ];
     return this.props.dispatch(GoalActions.assignSelectedGoal(goal))
   };
 
   fetchAssignedGoals = async () => {
-    return this.props.dispatch(GoalActions.fetchAllAssignedGoals())
+    try {
+      return this.props.dispatch(GoalActions.fetchAllAssignedGoals())
+    } catch (e) {
+      // TODO display error
+      console.log(e);
+    }
   };
 
   fetchTeamGoals = async () => {
-    return this.props.dispatch(GoalActions.fetchAllTeamGoals())
+    try {
+      return this.props.dispatch(GoalActions.fetchAllTeamGoals())
+    } catch (e) {
+      // TODO display error
+      console.log(e);
+    }
   };
 
   fetchOrganizationGoals = async () => {
-    return this.props.dispatch(GoalActions.fetchAllOrganizationGoals())
+    try {
+      return this.props.dispatch(GoalActions.fetchAllOrganizationGoals())
+    } catch (e) {
+      // TODO display error
+      console.log(e);
+    }
   };
 
   render() {
@@ -33,7 +65,8 @@ class GoalsDashboardContainer extends React.Component {
         fetchTeamGoals={this.fetchTeamGoals}
         fetchOrganizationGoals={this.fetchOrganizationGoals}
 
-        selectGoal={this.selectGoal}
+        onSelectGoal={this.onSelectGoal}
+        onAddNewGoal={this.onAddNewGoal}
       />
     )
   }

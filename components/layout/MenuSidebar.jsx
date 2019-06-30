@@ -15,21 +15,18 @@ class MenuSidebar extends React.Component {
 
     render() {
         let teams = Object.values(this.props.teams.teamList);
-        let teamItems = [];
-        if(teams.length>0){
-            teamItems = teams.map(team => (
+        let teamItems = teams.length>0?
+            teams.map(team => (
                 <div key={team.id}>
                     <h3>{team.name}</h3>
                 </div>
-            ));
-        }else{
-            teamItems = (<li>
+            )): (<li>
                 <div className="flex">
                     <Icon size="1em" path={mdiEmoticonSadOutline}/>
                     <span className="pl-2">No teams yet</span>
                 </div>
             </li>)
-        }
+
         console.log("TeamItems ", teamItems)
 
         return (
@@ -70,7 +67,7 @@ class MenuSidebar extends React.Component {
                             {teamItems}
                         </ul>
                     </div>
-                    { this.props.auth.user.role === 'organization_admin' &&
+                    { this.props.auth.user && this.props.auth.user.role === 'organization_admin' &&
                         <div className="mt-16">
 
                             <p className="menu-label">Administration</p>

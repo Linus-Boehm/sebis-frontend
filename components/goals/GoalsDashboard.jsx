@@ -1,6 +1,6 @@
 import React from 'react';
 import SearchInput from '../../components/utils/inputs/SearchInput'
-import GoalList from "./GoalList";
+import GoalList from "./list/GoalList";
 
 class GoalsDashboard extends React.Component {
 
@@ -14,6 +14,9 @@ class GoalsDashboard extends React.Component {
       fetchTeamGoals,
       fetchOrganizationGoals,
 
+      selectedGoal,
+      onSelectGoal,
+      onAddNewGoal
     } = this.props;
 
 
@@ -27,9 +30,39 @@ class GoalsDashboard extends React.Component {
           />
         </div>
         <div>
-          <GoalList key="my_goals" title="My Goals" goals={assignedGoals} fetchItems={fetchAssignedGoals}/>
-          <GoalList key="team_goals" title="Team Goals" goals={teamGoals} fetchItems={fetchTeamGoals}/>
-          <GoalList key="organization_goal" title="Organization Goals" goals={organizationGoals} fetchItems={fetchOrganizationGoals}/>
+          <GoalList
+            key="my_goals"
+            title="My Goals"
+            goals={assignedGoals}
+            fetchItems={fetchAssignedGoals}
+            onSelectGoal={onSelectGoal}
+            selectedGoal={selectedGoal}
+            onAddNewGoal={(parentGoal) => {
+              return onAddNewGoal('my', parentGoal)
+            }}
+            shouldRenderSubGoals
+          />
+          <GoalList
+            key="team_goals"
+            title="Team Goals"
+            goals={teamGoals}
+            onSelectGoal={onSelectGoal}
+            selectedGoal={selectedGoal}
+            onAddNewGoal={(parentGoal) => {
+              return onAddNewGoal('team', parentGoal)
+            }}
+            fetchItems={fetchTeamGoals}/>
+          <GoalList
+            key="organization_goal"
+            title="Organization Goals"
+            goals={organizationGoals}
+            selectedGoal={selectedGoal}
+            onSelectGoal={onSelectGoal}
+            onAddNewGoal={(parentGoal) => {
+              return onAddNewGoal('organization', parentGoal)
+            }}
+            fetchItems={fetchOrganizationGoals}
+          />
         </div>
       </div>
     )

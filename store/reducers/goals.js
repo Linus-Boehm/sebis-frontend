@@ -4,7 +4,7 @@ import { keyBy, map } from 'lodash';
 const initialState = {
   selectedGoal: {},
 
-  goals: [],
+  goals: {},
 
   // views on goals
   assignedGoals: {
@@ -17,8 +17,10 @@ const initialState = {
 
   organizationGoals: {
     ids: []
-  }
+  },
+
 };
+
 export default (state = initialState, { type, data, viewKey }) => {
   console.log("reducer:goals:" + type);
 
@@ -32,19 +34,20 @@ export default (state = initialState, { type, data, viewKey }) => {
     case ASSIGN_SELECTED_GOAL:
       return {
         ...state,
-        selectedGoal: data
+        selectedGoal: { ...initialState.selectedGoal, ...data }
       };
 
     case ASSIGN_GOALS:
       const currentTime = new Date();
 
-      let dataToAssign = map(data, el => ({ ...el, redux_assigned_at: currentTime }));
+      let dataToAssign = map(data, el => ({ ...el, assignedAt: currentTime }));
       dataToAssign = keyBy(dataToAssign, '_id');
 
       const viewData = viewKey ? {
         ...state[ viewKey ],
         ids: Object.keys(dataToAssign),
-        redux_assigned_at: currentTime
+
+        assignedAt: currentTime
       } : undefined;
 
       return {
