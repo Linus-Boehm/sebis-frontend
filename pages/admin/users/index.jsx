@@ -13,13 +13,51 @@ import DeleteButton from "../../../components/utils/buttons/DeleteButton";
 import EditButton from "../../../components/utils/buttons/EditButton";
 import ShowButton from "../../../components/utils/buttons/ShowButton";
 import ButtonGroup from "../../../components/utils/buttons/ButtonGroup";
+import ConfirmModal from "../../../components/utils/modal/ConfirmModal";
+import { deleteUser } from "../../../store/actions/users";
 
 class Index extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      modalActive: false,
+      selectedUser: {}
+    };
+  }
   async componentDidMount() {
     await this.props.dispatch(fetchUsers());
 
     return {};
   }
+
+  closeModal = e => {
+    e.preventDefault();
+    this.setState({
+      ...this.state,
+      modalActive: false
+    });
+  };
+
+  confirmDelete = async (e, user) => {
+    console.log("onDelete");
+    e.preventDefault();
+    this.setState({
+      modalActive: true,
+      user
+    });
+  };
+  onDeleteConfirm = async e => {
+    try {
+      await this.props.dispatch(deleteUser(this.state.user._id));
+    } catch (e) {
+      console.error(e);
+      //TODO add fancy notification
+    }
+    this.setState({
+      ...this.state,
+      modalActive: false
+    });
+  };
 
   render() {
     const userItems =
@@ -35,7 +73,11 @@ class Index extends React.Component {
               <ButtonGroup>
                 <ShowButton />
                 <EditButton />
-                <DeleteButton />
+                <DeleteButton
+                  onClick={e => {
+                    this.confirmDelete(e, user);
+                  }}
+                />
               </ButtonGroup>
             </td>
           </tr>
@@ -51,7 +93,7 @@ class Index extends React.Component {
             </button>
           </Link>
           <div className="content">
-            <h1>Teams</h1>
+            <h1>Users</h1>
             <table className="table">
               <thead>
                 <tr>
@@ -64,6 +106,16 @@ class Index extends React.Component {
               <tbody>{userItems}</tbody>
             </table>
           </div>
+          <ConfirmModal
+            title="Attention!"
+            active={this.state.modalActive}
+            confirmButtonType="is-danger"
+            confirmButtonText="Delete"
+            onCloseModal={this.closeModal}
+            onConfirm={this.onDeleteConfirm}
+          >
+            Do you realy like to delete this user?
+          </ConfirmModal>
         </div>
       </DefaultLayout>
     );

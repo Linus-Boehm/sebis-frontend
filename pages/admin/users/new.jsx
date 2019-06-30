@@ -6,6 +6,7 @@ import UsersForm from "../../../components/users/UsersForm";
 import ButtonGroup from "../../../components/utils/buttons/ButtonGroup";
 import Link from "next/link";
 import Router from "next/router";
+import { createUser } from "../../../store/actions/users";
 class New extends React.Component {
   static async getInitialProps({ store }) {
     console.log("Init User");
