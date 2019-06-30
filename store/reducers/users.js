@@ -1,12 +1,11 @@
-
 import { keyBy } from "lodash";
-import {ASSIGN_USERS} from "../types/user";
+import { ASSIGN_USERS } from "../types/user";
 
 const initialState = {
   user: {
+    email: "",
     firstname: "",
-    lastname: "",
-    email: ""
+    lastname: ""
   },
   userList: {}
 };

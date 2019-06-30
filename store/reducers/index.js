@@ -11,3 +11,4 @@ export default combineReducers({
   goals: goalsReducer,
   users: usersReducer
 })
+
