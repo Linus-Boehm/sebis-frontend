@@ -18,42 +18,22 @@ class GoalsDashboardContainer extends React.Component {
   onSelectGoal = async (id) => {
     this.props.dispatch(GoalActions.assignSelectedGoal({ _id: id, isFetching: true }))
 
-    try {
-      await this.props.dispatch(GoalActions.fetchGoalById(id));
-    } catch (e) {
-      // TODO display error
-      console.log(e);
-    }
+    await this.props.dispatch(GoalActions.fetchGoalById(id));
 
     const goal = Object.values(pick(this.props.goals, id))[ 0 ];
     return this.props.dispatch(GoalActions.assignSelectedGoal(goal))
   };
 
   fetchAssignedGoals = async () => {
-    try {
-      return this.props.dispatch(GoalActions.fetchAllAssignedGoals())
-    } catch (e) {
-      // TODO display error
-      console.log(e);
-    }
+    return this.props.dispatch(GoalActions.fetchAllAssignedGoals())
   };
 
   fetchTeamGoals = async () => {
-    try {
-      return this.props.dispatch(GoalActions.fetchAllTeamGoals())
-    } catch (e) {
-      // TODO display error
-      console.log(e);
-    }
+    return this.props.dispatch(GoalActions.fetchAllTeamGoals())
   };
 
   fetchOrganizationGoals = async () => {
-    try {
-      return this.props.dispatch(GoalActions.fetchAllOrganizationGoals())
-    } catch (e) {
-      // TODO display error
-      console.log(e);
-    }
+    return this.props.dispatch(GoalActions.fetchAllOrganizationGoals())
   };
 
   render() {
