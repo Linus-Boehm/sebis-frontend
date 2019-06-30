@@ -22,7 +22,7 @@ class Dashboard extends React.Component {
               <GoalsDashboardContainer/>
             </div>
           </div>
-          {this.props.selectedGoal._id && <div className="column is-one-third">
+          {this.props.selectedGoal._id && <div className="column is-one-third border-l-2 border-gray-200">
             <GoalInfoContainer/>
           </div>}
         </div>

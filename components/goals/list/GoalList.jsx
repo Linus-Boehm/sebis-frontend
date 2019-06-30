@@ -1,16 +1,35 @@
 import React from 'react';
+import ChevronDownIcon from 'mdi-react/ChevronDownIcon'
+import ChevronUpIcon from 'mdi-react/ChevronUpIcon'
 import GoalItem from "./GoalItem";
 import AddGoalItem from "./AddGoalItem";
 
 class GoalList extends React.Component {
 
+  constructor(props) {
+    super(props)
+    this.state = {
+      isOpen: true
+    }
+  }
+
   componentDidMount() {
     this.props.fetchItems()
   }
 
+  onClickHeader = () => {
+    this.setState({ isOpen: !this.state.isOpen })
+  };
+
   renderHeader = () => (
-    <div className="p-3 pl-0">
-      <span className="is-size-4 is-bold">{this.props.title}</span>
+    <div
+      className="flex p-3 pl-0 is-size-4 font-bold cursor-pointer select-none hover:text-black"
+      onClick={this.onClickHeader}
+    >
+      <div className="flex items-center mr-1">
+        {this.state.isOpen ? <ChevronDownIcon/> : <ChevronUpIcon/>}
+      </div>
+      <div>{this.props.title}</div>
     </div>
   );
 
@@ -103,11 +122,11 @@ class GoalList extends React.Component {
 
     return (
       <div className="flex flex-col w-full">
-        <div>
+        <div class="flex justify-start">
           {this.renderHeader()}
         </div>
         <div>
-          {this.renderListItems()}
+          {this.state.isOpen && this.renderListItems()}
         </div>
       </div>
     )

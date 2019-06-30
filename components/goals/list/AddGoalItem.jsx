@@ -15,7 +15,7 @@ class AddGoalItem extends React.Component {
           onAddNewGoal(parentGoal)
         }}
       >
-        <span className="ml-3 text-gray-600">
+        <span className="ml-3 text-gray-600 select-none">
           +  Add {parentGoal ? 'Subgoal' : 'Goal'}
         </span>
       </div>

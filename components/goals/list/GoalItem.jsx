@@ -1,4 +1,5 @@
 import React from 'react';
+import Avatar from 'react-avatar';
 
 class GoalItem extends React.Component {
 
@@ -31,12 +32,13 @@ class GoalItem extends React.Component {
     } = this.props;
 
     const {
-      title
+      title,
+      assignee
     } = goal || {};
 
     return (
       <div
-        className={`bg-gray-200 hover:bg-gray-300 mb-2 p-2 cursor-pointer
+        className={`flex items-center bg-gray-200 hover:bg-gray-300 mb-2 p-2 cursor-pointer
          ${isSubGoal ? 'ml-3' : ''}
          ${isSelected ? 'bg-blue-300 hover:bg-blue-300' : ''}
         `}
@@ -44,9 +46,18 @@ class GoalItem extends React.Component {
           onSelect(goal._id)
         }}
       >
-        <span className="ml-3">
+        <div className="flex-grow ml-3 select-none">
           {this.highlightByFilter(title, searchFilter)}
-        </span>
+        </div>
+          <div className="pr-2">
+            {assignee && <Avatar
+              size={30}
+              name={assignee.firstname + ' ' + assignee.lastname}
+              textSizeRatio={2}
+
+              round
+            />}
+        </div>
       </div>
     )
   }

@@ -15,7 +15,7 @@ class GoalsDashboard extends React.Component {
     } = selectedGoal;
 
     return (
-      <div className="w-full">
+      <div className="w-full h-full">
         <div className="flex justify-end">
           <span className="text-blue-400 is-size-6 cursor-pointer" onClick={onClose}>Close</span>
         </div>
