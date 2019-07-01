@@ -49,7 +49,7 @@ class DefaultLayout extends React.Component {
       <nav className="navbar border-b-2 border-gray-200" role="navigation" aria-label="main navigation">
         <div className="navbar-brand">
           <a className="navbar-item">
-            <img src="/static/logo.png"/>
+            <img src="/static/logo.svg"/>
           </a>
           <a id="burger"
              role="button" className="navbar-burger burger" aria-label="menu" aria-expanded="false"
