@@ -4,6 +4,8 @@ import {
   DELETE_USER,
   RESET_USER
 } from "../types/user";
+
+import { ASSIGN_TEAMS } from "../types/team";
 import Router from "next/router";
 import Request from "~/services/BackendApi/Request";
 import api from "~/services/BackendApi";
@@ -54,10 +56,6 @@ export const updateUser = (id, user) => async dispatch => {
         type: ASSIGN_USER,
         data: data
       });
-      dispatch({
-        type: ASSIGN_USERS,
-        data: data
-      });
     }
   } catch (e) {}
 };
@@ -94,4 +92,34 @@ export const fetchUsers = () => async dispatch => {
     console.log(e);
   }
   throw new Error("error on loading users");
+};
+
+export const fetchUserById = (id, force = false) => async (
+  dispatch,
+  getState
+) => {
+  //IF User is alredy present in userList
+
+  //Disabled User caching for users
+  /*if (!!getState().users.userList[id] && !force) {
+    dispatch({
+      type: ASSIGN_USER,
+      data: getState().users.userList[id]
+    });
+  } else {*/
+  try {
+    let { data, status } = await api.users.fetchUserById(id);
+    if (status === 200) {
+      await dispatch({
+        type: ASSIGN_USER,
+        data: data
+      });
+
+      return data;
+    }
+  } catch (e) {
+    console.error(e);
+  }
+  throw new Error("error on loading users");
+  //}
 };

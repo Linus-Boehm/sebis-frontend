@@ -72,7 +72,9 @@ class Index extends React.Component {
             <td>
               <ButtonGroup>
                 <ShowButton />
-                <EditButton />
+                <Link href={"/admin/users/edit?id=" + user._id}>
+                  <EditButton />
+                </Link>
                 <DeleteButton
                   onClick={e => {
                     this.confirmDelete(e, user);
