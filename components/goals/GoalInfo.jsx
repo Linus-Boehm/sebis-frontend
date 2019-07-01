@@ -11,7 +11,8 @@ class GoalsDashboard extends React.Component {
     } = this.props;
 
     const {
-      title
+      title,
+      description
     } = selectedGoal;
 
     return (
@@ -22,6 +23,12 @@ class GoalsDashboard extends React.Component {
         <div className="pt-2">
           <span className="is-size-4 is-bold">{title}</span>
         </div>
+          <div className="pt-2">
+              { description ?
+                  (<span className="is-size-6 is-bold">{description}</span>) :
+                  (<span className="is-size-6 is-bold text-gray-500">Add description...</span>)
+              }
+          </div>
         <div className="p-3">
           <span>{JSON.stringify(selectedGoal)}</span>
         </div>
