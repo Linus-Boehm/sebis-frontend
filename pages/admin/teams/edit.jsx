@@ -1,10 +1,6 @@
 import React from "react";
 import {connect} from "react-redux";
 import DefaultLayout from "../../../components/layout/DefaultLayout";
-import TeamsForm from "../../../components/teams/TeamsForm";
-import ButtonGroup from "../../../components/utils/buttons/ButtonGroup";
-import TeamMemberDropdown from "../../../components/teams/TeamMemberDropdown";
-import BaseButton from "../../../components/utils/buttons/BaseButton";
 import {
     assignTeam,
     createTeam,
@@ -19,9 +15,6 @@ import Router from "next/router";
 import TeamsForm from "../../../components/teams/TeamsForm";
 import ButtonGroup from "../../../components/utils/buttons/ButtonGroup";
 import Link from "next/link";
-import TeamMemberDropdown from "../../../components/teams/TeamMemberDropdown";
-import AccountMultipleIcon from "mdi-react/AccountMultipleIcon";
-import BaseButton from "../../../components/utils/buttons/BaseButton";
 import DeleteButton from "../../../components/utils/buttons/DeleteButton";
 import EditButton from "../../../components/utils/buttons/EditButton";
 import ConfirmModal from "../../../components/utils/modal/ConfirmModal";
@@ -135,10 +128,7 @@ class EditTeam extends React.Component {
             //TODO add fancy notification
         }
     };
-    handleOnSelect = async (e, user) => {
-        e.preventDefault()
-        console.log("add", user)
-    }
+
 
     renderMemberTable() {
         const userItems = this.props.teams.team.team_roles.map(role => {
@@ -200,13 +190,6 @@ class EditTeam extends React.Component {
                     <div className="content">
                         <div className="flex">
                             <h1>Edit Team</h1>
-                            <div>
-                                <TeamMemberDropdown teamId={this.props.teams.team._id} onSelect={this.handleOnSelect}>
-                                    <BaseButton type="is-info">
-                                        <AccountMultipleIcon size="1em"/>
-                                    </BaseButton>
-                                </TeamMemberDropdown>
-                            </div>
                         </div>
                         <form onSubmit={this.handleOnSubmit}>
                             <TeamsForm/>

@@ -8,7 +8,8 @@ import {findIndex, keyBy} from "lodash";
 
 const initialState = {
   team: {
-    name: ""
+    name: "",
+    team_roles: []
   },
   teamList: {}
 };
@@ -44,16 +45,3 @@ export default (state = initialState, { type, data }) => {
   }
 };
 
-const assignTeamMember = (state, data) => {
-  let teammembers = state.team.team_roles
-  let i = findIndex(teammembers,(role)=>{return role.user_id === data.user_id})
-  if(i >= 0){
-    teammembers[i] = data
-  }else{
-    teammembers.push(data)
-  }
-  return {
-    ...state,
-    team: { ...state.team, team_roles: teammembers}
-  };
-}
