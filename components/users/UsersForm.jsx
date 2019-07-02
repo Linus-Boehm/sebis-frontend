@@ -13,13 +13,37 @@ class UsersForm extends React.Component {
     return (
       <div>
         <div className="field">
-          <label className="label">Name</label>
+          <label className="label">First name</label>
           <div className="control">
             <input
               className="input"
               type="text"
-              name="name"
-              value={this.props.users.user.name}
+              name="firstname"
+              value={this.props.users.user.firstname}
+              onChange={this.handleOnChange}
+            />
+          </div>
+        </div>
+        <div className="field">
+          <label className="label">Last Name</label>
+          <div className="control">
+            <input
+              className="input"
+              type="text"
+              name="lastname"
+              value={this.props.users.user.lastname}
+              onChange={this.handleOnChange}
+            />
+          </div>
+        </div>
+        <div className="field">
+          <label className="label">E-Mail</label>
+          <div className="control">
+            <input
+              className="input"
+              type="text"
+              name="email"
+              value={this.props.users.user.email}
               onChange={this.handleOnChange}
             />
           </div>

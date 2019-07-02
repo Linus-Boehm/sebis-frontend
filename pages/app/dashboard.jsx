@@ -1,29 +1,45 @@
 import React from 'react';
-import {connect} from "react-redux";
+import { connect } from "react-redux";
 import DefaultLayout from "~/components/layout/DefaultLayout";
-import {fetchTeams} from "~/store/actions/teams";
+import GoalsDashboardContainer from "~/components/goals/GoalsDashboardContainer";
+import GoalInfoContainer from "../../components/goals/GoalInfoContainer";
 
 class Dashboard extends React.Component {
 
 
-    static async getInitialProps({store}) {
-
-        return {};
-    }
-
+  static async getInitialProps({ store }) {
+    return {};
+  }
 
 
-    render() {
+  render() {
 
-        return <DefaultLayout forceAuth={true}>
-            <div className="container">
-
-                <div className="content">
-                    <h1>My Goals</h1>
-                </div>
+    return (
+      <DefaultLayout forceAuth={true}>
+        <div className="flex">
+          <div className="column">
+            <div className="content">
+              <GoalsDashboardContainer/>
             </div>
-
-        </DefaultLayout>;
-    }
+          </div>
+          {this.props.selectedGoal._id && <div className="column is-one-third border-l-2 border-gray-200">
+            <GoalInfoContainer/>
+          </div>}
+        </div>
+      </DefaultLayout>
+    );
+  }
 }
-export default connect(state => state,{})(Dashboard);
+
+function mapStateToProps(state) {
+  const {
+    selectedGoal,
+  } = state.goals;
+
+  return {
+    selectedGoal: selectedGoal,
+  };
+}
+
+
+export default connect(mapStateToProps)(Dashboard);

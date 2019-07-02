@@ -1,0 +1,66 @@
+import React from 'react';
+import Avatar from 'react-avatar';
+
+class GoalItem extends React.Component {
+
+  highlightByFilter = (text, filter) => {
+    if (filter === '')
+      return <span>{text}</span>
+
+    const regex = new RegExp(filter, 'ig');
+    const parts = text.split(regex);
+    const matches = text.match(regex);
+
+    console.log(JSON.stringify(matches) + ' ' + JSON.stringify(parts))
+
+    return parts.map((part, i) => [
+      <span>{part}</span>,
+      matches && matches[ i ] && matches[ i ] !== ''
+        ? <span className="font-bold">{matches[ i ]}</span>
+        : null
+    ]);
+  };
+
+
+  render() {
+    const {
+      goal,
+      isSubGoal,
+      onSelect,
+      isSelected,
+      searchFilter
+    } = this.props;
+
+    const {
+      title,
+      assignee
+    } = goal || {};
+
+    return (
+      <div
+        className={`flex items-center bg-gray-200 hover:bg-gray-300 mb-2 p-2 cursor-pointer
+         ${isSubGoal ? 'ml-3' : ''}
+         ${isSelected ? 'bg-blue-300 hover:bg-blue-300' : ''}
+        `}
+        onClick={() => {
+          onSelect(goal._id)
+        }}
+      >
+        <div className="flex-grow ml-3 select-none">
+          {this.highlightByFilter(title, searchFilter)}
+        </div>
+          <div className="pr-2">
+            {assignee && <Avatar
+              size={30}
+              name={assignee.firstname + ' ' + assignee.lastname}
+              textSizeRatio={2}
+
+              round
+            />}
+        </div>
+      </div>
+    )
+  }
+}
+
+export default GoalItem

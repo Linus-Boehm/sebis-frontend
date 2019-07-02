@@ -21,6 +21,13 @@ export function fetchUserById(id) {
   return Request.get(`${baseUrl()}/${id}`);
 }
 
-export function create(payload) {
-  return Request.post(`${baseUrl()}`, payload);
+export function create(body) {
+  return Request.post(`${baseUrl()}/create`, body);
+}
+
+export function update(id, payload) {
+  return Request.put(`${baseUrl()}/${id}`, payload);
+}
+export function deleteById(id) {
+  return Request.delete(`${baseUrl()}/${id}`);
 }

@@ -1,0 +1,4 @@
+// store
+export const RESET_SELECTED_GOAL = 'RESET__SELECTED_GOAL';
+export const ASSIGN_SELECTED_GOAL = 'ASSIGN_SELECTED_GOAL';
+export const ASSIGN_GOALS = 'ASSIGN_GOALS';

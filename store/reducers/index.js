@@ -1,10 +1,14 @@
-import { combineReducers } from "redux";
-import authReducer from "./auth";
-import teamReducer from "./teams";
-import userReducer from "./users";
+import { combineReducers } from 'redux';
+import authReducer from './auth';
+import teamsReducer from './teams';
+import goalsReducer from './goals'
+import usersReducer from './users';
+
 
 export default combineReducers({
-  teams: teamReducer,
+  teams: teamsReducer,
   auth: authReducer,
-  users: userReducer
-});
+  goals: goalsReducer,
+  users: usersReducer
+})
+

@@ -41,7 +41,7 @@ class Signup extends React.Component {
 
   render() {
     return (
-      <Layout title="Sign Up">
+      <Layout title="Sign Up" hideSidebar>
         <h3 className="title is-3">Sign Up</h3>
         <form
           onSubmit={this.handleSubmit.bind(this)}

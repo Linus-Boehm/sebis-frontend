@@ -1,25 +1,40 @@
 import React from "react";
 import { connect } from "react-redux";
 import DefaultLayout from "../../../components/layout/DefaultLayout";
-import { assignUsers } from "../../../store/actions/users";
+import {
+  fetchUserById,
+  resetUser,
+  updateUser
+} from "../../../store/actions/users";
+import Router from "next/router";
 import UsersForm from "../../../components/users/UsersForm";
 import ButtonGroup from "../../../components/utils/buttons/ButtonGroup";
 import Link from "next/link";
-import Router from "next/router";
-import { createUser } from "../../../store/actions/users";
-class New extends React.Component {
-  static async getInitialProps({ store }) {
-    console.log("Init User");
-    //await store.dispatch(resetUser());
-    return {};
+import AccountMultipleIcon from "mdi-react/AccountMultipleIcon";
+import BaseButton from "../../../components/utils/buttons/BaseButton";
+
+class EditUser extends React.Component {
+  static async getInitialProps({ query }) {
+    return { currentId: query.id };
+  }
+  async componentDidMount() {
+    console.log("Init Users");
+    await this.props.dispatch(resetUser());
+    await this.props.dispatch(fetchUserById(this.props.currentId));
+    console.log(this.props);
   }
   handleOnSubmit = async e => {
     e.preventDefault();
     try {
-      await this.props.dispatch(createUser(this.props.users.user));
+      console.log(this.props);
+      await this.props.dispatch(
+        updateUser(this.props.currentId, this.props.users.user)
+      );
+      //Notification.success("User update successfull")
       Router.push("/admin/users");
     } catch (e) {
       console.error(e);
+      //Notification.error("Error on saving User")
       //TODO add fancy notification
     }
   };
@@ -29,7 +44,10 @@ class New extends React.Component {
       <DefaultLayout forceAuth={true}>
         <div className="container">
           <div className="content">
-            <h1>New User</h1>
+            <div className="flex">
+              <h1>Edit User</h1>
+              <div />
+            </div>
             <form onSubmit={this.handleOnSubmit}>
               <UsersForm />
               <ButtonGroup className="mt-8">
@@ -37,7 +55,7 @@ class New extends React.Component {
                   <a className="button is-warning">Cancel</a>
                 </Link>
                 <button type="submit" className="button is-primary">
-                  Create
+                  Save
                 </button>
               </ButtonGroup>
             </form>
@@ -47,4 +65,4 @@ class New extends React.Component {
     );
   }
 }
-export default connect(state => state)(New);
+export default connect(state => state)(EditUser);
