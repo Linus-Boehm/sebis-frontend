@@ -95,5 +95,24 @@ export const fetchAllOrganizationGoals = () => async (dispatch) => {
   throw new Error("error in action fetchAllOrganizationGoals")
 };
 
+export const createGoal = (goal) => async (dispatch) => {
+  try {
+    let { data, status } = await api.goals.createGoal(goal)
+
+    if (status === 200) {
+      return dispatch({
+        type: ASSIGN_GOALS,
+        data: [data],
+        viewKey: 'lastCreatedGoal'
+      });
+    }
+
+  } catch (e) {
+    console.log(e)
+  }
+
+  throw new Error("error in action fetchAllOrganizationGoals")
+};
+
 
 

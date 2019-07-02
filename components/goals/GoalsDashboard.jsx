@@ -1,6 +1,6 @@
 import React from 'react';
 import SearchInput from '../../components/utils/inputs/SearchInput'
-import GoalList from "./list/GoalList";
+import GoalList from "./list/GoalListContainer";
 
 class GoalsDashboard extends React.Component {
 
@@ -22,9 +22,8 @@ class GoalsDashboard extends React.Component {
       fetchTeamGoals,
       fetchOrganizationGoals,
 
-      selectedGoal,
-      onSelectGoal,
-      onAddNewGoal
+      teams,
+      user
     } = this.props;
 
     const {
@@ -48,35 +47,39 @@ class GoalsDashboard extends React.Component {
             title="My Goals"
             goals={assignedGoals}
             fetchItems={fetchAssignedGoals}
-            onSelectGoal={onSelectGoal}
-            selectedGoal={selectedGoal}
-            onAddNewGoal={(parentGoal) => {
-              return onAddNewGoal('my', parentGoal)
+
+            newGoalTemplate={{
+              assignee: user ? user._id : null
             }}
             searchFilter={searchFilter}
-            shouldRenderSubGoals
+
+            shouldRenderSubgoals
           />
           <GoalList
             key="team_goals"
             title="Team Goals"
             goals={teamGoals}
-            onSelectGoal={onSelectGoal}
-            selectedGoal={selectedGoal}
-            onAddNewGoal={(parentGoal) => {
-              return onAddNewGoal('team', parentGoal)
+
+            newGoalTemplate={{
+              related_model: 'Team',
+              related_to: teams && teams.length > 0 ? teams[ 0 ]._id : null
             }}
+
+            fetchItems={fetchTeamGoals}
+
             searchFilter={searchFilter}
-            fetchItems={fetchTeamGoals}/>
+          />
           <GoalList
             key="organization_goal"
             title="Organization Goals"
             goals={organizationGoals}
-            selectedGoal={selectedGoal}
-            onSelectGoal={onSelectGoal}
-            onAddNewGoal={(parentGoal) => {
-              return onAddNewGoal('organization', parentGoal)
+
+            newGoalTemplate={{
+              related_model: 'Organization',
+              related_to: user ? user.organization_id : null
             }}
             searchFilter={searchFilter}
+
             fetchItems={fetchOrganizationGoals}
           />
         </div>

@@ -3,26 +3,9 @@ import { connect } from 'react-redux';
 import * as GoalActions from '../../store/actions/goals';
 import { pick } from 'lodash';
 import GoalsDashboard from './GoalsDashboard';
+import { fetchTeams } from "../../store/actions/teams";
 
 class GoalsDashboardContainer extends React.Component {
-
-  onAddNewGoal = (context, parentGoal) => {
-    // TODO context = my|team|organization ; parentGoal=set if subgoal --> Update selectedGoal
-    this.props.dispatch(GoalActions.assignSelectedGoal({
-      _id: 'new-uuid', // TODO generate
-      title: 'New ' + context + ' Goal',
-      parent_goal: parentGoal ? parentGoal._id : undefined
-    }))
-  }
-
-  onSelectGoal = async (id) => {
-    this.props.dispatch(GoalActions.assignSelectedGoal({ _id: id, isFetching: true }))
-
-    await this.props.dispatch(GoalActions.fetchGoalById(id));
-
-    const goal = Object.values(pick(this.props.goals, id))[ 0 ];
-    return this.props.dispatch(GoalActions.assignSelectedGoal(goal))
-  };
 
   fetchAssignedGoals = async () => {
     return this.props.dispatch(GoalActions.fetchAllAssignedGoals())
@@ -36,6 +19,12 @@ class GoalsDashboardContainer extends React.Component {
     return this.props.dispatch(GoalActions.fetchAllOrganizationGoals())
   };
 
+  // ---
+
+  async componentDidMount() {
+    await this.props.dispatch(fetchTeams());
+  }
+
   render() {
     return (
       <GoalsDashboard
@@ -46,7 +35,7 @@ class GoalsDashboardContainer extends React.Component {
         fetchOrganizationGoals={this.fetchOrganizationGoals}
 
         onSelectGoal={this.onSelectGoal}
-        onAddNewGoal={this.onAddNewGoal}
+        onCreateGoal={this.onCreateGoal}
       />
     )
   }
@@ -59,7 +48,16 @@ function mapStateToProps(state) {
     assignedGoals,
     teamGoals,
     organizationGoals
+
   } = state.goals;
+
+  const {
+    teamList
+  } = state.teams;
+
+  const {
+    user
+  } = state.auth;
 
   return {
     goals,
@@ -68,7 +66,10 @@ function mapStateToProps(state) {
     // views
     assignedGoals: Object.values(pick(goals, assignedGoals.ids)),
     teamGoals: Object.values(pick(goals, teamGoals.ids)),
-    organizationGoals: Object.values(pick(goals, organizationGoals.ids))
+    organizationGoals: Object.values(pick(goals, organizationGoals.ids)),
+
+    teams: Object.values(teamList),
+    user
   };
 }
 

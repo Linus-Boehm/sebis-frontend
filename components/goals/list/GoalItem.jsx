@@ -38,7 +38,7 @@ class GoalItem extends React.Component {
 
     return (
       <div
-        className={`flex items-center bg-gray-200 hover:bg-gray-300 mb-2 p-2 cursor-pointer
+        className={`flex items-center bg-gray-200 hover:bg-gray-300 mb-2 p-2 cursor-pointer 
          ${isSubGoal ? 'ml-3' : ''}
          ${isSelected ? 'bg-blue-300 hover:bg-blue-300' : ''}
         `}
@@ -51,7 +51,7 @@ class GoalItem extends React.Component {
         </div>
           <div className="pr-2">
             {assignee && <Avatar
-              size={30}
+              size={25}
               name={assignee.firstname + ' ' + assignee.lastname}
               textSizeRatio={2}
 

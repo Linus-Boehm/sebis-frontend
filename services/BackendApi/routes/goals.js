@@ -21,6 +21,6 @@ export function fetchAllOrganizationGoals() {
   return Request.get(`${baseUrl()}/organization`);
 }
 
-
-
-
+export function createGoal(payload) {
+  return Request.post(`${baseUrl()}`, payload);
+}

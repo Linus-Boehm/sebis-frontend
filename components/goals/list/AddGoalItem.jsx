@@ -5,14 +5,17 @@ class AddGoalItem extends React.Component {
   render() {
     const {
       parentGoal,
-      onAddNewGoal
+      onCreateGoal
     } = this.props;
+
+    const parentGoalId = parentGoal ? parentGoal._id : null;
 
     return (
       <div
         className={`mb-2 p-2 ${parentGoal ? 'ml-3' : ''} cursor-pointer bg-gray-200 hover:bg-gray-300`}
         onClick={() => {
-          onAddNewGoal(parentGoal)
+          const options = { parentGoalId };
+          onCreateGoal(options)
         }}
       >
         <span className="ml-3 text-gray-600 select-none">

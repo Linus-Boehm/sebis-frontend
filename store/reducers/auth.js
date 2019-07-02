@@ -1,5 +1,6 @@
 import { AUTHENTICATE, LOGOUT,REAUTHENTICATE, USER,  } from '../types/auth';
 import Request from '~/services/BackendApi/Request';
+
 const initialState = {
     token: null,
     user: null,

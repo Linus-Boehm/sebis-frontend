@@ -1,8 +1,13 @@
-import { ASSIGN_GOALS, ASSIGN_SELECTED_GOAL, RESET_SELECTED_GOAL } from '../types/goal'
+import {
+  ASSIGN_GOALS,
+  ASSIGN_SELECTED_GOAL,
+  RESET_SELECTED_GOAL
+} from '../types/goal'
 import { keyBy, map } from 'lodash';
 
 const initialState = {
   selectedGoal: {},
+  isSelectedGoalLoading: false,
 
   goals: {},
 
@@ -19,6 +24,9 @@ const initialState = {
     ids: []
   },
 
+  lastCreatedGoal: {
+    ids: []
+  }
 };
 
 export default (state = initialState, { type, data, viewKey }) => {
