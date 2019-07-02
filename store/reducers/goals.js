@@ -11,7 +11,7 @@ const initialState = {
 
   goals: {},
 
-  // views on goals
+  // fetches on goals
   assignedGoals: {
     ids: []
   },
@@ -22,14 +22,10 @@ const initialState = {
 
   organizationGoals: {
     ids: []
-  },
-
-  lastCreatedGoal: {
-    ids: []
   }
 };
 
-export default (state = initialState, { type, data, viewKey }) => {
+export default (state = initialState, { type, data, fetchKey }) => {
   console.log("reducer:goals:" + type);
 
   switch (type) {
@@ -51,8 +47,8 @@ export default (state = initialState, { type, data, viewKey }) => {
       let dataToAssign = map(data, el => ({ ...el, assignedAt: currentTime }));
       dataToAssign = keyBy(dataToAssign, '_id');
 
-      const viewData = viewKey ? {
-        ...state[ viewKey ],
+      const viewData = fetchKey ? {
+        ...state[ fetchKey ],
         ids: Object.keys(dataToAssign),
 
         assignedAt: currentTime
@@ -61,7 +57,7 @@ export default (state = initialState, { type, data, viewKey }) => {
       return {
         ...state,
         goals: { ...state.goals, ...dataToAssign },
-        [ viewKey ]: viewData
+        [ fetchKey ]: viewData
       };
 
     default:

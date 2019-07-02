@@ -36,19 +36,17 @@ class GoalListContainer extends React.Component {
 
     await this.props.dispatch(GoalActions.createGoal(newGoal));
 
-    await this.props.fetchItems();
-
     await this.onSelectGoal(newGoal._id)
   };
 
   render() {
 
-    console.log(this.props);
-
     return (
       <GoalList
         onCreateGoal={this.onCreateGoal}
         onSelectGoal={this.onSelectGoal}
+        goals={Object.values(this.props.allGoals)}
+        filter={() => true}
 
         {...this.props}
       />

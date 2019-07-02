@@ -63,10 +63,10 @@ function mapStateToProps(state) {
     goals,
     selectedGoal,
 
-    // views
-    assignedGoals: Object.values(pick(goals, assignedGoals.ids)),
-    teamGoals: Object.values(pick(goals, teamGoals.ids)),
-    organizationGoals: Object.values(pick(goals, organizationGoals.ids)),
+    // fetches
+    assignedGoals,
+    teamGoals,
+    organizationGoals,
 
     teams: Object.values(teamList),
     user

@@ -23,7 +23,7 @@ class GoalsDashboard extends React.Component {
       fetchOrganizationGoals,
 
       teams,
-      user
+      user = {}
     } = this.props;
 
     const {
@@ -45,12 +45,17 @@ class GoalsDashboard extends React.Component {
           <GoalList
             key="my_goals"
             title="My Goals"
-            goals={assignedGoals}
             fetchItems={fetchAssignedGoals}
+
+            filter={(goal) => (
+              goal.assignedAt >= assignedGoals.assignedAt &&
+              goal.assignee && user && goal.assignee._id === user._id
+            )}
 
             newGoalTemplate={{
               assignee: user ? user._id : null
             }}
+
             searchFilter={searchFilter}
 
             shouldRenderSubgoals
@@ -58,21 +63,29 @@ class GoalsDashboard extends React.Component {
           <GoalList
             key="team_goals"
             title="Team Goals"
-            goals={teamGoals}
+
+            fetchItems={fetchTeamGoals}
+
+            filter={(goal) => (
+              goal.assignedAt >= teamGoals.assignedAt &&
+              goal.related_model === 'Team'
+            )}
 
             newGoalTemplate={{
               related_model: 'Team',
               related_to: teams && teams.length > 0 ? teams[ 0 ]._id : null
             }}
 
-            fetchItems={fetchTeamGoals}
-
             searchFilter={searchFilter}
           />
           <GoalList
             key="organization_goal"
             title="Organization Goals"
-            goals={organizationGoals}
+
+            filter={(goal) => (
+              goal.assignedAt >= organizationGoals.assignedAt &&
+              goal.related_model === 'Organization'
+            )}
 
             newGoalTemplate={{
               related_model: 'Organization',

@@ -46,7 +46,7 @@ export const fetchAllAssignedGoals = () => async (dispatch) => {
       return dispatch({
         type: ASSIGN_GOALS,
         data,
-        viewKey: 'assignedGoals'
+        fetchKey: 'assignedGoals'
       });
     }
 
@@ -65,7 +65,7 @@ export const fetchAllTeamGoals = () => async (dispatch) => {
       return dispatch({
         type: ASSIGN_GOALS,
         data,
-        viewKey: 'teamGoals'
+        fetchKey: 'teamGoals'
       });
     }
 
@@ -84,7 +84,7 @@ export const fetchAllOrganizationGoals = () => async (dispatch) => {
       return dispatch({
         type: ASSIGN_GOALS,
         data,
-        viewKey: 'organizationGoals'
+        fetchKey: 'organizationGoals'
       });
     }
 
@@ -102,8 +102,27 @@ export const createGoal = (goal) => async (dispatch) => {
     if (status === 200) {
       return dispatch({
         type: ASSIGN_GOALS,
-        data: [data],
-        viewKey: 'lastCreatedGoal'
+        data: [ data ],
+        fetchKey: 'lastCreatedGoal'
+      });
+    }
+
+  } catch (e) {
+    console.log(e)
+  }
+
+  throw new Error("error in action fetchAllOrganizationGoals")
+};
+
+export const updateGoal = (goal) => async (dispatch) => {
+  try {
+    let { data, status } = await api.goals.updateGoal(goal)
+
+    if (status === 200) {
+      return dispatch({
+        type: ASSIGN_GOALS,
+        data: [ data ],
+        fetchKey: 'lastUpdatedGoal'
       });
     }
 

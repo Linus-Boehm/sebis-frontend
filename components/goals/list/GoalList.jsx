@@ -34,7 +34,11 @@ class GoalList extends React.Component {
     </div>
   );
 
-  checkFilters(goal) {
+  applyGoalFilter(goals) {
+    return goals.filter((goal) => this.props.filter(goal))
+  }
+
+  checkSearchFilter(goal) {
     const { title = '' } = goal;
 
     const regex = new RegExp(this.props.searchFilter, 'i');
@@ -75,6 +79,7 @@ class GoalList extends React.Component {
     } = this.props;
 
     let goals = this.props.goals || [];
+    goals = this.applyGoalFilter(goals);
 
     let {
       parentGoals,
@@ -84,8 +89,8 @@ class GoalList extends React.Component {
 
     return parentGoals.map((goal) => {
       let subGoals = Object.values(subGoalsByParentId[ goal._id ] || {});
-      subGoals = subGoals.filter(subGoal => this.checkFilters(subGoal));
-      if (subGoals.length === 0 && !this.checkFilters(goal)) {
+      subGoals = subGoals.filter(subGoal => this.checkSearchFilter(subGoal));
+      if (subGoals.length === 0 && !this.checkSearchFilter(goal)) {
         return null;
       }
 
