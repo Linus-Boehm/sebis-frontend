@@ -2,9 +2,9 @@ import {
   ASSIGN_TEAMS,
   ASSIGN_TEAM,
   RESET_TEAM,
-  DELETE_TEAM
+  DELETE_TEAM, ASSIGN_TEAM_MEMBERS
 } from "../types/team";
-import { keyBy } from "lodash";
+import {findIndex, keyBy} from "lodash";
 
 const initialState = {
   team: {
@@ -20,6 +20,7 @@ export default (state = initialState, { type, data }) => {
         ...state,
         teamList: { ...state.teamList, ...keyBy(data, "_id") }
       };
+
     case ASSIGN_TEAM:
       return {
         ...state,
@@ -42,3 +43,17 @@ export default (state = initialState, { type, data }) => {
       return state;
   }
 };
+
+const assignTeamMember = (state, data) => {
+  let teammembers = state.team.team_roles
+  let i = findIndex(teammembers,(role)=>{return role.user_id === data.user_id})
+  if(i >= 0){
+    teammembers[i] = data
+  }else{
+    teammembers.push(data)
+  }
+  return {
+    ...state,
+    team: { ...state.team, team_roles: teammembers}
+  };
+}
