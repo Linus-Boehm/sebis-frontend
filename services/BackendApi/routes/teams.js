@@ -23,3 +23,11 @@ export function update(id, payload) {
 export function deleteById(id) {
   return Request.delete(`${baseUrl()}/${id}`);
 }
+
+export function updateTeamMember(id, payload) {
+  return Request.put(`${baseUrl()}/${id}/member`, payload);
+}
+
+export function removeTeamMember(id, user_id) {
+  return Request.delete(`${baseUrl()}/${id}/member/${user_id}`);
+}

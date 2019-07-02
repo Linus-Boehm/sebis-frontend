@@ -2,13 +2,14 @@ import {
   ASSIGN_TEAMS,
   ASSIGN_TEAM,
   RESET_TEAM,
-  DELETE_TEAM
+  DELETE_TEAM, ASSIGN_TEAM_MEMBERS
 } from "../types/team";
-import { keyBy } from "lodash";
+import {findIndex, keyBy} from "lodash";
 
 const initialState = {
   team: {
-    name: ""
+    name: "",
+    team_roles: []
   },
   teamList: {}
 };
@@ -20,6 +21,7 @@ export default (state = initialState, { type, data }) => {
         ...state,
         teamList: { ...state.teamList, ...keyBy(data, "_id") }
       };
+
     case ASSIGN_TEAM:
       return {
         ...state,
@@ -42,3 +44,4 @@ export default (state = initialState, { type, data }) => {
       return state;
   }
 };
+

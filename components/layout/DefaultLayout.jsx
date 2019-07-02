@@ -10,6 +10,7 @@ import * as actions from "../../store/actions/auth";
 import { fetchTeams } from "../../store/actions/teams";
 import MenuSidebar from "./MenuSIdebar";
 import UserAvatar from "../utils/user/UserAvatar";
+import {logout} from "../../store/actions/auth";
 
 class DefaultLayout extends React.Component {
   constructor(props) {
@@ -30,6 +31,11 @@ class DefaultLayout extends React.Component {
       dismiss: { duration: 2000 },
       dismissable: { click: true }
     });
+  }
+  logOut = async (e) => {
+    e.preventDefault()
+    await this.props.dispatch(logout())
+    //Router.push("/auth/signin")
   }
 
   async componentDidMount() {
@@ -99,7 +105,7 @@ class DefaultLayout extends React.Component {
                       My Account
                     </a>
                     <hr className="navbar-divider"/>
-                    <a className="navbar-item has-text-danger" onClick={this.props.logout}>
+                    <a className="navbar-item has-text-danger" onClick={this.logOut}>
                       Logout
                     </a>
                   </div>
