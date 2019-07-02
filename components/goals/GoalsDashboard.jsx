@@ -14,9 +14,9 @@ class GoalsDashboard extends React.Component {
 
   render() {
     const {
-      assignedGoals,
-      teamGoals,
-      organizationGoals,
+      assignedGoals = {},
+      teamGoals = {},
+      organizationGoals = {},
 
       fetchAssignedGoals,
       fetchTeamGoals,

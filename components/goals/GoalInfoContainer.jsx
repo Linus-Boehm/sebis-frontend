@@ -25,6 +25,14 @@ class GoalInfoContainer extends React.Component {
 
   };
 
+  onDeleteGoal = async () => {
+    const { selectedGoal } = this.props;
+
+    await this.props.dispatch(GoalActions.deleteGoal(selectedGoal));
+
+    await this.onClose()
+  };
+
   onClose = async () => {
     return this.props.dispatch(GoalActions.resetSelectedGoal())
   };
@@ -35,6 +43,7 @@ class GoalInfoContainer extends React.Component {
         onUpdateGoal={this.onUpdateGoal}
         onClose={this.onClose}
         onChangeInput={this.onChangeInput}
+        onDeleteGoal={this.onDeleteGoal}
 
         {...this.props}
       />

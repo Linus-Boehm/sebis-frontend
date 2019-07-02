@@ -1,28 +1,14 @@
 import {
   ASSIGN_GOALS,
-  ASSIGN_SELECTED_GOAL,
+  ASSIGN_SELECTED_GOAL, DELETE_GOAL,
   RESET_SELECTED_GOAL
 } from '../types/goal'
 import { keyBy, map } from 'lodash';
 
 const initialState = {
   selectedGoal: {},
-  isSelectedGoalLoading: false,
 
-  goals: {},
-
-  // fetches on goals
-  assignedGoals: {
-    ids: []
-  },
-
-  teamGoals: {
-    ids: []
-  },
-
-  organizationGoals: {
-    ids: []
-  }
+  goals: {}
 };
 
 export default (state = initialState, { type, data, fetchKey }) => {
@@ -47,17 +33,25 @@ export default (state = initialState, { type, data, fetchKey }) => {
       let dataToAssign = map(data, el => ({ ...el, assignedAt: currentTime }));
       dataToAssign = keyBy(dataToAssign, '_id');
 
-      const viewData = fetchKey ? {
-        ...state[ fetchKey ],
+      const fetchData = {
         ids: Object.keys(dataToAssign),
 
         assignedAt: currentTime
-      } : undefined;
+      };
 
       return {
         ...state,
         goals: { ...state.goals, ...dataToAssign },
-        [ fetchKey ]: viewData
+        [ fetchKey ]: fetchData
+      };
+
+    case DELETE_GOAL:
+      const goals = { ...state.goals };
+      delete goals[ data._id ];
+
+      return {
+        ...state,
+        goals
       };
 
     default:

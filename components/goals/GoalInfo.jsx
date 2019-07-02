@@ -8,6 +8,12 @@ class GoalInfo extends React.Component {
     this.props.onUpdateGoal()
   };
 
+  handleDelete = (e) => {
+    e.preventDefault();
+
+    this.props.onDeleteGoal()
+  };
+
   onChange = (e) => {
     const changes = { [ e.target.name ]: e.target.value };
     this.props.onChangeInput(changes);
@@ -29,6 +35,9 @@ class GoalInfo extends React.Component {
         <div>
           <button className="button" onClick={this.handleSubmit}>
             Save
+          </button>
+          <button className="button is-danger ml-2" onClick={this.handleDelete}>
+            Delete
           </button>
         </div>
         <div className="flex justify-end">

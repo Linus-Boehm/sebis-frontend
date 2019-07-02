@@ -1,4 +1,4 @@
-import { RESET_SELECTED_GOAL, ASSIGN_SELECTED_GOAL, ASSIGN_GOALS } from '../types/goal'
+import { RESET_SELECTED_GOAL, ASSIGN_SELECTED_GOAL, ASSIGN_GOALS, DELETE_GOAL } from '../types/goal'
 import api from '~/services/BackendApi';
 
 export const resetSelectedGoal = () => async (dispatch) => {
@@ -123,6 +123,25 @@ export const updateGoal = (goal) => async (dispatch) => {
         type: ASSIGN_GOALS,
         data: [ data ],
         fetchKey: 'lastUpdatedGoal'
+      });
+    }
+
+  } catch (e) {
+    console.log(e)
+  }
+
+  throw new Error("error in action fetchAllOrganizationGoals")
+};
+
+export const deleteGoal = (goal) => async (dispatch) => {
+  try {
+    let { data, status } = await api.goals.updateGoal({ _id: goal._id, deleted_at: new Date() })
+
+    if (status === 200) {
+      return dispatch({
+        type: DELETE_GOAL,
+        data,
+        fetchKey: 'lastDeletedGoal'
       });
     }
 
