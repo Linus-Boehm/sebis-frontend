@@ -13,8 +13,8 @@ export function fetchAllAssignedGoals() {
   return Request.get(`${baseUrl()}/assigned`);
 }
 
-export function fetchAllTeamGoals() {
-  return Request.get(`${baseUrl()}/team`);
+export function fetchTeamGoals(teamId) {
+  return Request.get(`${baseUrl()}/team/${teamId}`);
 }
 
 export function fetchAllOrganizationGoals() {

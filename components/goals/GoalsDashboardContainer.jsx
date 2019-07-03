@@ -1,28 +1,43 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import * as GoalActions from '../../store/actions/goals';
-import { pick } from 'lodash';
 import GoalsDashboard from './GoalsDashboard';
 import { fetchTeams } from "../../store/actions/teams";
 
 class GoalsDashboardContainer extends React.Component {
 
   fetchAssignedGoals = async () => {
-    return this.props.dispatch(GoalActions.fetchAllAssignedGoals())
+    try {
+      await this.props.dispatch(GoalActions.fetchAllAssignedGoals())
+    } catch (e) {
+      console.log(e);
+    }
   };
 
-  fetchTeamGoals = async () => {
-    return this.props.dispatch(GoalActions.fetchAllTeamGoals())
+  fetchTeamGoals = async (teamId) => {
+    try {
+      await this.props.dispatch(GoalActions.fetchTeamGoals(teamId))
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   fetchOrganizationGoals = async () => {
-    return this.props.dispatch(GoalActions.fetchAllOrganizationGoals())
+    try {
+      await this.props.dispatch(GoalActions.fetchAllOrganizationGoals())
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   // ---
 
   async componentDidMount() {
-    await this.props.dispatch(fetchTeams());
+    try {
+      await this.props.dispatch(fetchTeams());
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   render() {
@@ -45,9 +60,7 @@ function mapStateToProps(state) {
   const {
     goals,
     selectedGoal,
-    assignedGoals,
-    teamGoals,
-    organizationGoals
+    fetches,
 
   } = state.goals;
 
@@ -63,10 +76,7 @@ function mapStateToProps(state) {
     goals,
     selectedGoal,
 
-    // fetches
-    assignedGoals,
-    teamGoals,
-    organizationGoals,
+    fetches,
 
     teams: Object.values(teamList),
     user

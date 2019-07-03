@@ -8,7 +8,9 @@ import { keyBy, map } from 'lodash';
 const initialState = {
   selectedGoal: {},
 
-  goals: {}
+  goals: {},
+
+  fetches: {}
 };
 
 export default (state = initialState, { type, data, fetchKey }) => {
@@ -42,7 +44,11 @@ export default (state = initialState, { type, data, fetchKey }) => {
       return {
         ...state,
         goals: { ...state.goals, ...dataToAssign },
-        [ fetchKey ]: fetchData
+
+        fetches: {
+          ...state.fetches,
+          [ fetchKey ]: fetchData
+        }
       };
 
     case DELETE_GOAL:

@@ -14,9 +14,7 @@ class GoalsDashboard extends React.Component {
 
   render() {
     const {
-      assignedGoals = {},
-      teamGoals = {},
-      organizationGoals = {},
+      fetches,
 
       fetchAssignedGoals,
       fetchTeamGoals,
@@ -29,7 +27,6 @@ class GoalsDashboard extends React.Component {
     const {
       searchFilter
     } = this.state;
-
 
     return (
       <div>
@@ -48,7 +45,7 @@ class GoalsDashboard extends React.Component {
             fetchItems={fetchAssignedGoals}
 
             filter={(goal) => (
-              goal.assignedAt >= assignedGoals.assignedAt &&
+              goal.assignedAt >= (fetches[ "assigned" ] || {}).assignedAt &&
               goal.assignee && user && goal.assignee._id === user._id
             )}
 
@@ -57,18 +54,21 @@ class GoalsDashboard extends React.Component {
             }}
 
             searchFilter={searchFilter}
+            fetchInterval={30000}
 
             shouldRenderSubgoals
           />
           {teams && teams.map(team => (
             <GoalList
-              key={"team_goals_" + team._id}
+              key={"team-" + team._id}
               title={"Team Goals - " + team.name}
 
-              fetchItems={fetchTeamGoals}
+              fetchItems={() => {
+                fetchTeamGoals(team._id)
+              }}
 
               filter={(goal) => (
-                goal.assignedAt >= teamGoals.assignedAt &&
+                goal.assignedAt >= (fetches[ "team-" + team._id ] || {}).assignedAt &&
                 goal.related_to === team._id
               )}
 
@@ -78,24 +78,27 @@ class GoalsDashboard extends React.Component {
               }}
 
               searchFilter={searchFilter}
+              fetchInterval={30000}
             />))
           }
           <GoalList
-            key="organization_goal"
+            key="organization"
             title="Organization Goals"
 
+            fetchItems={fetchOrganizationGoals}
+
             filter={(goal) => (
-              goal.assignedAt >= organizationGoals.assignedAt &&
+              goal.assignedAt >= (fetches[ "organization" ] || {}).assignedAt &&
               goal.related_model === 'Organization'
             )}
 
             newGoalTemplate={{
               related_model: 'Organization',
-              related_to: user ? user.organization_id : null
+              related_to: (user || {}).organization_id
             }}
             searchFilter={searchFilter}
+            fetchInterval={30000}
 
-            fetchItems={fetchOrganizationGoals}
           />
         </div>
       </div>

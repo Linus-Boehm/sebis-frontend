@@ -1,4 +1,4 @@
-import { RESET_SELECTED_GOAL, ASSIGN_SELECTED_GOAL, ASSIGN_GOALS, DELETE_GOAL } from '../types/goal'
+import { RESET_SELECTED_GOAL, ASSIGN_SELECTED_GOAL, ASSIGN_GOALS, DELETE_GOAL} from '../types/goal'
 import api from '~/services/BackendApi';
 
 export const resetSelectedGoal = () => async (dispatch) => {
@@ -46,7 +46,7 @@ export const fetchAllAssignedGoals = () => async (dispatch) => {
       return dispatch({
         type: ASSIGN_GOALS,
         data,
-        fetchKey: 'assignedGoals'
+        fetchKey: 'assigned'
       });
     }
 
@@ -57,15 +57,15 @@ export const fetchAllAssignedGoals = () => async (dispatch) => {
   throw new Error("error in action fetchAllAssignedGoals")
 };
 
-export const fetchAllTeamGoals = () => async (dispatch) => {
+export const fetchTeamGoals = (teamId) => async (dispatch) => {
   try {
-    let { data, status } = await api.goals.fetchAllTeamGoals()
+    let { data, status } = await api.goals.fetchTeamGoals(teamId)
 
     if (status === 200) {
       return dispatch({
         type: ASSIGN_GOALS,
         data,
-        fetchKey: 'teamGoals'
+        fetchKey: `team-${teamId}`
       });
     }
 
@@ -73,7 +73,7 @@ export const fetchAllTeamGoals = () => async (dispatch) => {
     console.log(e)
   }
 
-  throw new Error("error in action fetchAllAssignedGoals")
+  throw new Error("error in action fetchTeamGoals")
 };
 
 export const fetchAllOrganizationGoals = () => async (dispatch) => {
@@ -84,7 +84,7 @@ export const fetchAllOrganizationGoals = () => async (dispatch) => {
       return dispatch({
         type: ASSIGN_GOALS,
         data,
-        fetchKey: 'organizationGoals'
+        fetchKey: 'organization'
       });
     }
 
@@ -103,7 +103,7 @@ export const createGoal = (goal) => async (dispatch) => {
       return dispatch({
         type: ASSIGN_GOALS,
         data: [ data ],
-        fetchKey: 'lastCreatedGoal'
+        fetchKey: 'lastCreated'
       });
     }
 
@@ -111,7 +111,7 @@ export const createGoal = (goal) => async (dispatch) => {
     console.log(e)
   }
 
-  throw new Error("error in action fetchAllOrganizationGoals")
+  throw new Error("error in action createGoal")
 };
 
 export const updateGoal = (goal) => async (dispatch) => {
@@ -122,7 +122,7 @@ export const updateGoal = (goal) => async (dispatch) => {
       return dispatch({
         type: ASSIGN_GOALS,
         data: [ data ],
-        fetchKey: 'lastUpdatedGoal'
+        fetchKey: 'lastUpdated'
       });
     }
 
@@ -130,7 +130,7 @@ export const updateGoal = (goal) => async (dispatch) => {
     console.log(e)
   }
 
-  throw new Error("error in action fetchAllOrganizationGoals")
+  throw new Error("error in action updateGoal")
 };
 
 export const deleteGoal = (goal) => async (dispatch) => {
@@ -141,7 +141,7 @@ export const deleteGoal = (goal) => async (dispatch) => {
       return dispatch({
         type: DELETE_GOAL,
         data,
-        fetchKey: 'lastDeletedGoal'
+        fetchKey: 'lastDeleted'
       });
     }
 
@@ -149,8 +149,10 @@ export const deleteGoal = (goal) => async (dispatch) => {
     console.log(e)
   }
 
-  throw new Error("error in action fetchAllOrganizationGoals")
+  throw new Error("error in action deleteGoal")
 };
+
+
 
 
 
