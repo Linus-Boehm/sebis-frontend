@@ -60,24 +60,26 @@ class GoalsDashboard extends React.Component {
 
             shouldRenderSubgoals
           />
-          <GoalList
-            key="team_goals"
-            title="Team Goals"
+          {teams && teams.map(team => (
+            <GoalList
+              key={"team_goals_" + team._id}
+              title={"Team Goals - " + team.name}
 
-            fetchItems={fetchTeamGoals}
+              fetchItems={fetchTeamGoals}
 
-            filter={(goal) => (
-              goal.assignedAt >= teamGoals.assignedAt &&
-              goal.related_model === 'Team'
-            )}
+              filter={(goal) => (
+                goal.assignedAt >= teamGoals.assignedAt &&
+                goal.related_to === team._id
+              )}
 
-            newGoalTemplate={{
-              related_model: 'Team',
-              related_to: teams && teams.length > 0 ? teams[ 0 ]._id : null
-            }}
+              newGoalTemplate={{
+                related_model: 'Team',
+                related_to: team._id
+              }}
 
-            searchFilter={searchFilter}
-          />
+              searchFilter={searchFilter}
+            />))
+          }
           <GoalList
             key="organization_goal"
             title="Organization Goals"
