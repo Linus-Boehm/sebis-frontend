@@ -2,8 +2,17 @@ import React from "react";
 import CommentBox from "../layout/Comment/CommentBox";
 
 class GoalInfo extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      editEnabled: false
+    };
+  }
+
   handleSubmit = e => {
     e.preventDefault();
+
+    this.setState({editEnabled: false});
 
     this.props.onUpdateGoal();
   };
@@ -14,26 +23,56 @@ class GoalInfo extends React.Component {
     this.props.onDeleteGoal();
   };
 
+  handleEditGoal = e => {
+    e.preventDefault();
+
+    this.setState({editEnabled: true});
+  };
+
   onChange = e => {
     const changes = { [e.target.name]: e.target.value };
     this.props.onChangeInput(changes);
   };
 
+  componentDidUpdate(prevProps) {
+    if (prevProps.editModeEnabled !== this.props.editModeEnabled) {
+      this.setState({
+        editEnabled: this.props.editModeEnabled === true
+      })
+    }
+  }
+
+  componentDidMount() {
+    this.setState({
+      editEnabled: this.props.editModeEnabled === true
+    })
+  }
+
   render() {
-    const { selectedGoal, onClose } = this.props;
+    const { selectedGoal, onClose, editModeEnabled } = this.props;
 
     const { title, description } = selectedGoal;
 
     return (
       <div className="w-full h-full">
-        <div>
-          <button className="button" onClick={this.handleSubmit}>
-            Save
-          </button>
-          <button className="button is-danger ml-2" onClick={this.handleDelete}>
-            Delete
-          </button>
-        </div>
+          {this.state.editEnabled ?
+              <div>
+                  <button className="button" onClick={this.handleSubmit}>
+                      Save
+                  </button>
+                  <button className="button is-danger ml-2" onClick={this.handleDelete}>
+                      Delete
+                  </button>
+              </div> :
+            <div>
+              <button className="button" onClick={this.handleEditGoal}>
+                Edit
+              </button>
+              <button className="button is-danger ml-2" onClick={this.handleDelete}>
+                Delete
+              </button>
+            </div>
+          }
         <div className="flex justify-end">
           <span
             className="text-blue-400 is-size-6 cursor-pointer"
@@ -45,14 +84,18 @@ class GoalInfo extends React.Component {
         <div className="pt-2">
           <div className="field">
             <p className="control">
-              <input
-                className="input"
-                type="text"
-                name="title"
-                placeholder="Title"
-                value={title}
-                onChange={this.onChange}
-              />
+              {
+                this.state.editEnabled ?
+                  <input
+                    className="input"
+                    type="text"
+                    name="title"
+                    placeholder="Title"
+                    value={title}
+                    onChange={this.onChange}
+                  />
+                  : title
+              }
             </p>
           </div>
         </div>
