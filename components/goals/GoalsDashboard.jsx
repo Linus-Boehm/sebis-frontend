@@ -1,6 +1,6 @@
 import React from 'react';
 import SearchInput from '../../components/utils/inputs/SearchInput'
-import GoalList from "./list/GoalList";
+import GoalList from "./list/GoalListContainer";
 
 class GoalsDashboard extends React.Component {
 
@@ -14,23 +14,19 @@ class GoalsDashboard extends React.Component {
 
   render() {
     const {
-      assignedGoals,
-      teamGoals,
-      organizationGoals,
+      fetches,
 
       fetchAssignedGoals,
       fetchTeamGoals,
       fetchOrganizationGoals,
 
-      selectedGoal,
-      onSelectGoal,
-      onAddNewGoal
+      teams,
+      user = {}
     } = this.props;
 
     const {
       searchFilter
     } = this.state;
-
 
     return (
       <div>
@@ -46,38 +42,63 @@ class GoalsDashboard extends React.Component {
           <GoalList
             key="my_goals"
             title="My Goals"
-            goals={assignedGoals}
             fetchItems={fetchAssignedGoals}
-            onSelectGoal={onSelectGoal}
-            selectedGoal={selectedGoal}
-            onAddNewGoal={(parentGoal) => {
-              return onAddNewGoal('my', parentGoal)
+
+            filter={(goal) => (
+              goal.assignedAt >= (fetches[ "assigned" ] || {}).assignedAt &&
+              goal.assignee && user && goal.assignee._id === user._id
+            )}
+
+            newGoalTemplate={{
+              assignee: user ? user._id : null
             }}
+
             searchFilter={searchFilter}
-            shouldRenderSubGoals
+            fetchInterval={30000}
+
+            shouldRenderSubgoals
           />
+          {teams && teams.map(team => (
+            <GoalList
+              key={"team-" + team._id}
+              title={"Team Goals - " + team.name}
+
+              fetchItems={() => {
+                fetchTeamGoals(team._id)
+              }}
+
+              filter={(goal) => (
+                goal.assignedAt >= (fetches[ "team-" + team._id ] || {}).assignedAt &&
+                goal.related_to === team._id
+              )}
+
+              newGoalTemplate={{
+                related_model: 'Team',
+                related_to: team._id
+              }}
+
+              searchFilter={searchFilter}
+              fetchInterval={30000}
+            />))
+          }
           <GoalList
-            key="team_goals"
-            title="Team Goals"
-            goals={teamGoals}
-            onSelectGoal={onSelectGoal}
-            selectedGoal={selectedGoal}
-            onAddNewGoal={(parentGoal) => {
-              return onAddNewGoal('team', parentGoal)
-            }}
-            searchFilter={searchFilter}
-            fetchItems={fetchTeamGoals}/>
-          <GoalList
-            key="organization_goal"
+            key="organization"
             title="Organization Goals"
-            goals={organizationGoals}
-            selectedGoal={selectedGoal}
-            onSelectGoal={onSelectGoal}
-            onAddNewGoal={(parentGoal) => {
-              return onAddNewGoal('organization', parentGoal)
+
+            fetchItems={fetchOrganizationGoals}
+
+            filter={(goal) => (
+              goal.assignedAt >= (fetches[ "organization" ] || {}).assignedAt &&
+              goal.related_model === 'Organization'
+            )}
+
+            newGoalTemplate={{
+              related_model: 'Organization',
+              related_to: (user || {}).organization_id
             }}
             searchFilter={searchFilter}
-            fetchItems={fetchOrganizationGoals}
+            fetchInterval={30000}
+
           />
         </div>
       </div>

@@ -1,40 +1,44 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import * as GoalActions from '../../store/actions/goals';
-import { pick } from 'lodash';
 import GoalsDashboard from './GoalsDashboard';
+import { fetchTeams } from "../../store/actions/teams";
 
 class GoalsDashboardContainer extends React.Component {
 
-  onAddNewGoal = (context, parentGoal) => {
-    // TODO context = my|team|organization ; parentGoal=set if subgoal --> Update selectedGoal
-    this.props.dispatch(GoalActions.assignSelectedGoal({
-      _id: 'new-uuid', // TODO generate
-      title: 'New ' + context + ' Goal',
-      parent_goal: parentGoal ? parentGoal._id : undefined
-    }))
-  }
-
-  onSelectGoal = async (id) => {
-    this.props.dispatch(GoalActions.assignSelectedGoal({ _id: id, isFetching: true }))
-
-    await this.props.dispatch(GoalActions.fetchGoalById(id));
-
-    const goal = Object.values(pick(this.props.goals, id))[ 0 ];
-    return this.props.dispatch(GoalActions.assignSelectedGoal(goal))
-  };
-
   fetchAssignedGoals = async () => {
-    return this.props.dispatch(GoalActions.fetchAllAssignedGoals())
+    try {
+      await this.props.dispatch(GoalActions.fetchAllAssignedGoals())
+    } catch (e) {
+      console.log(e);
+    }
   };
 
-  fetchTeamGoals = async () => {
-    return this.props.dispatch(GoalActions.fetchAllTeamGoals())
+  fetchTeamGoals = async (teamId) => {
+    try {
+      await this.props.dispatch(GoalActions.fetchTeamGoals(teamId))
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   fetchOrganizationGoals = async () => {
-    return this.props.dispatch(GoalActions.fetchAllOrganizationGoals())
+    try {
+      await this.props.dispatch(GoalActions.fetchAllOrganizationGoals())
+    } catch (e) {
+      console.log(e);
+    }
   };
+
+  // ---
+
+  async componentDidMount() {
+    try {
+      await this.props.dispatch(fetchTeams());
+    } catch (e) {
+      console.log(e);
+    }
+  }
 
   render() {
     return (
@@ -46,7 +50,7 @@ class GoalsDashboardContainer extends React.Component {
         fetchOrganizationGoals={this.fetchOrganizationGoals}
 
         onSelectGoal={this.onSelectGoal}
-        onAddNewGoal={this.onAddNewGoal}
+        onCreateGoal={this.onCreateGoal}
       />
     )
   }
@@ -56,19 +60,26 @@ function mapStateToProps(state) {
   const {
     goals,
     selectedGoal,
-    assignedGoals,
-    teamGoals,
-    organizationGoals
+    fetches,
+
   } = state.goals;
+
+  const {
+    teamList
+  } = state.teams;
+
+  const {
+    user
+  } = state.auth;
 
   return {
     goals,
     selectedGoal,
 
-    // views
-    assignedGoals: Object.values(pick(goals, assignedGoals.ids)),
-    teamGoals: Object.values(pick(goals, teamGoals.ids)),
-    organizationGoals: Object.values(pick(goals, organizationGoals.ids))
+    fetches,
+
+    teams: Object.values(teamList),
+    user
   };
 }
 

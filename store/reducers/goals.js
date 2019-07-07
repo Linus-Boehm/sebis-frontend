@@ -1,4 +1,8 @@
-import { ASSIGN_GOALS, ASSIGN_SELECTED_GOAL, RESET_SELECTED_GOAL } from '../types/goal'
+import {
+  ASSIGN_GOALS,
+  ASSIGN_SELECTED_GOAL, DELETE_GOAL,
+  RESET_SELECTED_GOAL
+} from '../types/goal'
 import { keyBy, map } from 'lodash';
 
 const initialState = {
@@ -6,22 +10,10 @@ const initialState = {
 
   goals: {},
 
-  // views on goals
-  assignedGoals: {
-    ids: []
-  },
-
-  teamGoals: {
-    ids: []
-  },
-
-  organizationGoals: {
-    ids: []
-  },
-
+  fetches: {}
 };
 
-export default (state = initialState, { type, data, viewKey }) => {
+export default (state = initialState, { type, data, fetchKey }) => {
   console.log("reducer:goals:" + type);
 
   switch (type) {
@@ -43,17 +35,29 @@ export default (state = initialState, { type, data, viewKey }) => {
       let dataToAssign = map(data, el => ({ ...el, assignedAt: currentTime }));
       dataToAssign = keyBy(dataToAssign, '_id');
 
-      const viewData = viewKey ? {
-        ...state[ viewKey ],
+      const fetchData = {
         ids: Object.keys(dataToAssign),
 
         assignedAt: currentTime
-      } : undefined;
+      };
 
       return {
         ...state,
         goals: { ...state.goals, ...dataToAssign },
-        [ viewKey ]: viewData
+
+        fetches: {
+          ...state.fetches,
+          [ fetchKey ]: fetchData
+        }
+      };
+
+    case DELETE_GOAL:
+      const goals = { ...state.goals };
+      delete goals[ data._id ];
+
+      return {
+        ...state,
+        goals
       };
 
     default:

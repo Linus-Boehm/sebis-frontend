@@ -1,4 +1,4 @@
-import { RESET_SELECTED_GOAL, ASSIGN_SELECTED_GOAL, ASSIGN_GOALS } from '../types/goal'
+import { RESET_SELECTED_GOAL, ASSIGN_SELECTED_GOAL, ASSIGN_GOALS, DELETE_GOAL} from '../types/goal'
 import api from '~/services/BackendApi';
 
 export const resetSelectedGoal = () => async (dispatch) => {
@@ -46,7 +46,7 @@ export const fetchAllAssignedGoals = () => async (dispatch) => {
       return dispatch({
         type: ASSIGN_GOALS,
         data,
-        viewKey: 'assignedGoals'
+        fetchKey: 'assigned'
       });
     }
 
@@ -57,15 +57,15 @@ export const fetchAllAssignedGoals = () => async (dispatch) => {
   throw new Error("error in action fetchAllAssignedGoals")
 };
 
-export const fetchAllTeamGoals = () => async (dispatch) => {
+export const fetchTeamGoals = (teamId) => async (dispatch) => {
   try {
-    let { data, status } = await api.goals.fetchAllTeamGoals()
+    let { data, status } = await api.goals.fetchTeamGoals(teamId)
 
     if (status === 200) {
       return dispatch({
         type: ASSIGN_GOALS,
         data,
-        viewKey: 'teamGoals'
+        fetchKey: `team-${teamId}`
       });
     }
 
@@ -73,7 +73,7 @@ export const fetchAllTeamGoals = () => async (dispatch) => {
     console.log(e)
   }
 
-  throw new Error("error in action fetchAllAssignedGoals")
+  throw new Error("error in action fetchTeamGoals")
 };
 
 export const fetchAllOrganizationGoals = () => async (dispatch) => {
@@ -84,7 +84,7 @@ export const fetchAllOrganizationGoals = () => async (dispatch) => {
       return dispatch({
         type: ASSIGN_GOALS,
         data,
-        viewKey: 'organizationGoals'
+        fetchKey: 'organization'
       });
     }
 
@@ -94,6 +94,65 @@ export const fetchAllOrganizationGoals = () => async (dispatch) => {
 
   throw new Error("error in action fetchAllOrganizationGoals")
 };
+
+export const createGoal = (goal) => async (dispatch) => {
+  try {
+    let { data, status } = await api.goals.createGoal(goal)
+
+    if (status === 200) {
+      return dispatch({
+        type: ASSIGN_GOALS,
+        data: [ data ],
+        fetchKey: 'lastCreated'
+      });
+    }
+
+  } catch (e) {
+    console.log(e)
+  }
+
+  throw new Error("error in action createGoal")
+};
+
+export const updateGoal = (goal) => async (dispatch) => {
+  try {
+    let { data, status } = await api.goals.updateGoal(goal)
+
+    if (status === 200) {
+      return dispatch({
+        type: ASSIGN_GOALS,
+        data: [ data ],
+        fetchKey: 'lastUpdated'
+      });
+    }
+
+  } catch (e) {
+    console.log(e)
+  }
+
+  throw new Error("error in action updateGoal")
+};
+
+export const deleteGoal = (goal) => async (dispatch) => {
+  try {
+    let { data, status } = await api.goals.updateGoal({ _id: goal._id, deleted_at: new Date() })
+
+    if (status === 200) {
+      return dispatch({
+        type: DELETE_GOAL,
+        data,
+        fetchKey: 'lastDeleted'
+      });
+    }
+
+  } catch (e) {
+    console.log(e)
+  }
+
+  throw new Error("error in action deleteGoal")
+};
+
+
 
 
 

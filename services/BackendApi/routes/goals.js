@@ -13,14 +13,18 @@ export function fetchAllAssignedGoals() {
   return Request.get(`${baseUrl()}/assigned`);
 }
 
-export function fetchAllTeamGoals() {
-  return Request.get(`${baseUrl()}/team`);
+export function fetchTeamGoals(teamId) {
+  return Request.get(`${baseUrl()}/team/${teamId}`);
 }
 
 export function fetchAllOrganizationGoals() {
   return Request.get(`${baseUrl()}/organization`);
 }
 
+export function createGoal(payload) {
+  return Request.post(`${baseUrl()}`, payload);
+}
 
-
-
+export function updateGoal(payload) {
+  return Request.put(`${baseUrl()}/${payload._id}`, payload);
+}
