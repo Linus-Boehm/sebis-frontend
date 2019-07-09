@@ -1,4 +1,5 @@
 import React from "react";
+import { FaSearch } from 'react-icons/fa';
 
 const SearchInput = ({ name, value, onChange }) => (
   <div className="field">
@@ -11,8 +12,8 @@ const SearchInput = ({ name, value, onChange }) => (
         value={value}
         onChange={onChange}
       />
-      <span className="icon is-small is-left">
-        <i className="fas fa-lock"></i>
+      <span className="icon is-left is-small">
+        <FaSearch />
       </span>
     </p>
   </div>
