@@ -52,13 +52,11 @@ class CommentForm extends React.Component {
             />
           </div>
         </div>
-        <button
-          type="submit"
-          className="button is-primary is-small is-offset-6"
-          align="right"
-        >
-          Submit
-        </button>
+        <div className="flex w-full">
+          <button type="submit" className="button is-primary ml-auto ">
+            Submit
+          </button>
+        </div>
       </form>
     );
   } // end render

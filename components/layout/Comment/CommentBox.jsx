@@ -2,12 +2,14 @@ import React, { Component } from "react";
 import CommentForm from "./CommentForm";
 import UserAvatar from "../../utils/user/UserAvatar";
 
-import "bulma/css/bulma.css";
 import * as CommentActions from "../../../store/actions/comments";
 import * as UserActions from "../../../store/actions/users";
 import { connect } from "react-redux";
 import { createComment } from "../../../store/actions/comments";
 import { filter, orderBy } from "lodash";
+import moment from "moment";
+
+//var moment = require("moment");
 
 class CommentBox extends Component {
   constructor(props) {
@@ -52,8 +54,11 @@ class CommentBox extends Component {
 
             <div> {comment.text}</div>
           </div>
-          <div className="column is-6" style={{ fontSize: 10 }}>
-            <p> {comment.date}</p>
+          <div
+            className="column is-6"
+            style={{ fontSize: 12, color: "#C5C5C5", fontWeight: "bold" }}
+          >
+            <p>{moment(comment.date).fromNow()}</p>
           </div>
         </div>
       </div>
