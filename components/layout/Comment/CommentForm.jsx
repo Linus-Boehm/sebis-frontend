@@ -3,6 +3,7 @@ import _JSXStyle from "styled-jsx/style";
 import UserAvatar from "../../utils/user/UserAvatar";
 import * as CommentActions from "../../../store/actions/comments";
 import { connect } from "react-redux";
+import TextareaAutosize from "react-autosize-textarea";
 
 class CommentForm extends React.Component {
   constructor(props) {
@@ -34,7 +35,7 @@ class CommentForm extends React.Component {
   render() {
     return (
       <form onSubmit={this.handleOnSubmit}>
-        <div className="columns">
+        <label for="comment-textarea" className="columns">
           <div className="column is-2">
             <UserAvatar
               user={this.props.auth.user}
@@ -42,16 +43,17 @@ class CommentForm extends React.Component {
             />
           </div>
           <div className="column is-10 ">
-            <textarea
+            <TextareaAutosize
               className="textarea"
               type="text"
               placeholder="Write a comment..."
               rows="2"
-              //value={this.props.comments.comment.text}
+              id="comment-textarea"
+              value={this.props.comments.comment.text}
               onChange={this.handleOnChange}
             />
           </div>
-        </div>
+        </label>
         <div className="flex w-full">
           <button type="submit" className="button is-primary ml-auto ">
             Submit
