@@ -26,10 +26,10 @@ export const createComment = (comment, goalId) => async dispatch => {
   } catch (e) {}
 };
 
-export const fetchComments = goalId => async dispatch => {
+export const fetchComments = relatedToID => async dispatch => {
   try {
     console.log("FetchComments...");
-    let { data, status } = await api.comments.fetchByGoalId(goalId);
+    let { data, status } = await api.comments.fetchByRelatedToID(relatedToID);
 
     console.log(status);
     if (status === 200) {

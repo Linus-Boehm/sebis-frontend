@@ -1,6 +1,6 @@
 import React from "react";
 import CommentBox from "../layout/Comment/CommentBox";
-import { FaPencilAlt, FaUsers, FaBuilding, FaTrashAlt, FaCheck, FaTimes } from 'react-icons/fa';
+import { FaPencilAlt, FaTrashAlt, FaCheck, FaTimes } from "react-icons/fa";
 import UserAvatar from "../utils/user/UserAvatar";
 import TextareaAutosize from "react-autosize-textarea";
 
@@ -82,6 +82,7 @@ class GoalInfo extends React.Component {
             onBlur={this.handleSubmit}
             onChange={this.onChange}
             value={description ? description : ""} />
+
         </div>
 
         <h3 className="goal-info-subheader">Subgoals</h3>
@@ -92,7 +93,7 @@ class GoalInfo extends React.Component {
 
         <h3 className="goal-info-subheader">Progress</h3>
 
-        <CommentBox />
+        <CommentBox relatedTo={selectedGoal._id} />
         <div className="p-3">
           <span>{JSON.stringify(selectedGoal)}</span>
         </div>

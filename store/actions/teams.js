@@ -61,11 +61,11 @@ export const createTeam = team => async dispatch => {
     let { data, status } = await api.teams.create(team);
     if (status === 200) {
       dispatch({
-        type: ASSIGN_TEAM,
-        data: data
+        type: ASSIGN_TEAMS,
+        data: [data]
       });
       dispatch({
-        type: ASSIGN_TEAMS,
+        type: ASSIGN_TEAM,
         data: data
       });
       return data;
