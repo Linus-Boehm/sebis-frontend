@@ -1,0 +1,11 @@
+.goal-info {
+  .goal-info-subheader {
+    @apply text-lg font-bold p-1;
+  }
+  .goal-title {
+    @apply text-2xl font-bold;
+  }
+  .editable-input-and-show-value {
+    @apply p-1;
+  }
+}

@@ -1,21 +1,15 @@
 import React from "react";
 import CommentBox from "../layout/Comment/CommentBox";
-import { FaPencilAlt, FaTrashAlt, FaCheck, FaTimes } from "react-icons/fa";
-import UserAvatar from "../utils/user/UserAvatar";
+import { FaTrashAlt, FaTimes } from "react-icons/fa";
 import TextareaAutosize from "react-autosize-textarea";
+import GoalItem from "./list/GoalItem";
+import GoalAvatar from "../utils/user/GoalAvatar";
+import * as CommentActions from "../../store/actions/comments";
+import * as GoalActions from "../../store/actions/goals";
 
 class GoalInfo extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      editEnabled: false
-    };
-  }
-
   handleSubmit = e => {
     e.preventDefault();
-
-    this.setState({ editEnabled: false });
 
     this.props.onUpdateGoal();
   };
@@ -26,126 +20,84 @@ class GoalInfo extends React.Component {
     this.props.onDeleteGoal();
   };
 
-  handleEditGoal = e => {
-    e.preventDefault();
-
-    this.setState({ editEnabled: true });
-  };
-
   onChange = e => {
     const changes = { [e.target.name]: e.target.value };
     this.props.onChangeInput(changes);
   };
 
-  componentDidUpdate(prevProps) {
-    if (prevProps.editModeEnabled !== this.props.editModeEnabled) {
-      this.setState({
-        editEnabled: this.props.editModeEnabled === true
-      });
-    }
-  }
 
-  componentDidMount() {
-    this.setState({
-      editEnabled: this.props.editModeEnabled === true
-    });
-  }
+  onSelectParentGoal = id => {
+    this.props.dispatch(CommentActions.fetchComments(id));
+    return this.props.dispatch(GoalActions.assignSelectedGoal(this.props.allGoals[id]));
+  };
 
   render() {
-    const { selectedGoal, onClose } = this.props;
+    const { selectedGoal, onClose, editModeEnabled } = this.props;
 
-    const { title, description, assignee } = selectedGoal;
+    const { title, description } = selectedGoal;
 
     return (
-      <div className="w-full h-full">
+      <div className="w-full h-full goal-info">
         <div className="goal-detail-header flex">
           <div className="people justify-start flex-1">
-            {assignee ? <UserAvatar user={assignee} /> : ""}
+            <GoalAvatar className="m-1" selectedGoal={selectedGoal} />
           </div>
 
           <div className="justify-end actions">
-            {this.state.editEnabled ? (
-              <button
-                className="button"
-                title="Save goal"
-                onClick={this.handleSubmit}
-              >
-                <FaCheck />
-              </button>
-            ) : (
-              <button
-                className="button"
-                title={"Edit Goal"}
-                onClick={this.handleEditGoal}
-              >
-                <FaPencilAlt />
-              </button>
-            )}
-
-            <button
-              className="button is-danger ml-2"
-              title={"Delete Goal"}
-              onClick={this.handleDelete}
-            >
+            <button className="button is-danger ml-2" title={"Delete Goal"} onClick={this.handleDelete}>
               <FaTrashAlt />
             </button>
 
             <button
-              className="pl-6 text-gray-600 is-size-12 cursor-pointer"
+              className="ml-3 text-gray-600 is-size-12 cursor-pointer p-2"
               onClick={onClose}
             >
-              <FaTimes size={36} />
+              <FaTimes size={24} />
             </button>
           </div>
         </div>
 
-        <div className="pt-6">
+        <div className="pt-2">
           <div className="field">
-            <p className="control is-size-4">
-              {this.state.editEnabled ? (
-                <input
-                  className="input"
-                  type="text"
-                  name="title"
-                  placeholder="Title"
-                  value={title}
-                  onChange={this.onChange}
-                />
-              ) : (
-                <h2>{title}</h2>
-              )}
+            <p className="control">
+              <input
+                disabled={editModeEnabled}
+                className="input goal-title editable-input-and-show-value"
+                type="text"
+                name="title"
+                placeholder="Enter a title"
+                value={title ? title : ""}
+                onBlur={this.handleSubmit}
+                onChange={this.onChange}
+              />
             </p>
           </div>
         </div>
-        <div className="pt-4 pb-4">
-          {this.state.editEnabled ? (
-            <TextareaAutosize
-              rows={3}
-              className="input"
-              name="description"
-              placeholder="Add description..."
-              onChange={this.onChange}
-            >
-              {description}
-            </TextareaAutosize>
-          ) : description ? (
-            <span className="is-size-10 is-bold whitespace-pre-line">
-              {description}
-            </span>
-          ) : (
-            <span className="is-size-10 is-bold text-gray-500">
-              Add description...
-            </span>
-          )}
+        <div className="pt-2">
+          <TextareaAutosize
+            disabled={editModeEnabled}
+            rows={3}
+            className="input editable-input-and-show-value"
+            name="description"
+            placeholder="Add description..."
+            onBlur={this.handleSubmit}
+            onChange={this.onChange}
+            value={description ? description : ""} />
+
         </div>
 
-        <h3 className="is-size-5">Subgoals</h3>
+        <h3 className="goal-info-subheader">Subgoals</h3>
 
-        <h3 className="is-size-5">Linked to</h3>
+        <h3 className="goal-info-subheader">Linked to</h3>
 
-        <h3 className="is-size-5">Contributing to</h3>
+        {selectedGoal.parent_goal &&
+            <div>
+              <h3 className="goal-info-subheader">Contributing to</h3>
+              <GoalItem goal={this.props.allGoals[selectedGoal.parent_goal]} onSelect={this.onSelectParentGoal} />
+            </div>
+        }
 
-        <h3 className="is-size-5">Progress</h3>
+        <h3 className="goal-info-subheader">Progress</h3>
 
         <CommentBox relatedTo={selectedGoal._id} />
         <div className="p-3">
