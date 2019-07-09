@@ -17,7 +17,7 @@ class MenuSidebar extends React.Component {
     let teamItems =
       teams.length > 0 ? (
         teams.map(team => (
-          <ActiveLink href={"/team/dashboard"}>
+          <ActiveLink href={"/app/teams?id=" + team._id}>
             <div key={team.id}>
               <a>{team.name}</a>
             </div>
