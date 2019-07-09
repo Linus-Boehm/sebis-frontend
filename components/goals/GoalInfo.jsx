@@ -4,6 +4,7 @@ import { FaTrashAlt, FaTimes } from "react-icons/fa";
 import TextareaAutosize from "react-autosize-textarea";
 import GoalItem from "./list/GoalItem";
 import GoalAvatar from "../utils/user/GoalAvatar";
+import SubGoalList from "./list/SubGoalList";
 import * as CommentActions from "../../store/actions/comments";
 import * as GoalActions from "../../store/actions/goals";
 
@@ -20,15 +21,14 @@ class GoalInfo extends React.Component {
     this.props.onDeleteGoal();
   };
 
+  onSelectGoal = id => {
+    this.props.dispatch(CommentActions.fetchComments(id));
+    return this.props.dispatch(GoalActions.assignSelectedGoal(this.props.allGoals[id]));
+  };
+
   onChange = e => {
     const changes = { [e.target.name]: e.target.value };
     this.props.onChangeInput(changes);
-  };
-
-
-  onSelectParentGoal = id => {
-    this.props.dispatch(CommentActions.fetchComments(id));
-    return this.props.dispatch(GoalActions.assignSelectedGoal(this.props.allGoals[id]));
   };
 
   render() {
@@ -86,23 +86,27 @@ class GoalInfo extends React.Component {
 
         </div>
 
-        <h3 className="goal-info-subheader">Subgoals</h3>
+        <SubGoalList
+          parentGoal={selectedGoal}
+          {...this.props}/>
 
-        <h3 className="goal-info-subheader">Linked to</h3>
+        {selectedGoal.related_to != null &&
+          <div>
+            <h3 className="goal-info-subheader">Linked to</h3>
+
+          </div>
+        }
 
         {selectedGoal.parent_goal &&
             <div>
               <h3 className="goal-info-subheader">Contributing to</h3>
-              <GoalItem goal={this.props.allGoals[selectedGoal.parent_goal]} onSelect={this.onSelectParentGoal} />
+              <GoalItem goal={this.props.allGoals[selectedGoal.parent_goal]} onSelect={this.onSelectGoal} />
             </div>
         }
 
         <h3 className="goal-info-subheader">Progress</h3>
 
         <CommentBox relatedTo={selectedGoal._id} />
-        <div className="p-3">
-          <span>{JSON.stringify(selectedGoal)}</span>
-        </div>
       </div>
     );
   }

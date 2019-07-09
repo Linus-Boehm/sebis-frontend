@@ -68,7 +68,7 @@ class CommentBox extends Component {
       <div className="comment-box">
         {commentItems}
         <div className="columns" />
-        <h3 className="blue-title is-size-5">Add a comment</h3>
+        <h3 className="blue-title goal-info-subheader">Add a comment</h3>
         <CommentForm />
       </div>
     );

@@ -1,5 +1,5 @@
 import React from "react";
-import { FaUsers, FaBuilding } from "react-icons/fa";
+import { FaUsers, FaBuilding, FaFileContract } from "react-icons/fa";
 import UserAvatar from "./UserAvatar";
 
 class GoalAvatar extends React.Component {
@@ -14,8 +14,15 @@ class GoalAvatar extends React.Component {
           <UserAvatar size={size} className={this.props.className} user={selectedGoal.assignee} />
           :
           ( selectedGoal.related_model === "Organization" ?
+              /* Organization */
               <UserAvatar size={size} className={this.props.className}><FaBuilding/></UserAvatar> :
-              <UserAvatar size={size} className={this.props.className}><FaUsers/></UserAvatar>
+            (
+              selectedGoal.related_model === "ObjectiveAgreement" ?
+                /* Objective Agreement */
+                <UserAvatar size={size} className={this.props.className}><FaFileContract/></UserAvatar> :
+                /* Team */
+                <UserAvatar size={size} className={this.props.className}><FaUsers/></UserAvatar>
+            )
           )
   }
 
