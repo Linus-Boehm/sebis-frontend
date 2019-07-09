@@ -1,6 +1,6 @@
 import React from "react";
 import CommentBox from "../layout/Comment/CommentBox";
-import { FaPencilAlt, FaTrashAlt, FaCheck, FaTimes } from "react-icons/fa";
+import { FaTrashAlt, FaUsers, FaBuilding, FaTimes } from "react-icons/fa";
 import UserAvatar from "../utils/user/UserAvatar";
 import TextareaAutosize from "react-autosize-textarea";
 
