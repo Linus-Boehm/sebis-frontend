@@ -21,6 +21,7 @@ import ConfirmModal from "../../../components/utils/modal/ConfirmModal";
 import UserSearchSelect from "../../../components/user/UserSearchSelect";
 import {filter, indexOf} from "lodash";
 import UserAvatar from "../../../components/utils/user/UserAvatar";
+import {fetchUsers} from "../../../store/actions/users";
 
 
 class EditTeam extends React.Component {
@@ -111,6 +112,7 @@ class EditTeam extends React.Component {
         console.log("Init Teams");
         await this.props.dispatch(resetTeam());
         await this.props.dispatch(fetchTeamById(this.props.currentId));
+        await this.props.dispatch(fetchUsers());
     }
 
 
