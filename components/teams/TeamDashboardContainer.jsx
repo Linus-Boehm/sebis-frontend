@@ -27,12 +27,7 @@ class TeamDashboardContainer extends React.Component {
 
   render() {
     return (
-      <TeamDashboard
-        {...this.props}
-        fetchTeamGoals={this.fetchTeamGoals}
-        onSelectGoal={this.onSelectGoal}
-        onCreateGoal={this.onCreateGoal}
-      />
+      <TeamDashboard {...this.props} fetchTeamGoals={this.fetchTeamGoals} />
     );
   }
 }

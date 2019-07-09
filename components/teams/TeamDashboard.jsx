@@ -1,6 +1,6 @@
 import React from "react";
 import SearchInput from "../../components/utils/inputs/SearchInput";
-import GoalList from "../goals/list/GoalList";
+import GoalList from "../goals/list/GoalListContainer";
 import * as UserActions from "../../store/actions/teams";
 import { fetchTeams } from "../../store/actions/teams";
 import { connect } from "react-redux";
@@ -17,13 +17,7 @@ class TeamDashboard extends React.Component {
   }
 
   render() {
-    const {
-      fetches,
-      fetchTeamGoals,
-
-      teams,
-      user = {}
-    } = this.props;
+    const { fetches, fetchTeamGoals } = this.props;
 
     const { searchFilter } = this.state;
 
@@ -41,10 +35,18 @@ class TeamDashboard extends React.Component {
           <GoalList
             key={"team-" + this.props.team_id}
             title={"Team Goals - " + this.props.teams.team.name}
+            fetchItems={() => {
+              fetchTeamGoals(this.props.team_id);
+            }}
             newGoalTemplate={{
               related_model: "Team",
               related_to: this.props.team_id
             }}
+            filter={goal =>
+              goal.assignedAt >=
+                (fetches["team-" + this.props.team_id] || {}).assignedAt &&
+              goal.related_to === this.props.team_id
+            }
             searchFilter={searchFilter}
             fetchInterval={30000}
           />
