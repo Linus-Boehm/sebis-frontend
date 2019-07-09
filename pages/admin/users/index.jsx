@@ -71,7 +71,6 @@ class Index extends React.Component {
             <td>{user.lastname}</td>
             <td>
               <ButtonGroup>
-                <ShowButton />
                 <Link href={"/admin/users/edit?id=" + user._id}>
                   <EditButton />
                 </Link>

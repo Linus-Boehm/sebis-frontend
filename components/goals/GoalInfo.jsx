@@ -1,6 +1,6 @@
 import React from "react";
 import CommentBox from "../layout/Comment/CommentBox";
-import { FaPencilAlt, FaTrashAlt, FaCheck, FaTimes } from 'react-icons/fa';
+import { FaPencilAlt, FaTrashAlt, FaCheck, FaTimes } from "react-icons/fa";
 import UserAvatar from "../utils/user/UserAvatar";
 import TextareaAutosize from "react-autosize-textarea";
 
@@ -15,7 +15,7 @@ class GoalInfo extends React.Component {
   handleSubmit = e => {
     e.preventDefault();
 
-    this.setState({editEnabled: false});
+    this.setState({ editEnabled: false });
 
     this.props.onUpdateGoal();
   };
@@ -29,7 +29,7 @@ class GoalInfo extends React.Component {
   handleEditGoal = e => {
     e.preventDefault();
 
-    this.setState({editEnabled: true});
+    this.setState({ editEnabled: true });
   };
 
   onChange = e => {
@@ -41,14 +41,14 @@ class GoalInfo extends React.Component {
     if (prevProps.editModeEnabled !== this.props.editModeEnabled) {
       this.setState({
         editEnabled: this.props.editModeEnabled === true
-      })
+      });
     }
   }
 
   componentDidMount() {
     this.setState({
       editEnabled: this.props.editModeEnabled === true
-    })
+    });
   }
 
   render() {
@@ -60,20 +60,33 @@ class GoalInfo extends React.Component {
       <div className="w-full h-full">
         <div className="goal-detail-header flex">
           <div className="people justify-start flex-1">
-            { assignee ? <UserAvatar user={assignee} /> : "" }
+            {assignee ? <UserAvatar user={assignee} /> : ""}
           </div>
 
           <div className="justify-end actions">
-            {this.state.editEnabled ?
-              <button className="button" title="Save goal" onClick={this.handleSubmit}>
-                <FaCheck/>
-              </button> :
-              <button className="button" title={"Edit Goal"} onClick={this.handleEditGoal}>
+            {this.state.editEnabled ? (
+              <button
+                className="button"
+                title="Save goal"
+                onClick={this.handleSubmit}
+              >
+                <FaCheck />
+              </button>
+            ) : (
+              <button
+                className="button"
+                title={"Edit Goal"}
+                onClick={this.handleEditGoal}
+              >
                 <FaPencilAlt />
               </button>
-            }
+            )}
 
-            <button className="button is-danger ml-2" title={"Delete Goal"} onClick={this.handleDelete}>
+            <button
+              className="button is-danger ml-2"
+              title={"Delete Goal"}
+              onClick={this.handleDelete}
+            >
               <FaTrashAlt />
             </button>
 
@@ -89,33 +102,41 @@ class GoalInfo extends React.Component {
         <div className="pt-6">
           <div className="field">
             <p className="control is-size-4">
-              {
-                this.state.editEnabled ?
-                  <input
-                    className="input"
-                    type="text"
-                    name="title"
-                    placeholder="Title"
-                    value={title}
-                    onChange={this.onChange}
-                  />
-                  : <h2>{title}</h2>
-              }
+              {this.state.editEnabled ? (
+                <input
+                  className="input"
+                  type="text"
+                  name="title"
+                  placeholder="Title"
+                  value={title}
+                  onChange={this.onChange}
+                />
+              ) : (
+                <h2>{title}</h2>
+              )}
             </p>
           </div>
         </div>
         <div className="pt-4 pb-4">
-          {
-            this.state.editEnabled ?
-              <TextareaAutosize rows={3} className="input" name="description" placeholder="Add description..." onChange={this.onChange}>{description}</TextareaAutosize>
-              :
-              (
-                description ?
-                  <span className="is-size-10 is-bold whitespace-pre-line">{description}</span>
-                 :
-                  <span className="is-size-10 is-bold text-gray-500">Add description...</span>
-              )
-          }
+          {this.state.editEnabled ? (
+            <TextareaAutosize
+              rows={3}
+              className="input"
+              name="description"
+              placeholder="Add description..."
+              onChange={this.onChange}
+            >
+              {description}
+            </TextareaAutosize>
+          ) : description ? (
+            <span className="is-size-10 is-bold whitespace-pre-line">
+              {description}
+            </span>
+          ) : (
+            <span className="is-size-10 is-bold text-gray-500">
+              Add description...
+            </span>
+          )}
         </div>
 
         <h3 className="is-size-5">Subgoals</h3>
@@ -126,7 +147,7 @@ class GoalInfo extends React.Component {
 
         <h3 className="is-size-5">Progress</h3>
 
-        <CommentBox />
+        <CommentBox relatedTo={selectedGoal._id} />
         <div className="p-3">
           <span>{JSON.stringify(selectedGoal)}</span>
         </div>
