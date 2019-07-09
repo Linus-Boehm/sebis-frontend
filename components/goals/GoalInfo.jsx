@@ -1,8 +1,11 @@
 import React from "react";
 import CommentBox from "../layout/Comment/CommentBox";
-import { FaTrashAlt, FaUsers, FaBuilding, FaTimes } from "react-icons/fa";
-import UserAvatar from "../utils/user/UserAvatar";
+import { FaTrashAlt, FaTimes } from "react-icons/fa";
 import TextareaAutosize from "react-autosize-textarea";
+import GoalItem from "./list/GoalItem";
+import GoalAvatar from "../utils/user/GoalAvatar";
+import * as CommentActions from "../../store/actions/comments";
+import * as GoalActions from "../../store/actions/goals";
 
 class GoalInfo extends React.Component {
   handleSubmit = e => {
@@ -22,24 +25,22 @@ class GoalInfo extends React.Component {
     this.props.onChangeInput(changes);
   };
 
+
+  onSelectParentGoal = id => {
+    this.props.dispatch(CommentActions.fetchComments(id));
+    return this.props.dispatch(GoalActions.assignSelectedGoal(this.props.allGoals[id]));
+  };
+
   render() {
     const { selectedGoal, onClose, editModeEnabled } = this.props;
 
-    const { title, description, assignee } = selectedGoal;
+    const { title, description } = selectedGoal;
 
     return (
       <div className="w-full h-full goal-info">
         <div className="goal-detail-header flex">
           <div className="people justify-start flex-1">
-            {
-              assignee ?
-                <UserAvatar className="m-1" user={assignee} />
-                :
-                ( selectedGoal.related_model === "Organization" ?
-                  <UserAvatar className="m-1"><FaBuilding/></UserAvatar> :
-                  <UserAvatar className="m-1"><FaUsers/></UserAvatar>
-                )
-            }
+            <GoalAvatar className="m-1" selectedGoal={selectedGoal} />
           </div>
 
           <div className="justify-end actions">
@@ -89,7 +90,12 @@ class GoalInfo extends React.Component {
 
         <h3 className="goal-info-subheader">Linked to</h3>
 
-        <h3 className="goal-info-subheader">Contributing to</h3>
+        {selectedGoal.parent_goal &&
+            <div>
+              <h3 className="goal-info-subheader">Contributing to</h3>
+              <GoalItem goal={this.props.allGoals[selectedGoal.parent_goal]} onSelect={this.onSelectParentGoal} />
+            </div>
+        }
 
         <h3 className="goal-info-subheader">Progress</h3>
 
