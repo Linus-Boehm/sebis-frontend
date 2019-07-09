@@ -1,5 +1,8 @@
 import React from "react";
 import CommentBox from "../layout/Comment/CommentBox";
+import { FaPencilAlt, FaTrashAlt, FaCheck, FaTimes } from 'react-icons/fa';
+import UserAvatar from "../utils/user/UserAvatar";
+import TextareaAutosize from "react-autosize-textarea";
 
 class GoalInfo extends React.Component {
   constructor(props) {
@@ -49,41 +52,43 @@ class GoalInfo extends React.Component {
   }
 
   render() {
-    const { selectedGoal, onClose, editModeEnabled } = this.props;
+    const { selectedGoal, onClose } = this.props;
 
-    const { title, description } = selectedGoal;
+    const { title, description, assignee } = selectedGoal;
 
     return (
       <div className="w-full h-full">
-          {this.state.editEnabled ?
-              <div>
-                  <button className="button" onClick={this.handleSubmit}>
-                      Save
-                  </button>
-                  <button className="button is-danger ml-2" onClick={this.handleDelete}>
-                      Delete
-                  </button>
-              </div> :
-            <div>
-              <button className="button" onClick={this.handleEditGoal}>
-                Edit
+        <div className="goal-detail-header flex">
+          <div className="people justify-start flex-1">
+            { assignee ? <UserAvatar user={assignee} /> : "" }
+          </div>
+
+          <div className="justify-end actions">
+            {this.state.editEnabled ?
+              <button className="button" title="Save goal" onClick={this.handleSubmit}>
+                <FaCheck/>
+              </button> :
+              <button className="button" title={"Edit Goal"} onClick={this.handleEditGoal}>
+                <FaPencilAlt />
               </button>
-              <button className="button is-danger ml-2" onClick={this.handleDelete}>
-                Delete
-              </button>
-            </div>
-          }
-        <div className="flex justify-end">
-          <span
-            className="text-blue-400 is-size-6 cursor-pointer"
-            onClick={onClose}
-          >
-            Close
-          </span>
+            }
+
+            <button className="button is-danger ml-2" title={"Delete Goal"} onClick={this.handleDelete}>
+              <FaTrashAlt />
+            </button>
+
+            <button
+              className="pl-6 text-gray-600 is-size-12 cursor-pointer"
+              onClick={onClose}
+            >
+              <FaTimes size={36} />
+            </button>
+          </div>
         </div>
-        <div className="pt-2">
+
+        <div className="pt-6">
           <div className="field">
-            <p className="control">
+            <p className="control is-size-4">
               {
                 this.state.editEnabled ?
                   <input
@@ -94,20 +99,32 @@ class GoalInfo extends React.Component {
                     value={title}
                     onChange={this.onChange}
                   />
-                  : title
+                  : <h2>{title}</h2>
               }
             </p>
           </div>
         </div>
-        <div className="pt-2">
-          {description ? (
-            <span className="is-size-6 is-bold">{description}</span>
-          ) : (
-            <span className="is-size-6 is-bold text-gray-500">
-              Add description...
-            </span>
-          )}
+        <div className="pt-4 pb-4">
+          {
+            this.state.editEnabled ?
+              <TextareaAutosize rows={3} className="input" name="description" placeholder="Add description..." onChange={this.onChange}>{description}</TextareaAutosize>
+              :
+              (
+                description ?
+                  <span className="is-size-10 is-bold whitespace-pre-line">{description}</span>
+                 :
+                  <span className="is-size-10 is-bold text-gray-500">Add description...</span>
+              )
+          }
         </div>
+
+        <h3 className="is-size-5">Subgoals</h3>
+
+        <h3 className="is-size-5">Linked to</h3>
+
+        <h3 className="is-size-5">Contributing to</h3>
+
+        <h3 className="is-size-5">Progress</h3>
 
         <CommentBox />
         <div className="p-3">
