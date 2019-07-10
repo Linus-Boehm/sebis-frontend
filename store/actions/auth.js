@@ -2,6 +2,7 @@ import Router from 'next/router';
 import api from '~/services/BackendApi';
 import Request from '~/services/BackendApi/Request';
 import {AUTHENTICATE, LOGOUT, USER} from '../types/auth';
+import {ASSIGN_TEAMS} from "../types/team";
 
 // register user
 export const register = (userInfo) => async (dispatch) => {
@@ -31,6 +32,7 @@ export const login = ({email, password}) => async (dispatch) => {
         const {data, status} = await api.auth.login({email, password})
         if (status === 200) {
             dispatch({type: AUTHENTICATE, payload: {token: data.token, user: data.user}});
+            dispatch({type: ASSIGN_TEAMS, payload: data.teams});
             Router.push('/app/dashboard');
             return data
         }
@@ -67,7 +69,8 @@ export const reauthenticate = async (dispatch) => {
             console.log(status)
             if(status === 200){
                 console.log(data)
-                dispatch({type: AUTHENTICATE, payload: {token: token, user: data}});
+                dispatch({type: ASSIGN_TEAMS, payload: data.teams});
+                dispatch({type: AUTHENTICATE, payload: {token: token, user: data.user}});
                 return true
             }
         }catch (e) {
