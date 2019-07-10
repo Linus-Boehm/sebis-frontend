@@ -1,40 +1,15 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import * as GoalActions from '../../store/actions/goals';
 import GoalsDashboard from './GoalsDashboard';
 import { fetchTeams } from "../../store/actions/teams";
 
 class GoalsDashboardContainer extends React.Component {
 
-  fetchAssignedGoals = async () => {
-    try {
-      await this.props.dispatch(GoalActions.fetchAllAssignedGoals())
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
-  fetchTeamGoals = async (teamId) => {
-    try {
-      await this.props.dispatch(GoalActions.fetchTeamGoals(teamId))
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
-  fetchOrganizationGoals = async () => {
-    try {
-      await this.props.dispatch(GoalActions.fetchAllOrganizationGoals())
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
-  // ---
-
   async componentDidMount() {
     try {
-      await this.props.dispatch(fetchTeams());
+
+      this.props.dispatch(fetchTeams())
+
     } catch (e) {
       console.log(e);
     }
@@ -44,42 +19,31 @@ class GoalsDashboardContainer extends React.Component {
     return (
       <GoalsDashboard
         {...this.props}
-
-        fetchAssignedGoals={this.fetchAssignedGoals}
-        fetchTeamGoals={this.fetchTeamGoals}
-        fetchOrganizationGoals={this.fetchOrganizationGoals}
-
-        onSelectGoal={this.onSelectGoal}
-        onCreateGoal={this.onCreateGoal}
       />
     )
   }
 }
 
+function filterByMyTeams(allTeams, user) {
+  return allTeams.filter((team) => {
+    const isUserInTeam = team.team_roles.findIndex(
+      (teamRole) => user && teamRole && teamRole.user_id === user._id
+    );
+    return isUserInTeam !== -1
+  })
+}
+
 function mapStateToProps(state) {
-  const {
-    goals,
-    selectedGoal,
-    fetches,
-
-  } = state.goals;
-
   const {
     teamList
   } = state.teams;
 
   const {
     user
-  } = state.auth;
+  } = state.users;
 
   return {
-    goals,
-    selectedGoal,
-
-    fetches,
-
-    teams: Object.values(teamList),
-    user
+    teams: Object.values(teamList)//filterByMyTeams(Object.values(teamList), user),
   };
 }
 

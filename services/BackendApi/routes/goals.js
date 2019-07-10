@@ -9,8 +9,12 @@ export function fetchById(id) {
   return Request.get(`${baseUrl()}/${id}`);
 }
 
-export function fetchAllAssignedGoals() {
-  return Request.get(`${baseUrl()}/assigned`);
+export function fetchMyGoals() {
+  return Request.get(`${baseUrl()}/my`);
+}
+
+export function fetchAgreementGoals(aggrementId) {
+  return Request.get(`${baseUrl()}/agreement/${aggrementId}`);
 }
 
 export function fetchTeamGoals(teamId) {

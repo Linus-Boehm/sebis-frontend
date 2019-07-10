@@ -70,9 +70,10 @@ class GoalList extends React.Component {
 
   renderListItems = () => {
     const {
+      disableGoalAdd,
       shouldRenderSubgoals,
       selectedGoal,
-      onSelectGoal,
+      onSelectItem,
       searchFilter,
 
       onCreateGoal
@@ -99,7 +100,7 @@ class GoalList extends React.Component {
           <GoalItem
             key={goal._id}
             goal={goal}
-            onSelect={onSelectGoal}
+            onSelect={onSelectItem}
             searchFilter={searchFilter}
             isSelected={selectedGoal && selectedGoal._id === goal._id}
           />
@@ -108,7 +109,7 @@ class GoalList extends React.Component {
                 <GoalItem
                   key={subGoal._id}
                   goal={subGoal}
-                  onSelect={onSelectGoal}
+                  onSelect={onSelectItem}
                   isSelected={selectedGoal && selectedGoal._id === subGoal._id}
                   searchFilter={searchFilter}
                   isSubGoal
@@ -121,12 +122,11 @@ class GoalList extends React.Component {
         </React.Fragment>
       )
     }).concat([
-      <AddGoalItem key='add' onCreateGoal={onCreateGoal}/>
+      !disableGoalAdd && <AddGoalItem key='add' onCreateGoal={onCreateGoal}/>
     ])
   };
 
   render() {
-
     return (
       <div className="flex flex-col w-full">
         <div className="flex justify-start">

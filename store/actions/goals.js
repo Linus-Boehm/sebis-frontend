@@ -1,4 +1,4 @@
-import { RESET_SELECTED_GOAL, ASSIGN_SELECTED_GOAL, ASSIGN_GOALS, DELETE_GOAL} from '../types/goal'
+import { RESET_SELECTED_GOAL, ASSIGN_SELECTED_GOAL, ASSIGN_GOALS, DELETE_GOAL } from '../types/goal'
 import api from '~/services/BackendApi';
 
 export const resetSelectedGoal = () => async (dispatch) => {
@@ -38,15 +38,34 @@ export const fetchGoalById = (id, useCache = true) => async (dispatch, getState)
   throw new Error("error in action fetchGoalById")
 };
 
-export const fetchAllAssignedGoals = () => async (dispatch) => {
+export const fetchMyGoals = () => async (dispatch) => {
   try {
-    let { data, status } = await api.goals.fetchAllAssignedGoals()
+    let { data, status } = await api.goals.fetchMyGoals()
 
     if (status === 200) {
       return dispatch({
         type: ASSIGN_GOALS,
         data,
-        fetchKey: 'assigned'
+        fetchKey: 'my'
+      });
+    }
+
+  } catch (e) {
+    console.log(e)
+  }
+
+  throw new Error("error in action fetchAllAssignedGoals")
+};
+
+export const fetchAgreementGoals = (agreementId) => async (dispatch) => {
+  try {
+    let { data, status } = await api.goals.fetchMyGoals()
+
+    if (status === 200) {
+      return dispatch({
+        type: ASSIGN_GOALS,
+        data,
+        fetchKey: `agreement-${agreementId}`,
       });
     }
 

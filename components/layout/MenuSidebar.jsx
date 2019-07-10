@@ -43,7 +43,7 @@ class MenuSidebar extends React.Component {
                 </ActiveLink>
               </li>
               <li>
-                <Link>
+                <Link href={"/app/agreements/my"}>
                   <a>My Agreements</a>
                 </Link>
               </li>

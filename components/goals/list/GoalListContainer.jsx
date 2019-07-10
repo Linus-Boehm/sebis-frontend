@@ -25,7 +25,7 @@ class GoalListContainer extends React.Component {
     }
   }
 
-  onSelectGoal = async (id) => {
+  onSelectItem = async (id) => {
     const goal = Object.values(pick(this.props.allGoals, id))[ 0 ];
 
     return this.props.dispatch(GoalActions.assignSelectedGoal(goal))
@@ -43,7 +43,7 @@ class GoalListContainer extends React.Component {
 
     await this.props.dispatch(GoalActions.createGoal(newGoal));
 
-    await this.onSelectGoal(newGoal._id)
+    await this.onSelectItem(newGoal._id)
   };
 
   render() {
@@ -51,7 +51,7 @@ class GoalListContainer extends React.Component {
     return (
       <GoalList
         onCreateGoal={this.onCreateGoal}
-        onSelectGoal={this.onSelectGoal}
+        onSelectGoal={this.onSelectItem}
         goals={Object.values(this.props.allGoals)}
         filter={() => true}
 

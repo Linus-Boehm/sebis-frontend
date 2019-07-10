@@ -5,9 +5,6 @@ import {
   RESET_USER
 } from "../types/user";
 
-import { ASSIGN_TEAMS } from "../types/team";
-import Router from "next/router";
-import Request from "~/services/BackendApi/Request";
 import api from "~/services/BackendApi";
 
 export const resetUser = () => async dispatch => {

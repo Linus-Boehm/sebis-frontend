@@ -3,19 +3,23 @@ import CommentBox from "../layout/Comment/CommentBox";
 import { FaPencilAlt, FaTrashAlt, FaCheck, FaTimes } from 'react-icons/fa';
 import UserAvatar from "../utils/user/UserAvatar";
 import TextareaAutosize from "react-autosize-textarea";
+import ConfirmModal from "../utils/modal/ConfirmModal";
 
 class GoalInfo extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      editEnabled: false
+      editEnabled: false,
+      isDeleteModalVisible: false
     };
   }
 
   handleSubmit = e => {
     e.preventDefault();
 
-    this.setState({editEnabled: false});
+    this.setState({
+      editEnabled: false
+    });
 
     this.props.onUpdateGoal();
   };
@@ -29,21 +33,17 @@ class GoalInfo extends React.Component {
   handleEditGoal = e => {
     e.preventDefault();
 
-    this.setState({editEnabled: true});
+    this.setState({ editEnabled: true });
   };
+
+  setDeleteModalVisibility = (isDeleteModalVisible = false) => {
+    this.setState({ isDeleteModalVisible });
+  }
 
   onChange = e => {
-    const changes = { [e.target.name]: e.target.value };
+    const changes = { [ e.target.name ]: e.target.value };
     this.props.onChangeInput(changes);
   };
-
-  componentDidUpdate(prevProps) {
-    if (prevProps.editModeEnabled !== this.props.editModeEnabled) {
-      this.setState({
-        editEnabled: this.props.editModeEnabled === true
-      })
-    }
-  }
 
   componentDidMount() {
     this.setState({
@@ -60,7 +60,7 @@ class GoalInfo extends React.Component {
       <div className="w-full h-full">
         <div className="goal-detail-header flex">
           <div className="people justify-start flex-1">
-            { assignee ? <UserAvatar user={assignee} /> : "" }
+            {assignee ? <UserAvatar user={assignee}/> : ""}
           </div>
 
           <div className="justify-end actions">
@@ -69,19 +69,34 @@ class GoalInfo extends React.Component {
                 <FaCheck/>
               </button> :
               <button className="button" title={"Edit Goal"} onClick={this.handleEditGoal}>
-                <FaPencilAlt />
+                <FaPencilAlt/>
               </button>
             }
 
-            <button className="button is-danger ml-2" title={"Delete Goal"} onClick={this.handleDelete}>
-              <FaTrashAlt />
+            <button className="button is-danger ml-2" title={"Delete Goal"}
+                    onClick={() => {
+                      this.setDeleteModalVisibility(true)
+                    }}>
+              <FaTrashAlt/>
             </button>
+            <ConfirmModal
+              title="Confirm Delete"
+              active={this.state.isDeleteModalVisible}
+              confirmButtonType="is-danger"
+              confirmButtonText="Delete"
+              onCloseModal={() => {
+                this.setDeleteModalVisibility(false)
+              }}
+              onConfirm={this.handleDelete}
+            >
+              Are you sure?
+            </ConfirmModal>
 
             <button
               className="pl-6 text-gray-600 is-size-12 cursor-pointer"
               onClick={onClose}
             >
-              <FaTimes size={36} />
+              <FaTimes size={36}/>
             </button>
           </div>
         </div>
@@ -107,12 +122,13 @@ class GoalInfo extends React.Component {
         <div className="pt-4 pb-4">
           {
             this.state.editEnabled ?
-              <TextareaAutosize rows={3} className="input" name="description" placeholder="Add description..." onChange={this.onChange}>{description}</TextareaAutosize>
+              <TextareaAutosize rows={3} className="input" name="description" placeholder="Add description..."
+                                onChange={this.onChange}>{description}</TextareaAutosize>
               :
               (
                 description ?
                   <span className="is-size-10 is-bold whitespace-pre-line">{description}</span>
-                 :
+                  :
                   <span className="is-size-10 is-bold text-gray-500">Add description...</span>
               )
           }
@@ -126,7 +142,7 @@ class GoalInfo extends React.Component {
 
         <h3 className="is-size-5">Progress</h3>
 
-        <CommentBox />
+        <CommentBox/>
         <div className="p-3">
           <span>{JSON.stringify(selectedGoal)}</span>
         </div>
