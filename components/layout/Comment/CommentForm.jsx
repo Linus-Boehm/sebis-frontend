@@ -8,6 +8,12 @@ import TextareaAutosize from "react-autosize-textarea";
 class CommentForm extends React.Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      isLoading: false
+    };
+
+    this.commentTextarea = React.createRef();
   }
 
   handleOnChange = e => {
@@ -17,9 +23,14 @@ class CommentForm extends React.Component {
       })
     );
   };
+
   handleOnSubmit = async e => {
     e.preventDefault();
     try {
+      this.setState({
+        isLoading: true
+      });
+
       await this.props.dispatch(
         CommentActions.createComment(
           this.props.comments.comment,
@@ -30,11 +41,18 @@ class CommentForm extends React.Component {
       console.error(e);
       //TODO add fancy notification
     }
+    this.setState({
+      isLoading: false
+    });
+
+    if(this.commentTextarea.current != null) {
+      this.commentTextarea.current.focus();
+    }
   };
 
   render() {
     return (
-      <form onSubmit={this.handleOnSubmit}>
+      <form className={this.props.className} onSubmit={this.handleOnSubmit}>
         <label for="comment-textarea" className="columns">
           <div className="column is-2">
             <UserAvatar
@@ -44,10 +62,12 @@ class CommentForm extends React.Component {
           </div>
           <div className="column is-10 ">
             <TextareaAutosize
+              disabled={this.state.isLoading}
               className="textarea"
               type="text"
               placeholder="Write a comment..."
               rows="2"
+              ref={this.commentTextarea}
               id="comment-textarea"
               value={this.props.comments.comment.text}
               onChange={this.handleOnChange}
@@ -55,7 +75,7 @@ class CommentForm extends React.Component {
           </div>
         </label>
         <div className="flex w-full">
-          <button type="submit" className="button is-primary ml-auto ">
+          <button disabled={this.state.isLoading} type="submit" className="button is-primary ml-auto ">
             Submit
           </button>
         </div>

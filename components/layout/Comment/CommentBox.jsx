@@ -2,10 +2,7 @@ import React, { Component } from "react";
 import CommentForm from "./CommentForm";
 import UserAvatar from "../../utils/user/UserAvatar";
 
-import * as CommentActions from "../../../store/actions/comments";
-import * as UserActions from "../../../store/actions/users";
 import { connect } from "react-redux";
-import { createComment } from "../../../store/actions/comments";
 import { filter, orderBy } from "lodash";
 import moment from "moment";
 
@@ -40,7 +37,7 @@ class CommentBox extends Component {
   render() {
     const commentItems = this.filterCommentsByRelatedId().map(comment => (
       <div key={comment._id}>
-        <div className="columns">
+        <div className="columns p-1">
           <div className="column is-2">
             <UserAvatar
               user={this.props.users.userList[comment.created_by]}
@@ -66,10 +63,11 @@ class CommentBox extends Component {
 
     return (
       <div className="comment-box">
+        <h3 className="blue-title goal-info-subheader"><label htmlFor="comment-textarea">Feed</label></h3>
         {commentItems}
         <div className="columns" />
         <h3 className="blue-title goal-info-subheader"><label for="comment-textarea">Add a comment</label></h3>
-        <CommentForm />
+        <CommentForm className="p-1" />
       </div>
     );
   } // end render
