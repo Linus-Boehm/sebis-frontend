@@ -139,7 +139,7 @@ class GoalList extends React.Component {
     return (
       <div className="flex flex-col w-full">
         <div className="flex justify-start">
-          {this.renderHeader()}
+          {!this.props.hideHeader && this.renderHeader()}
         </div>
         <div>
           {this.state.isOpen && this.renderListItems()}

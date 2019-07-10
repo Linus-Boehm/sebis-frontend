@@ -14,7 +14,7 @@ class UserAvatar extends React.Component {
     return (
       <div className={classNames(this.props.className, "inline-block")}>
         <div className="inline-block relative">
-          <Avatar name={name} value={" "} round={true} size={size} onClick={this.props.onClick}>
+          <Avatar name={name} round={true} size={size} onClick={this.props.onClick}>
 
           </Avatar>
           <div className="text-white margin-center absolute flex left-0 top-0 bottom-0 right-0">

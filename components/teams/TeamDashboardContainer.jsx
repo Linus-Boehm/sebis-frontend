@@ -34,10 +34,10 @@ class TeamDashboardContainer extends React.Component {
 }
 
 function mapStateToProps(state) {
-  const { team } = state.teams;
 
   return {
-    team: team
+    team: state.teams.team,
+    users: state.users.userList
   };
 }
 

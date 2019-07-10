@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import DefaultLayout from "~/components/layout/DefaultLayout";
-import TeamDashboard from "../../components/teams/TeamDashboardContainer";
+import TeamDashboardContainer from "../../components/teams/TeamDashboardContainer";
 import GoalInfoContainer from "../../components/goals/GoalInfoContainer";
 import { fetchUsers } from "../../store/actions/users";
 import { fetchTeamById, resetTeam } from "../../store/actions/teams";
@@ -23,7 +23,7 @@ class teams extends React.Component {
         <div className="flex h-full">
           <div className="column">
             <div className="content">
-              <TeamDashboard team_id={this.props.currentId}/>
+              <TeamDashboardContainer team_id={this.props.currentId}/>
             </div>
           </div>
           {this.props.selectedGoal._id && (

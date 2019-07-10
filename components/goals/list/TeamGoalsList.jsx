@@ -26,8 +26,7 @@ class TeamGoalsList extends React.Component {
 
     return (
       <GoalList
-        title={"Team Goals - " + team.name}
-
+        hideHeader={true}
         fetchItems={() => {
           this.fetchTeamGoals(team._id)
         }}
