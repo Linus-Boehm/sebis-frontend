@@ -3,7 +3,7 @@ import SearchInput from "../../components/utils/inputs/SearchInput";
 import TeamGoalsList from "../goals/list/TeamGoalsList";
 import TeamMemberDropdown from "./TeamMemberDropdown";
 import Avatar from 'react-avatar';
-import {take} from "lodash";
+import {findIndex, take} from "lodash";
 import UserAvatar from "../utils/user/UserAvatar";
 
 class TeamDashboard extends React.Component {
@@ -37,7 +37,7 @@ class TeamDashboard extends React.Component {
                     <div className="mx-2">
                         <div className="flex">
                             {this.renderTeamMembers()}
-                            <TeamMemberDropdown>
+                            <TeamMemberDropdown hideEdit={this.props.hideEdit} onSelect={this.props.onTeamMemberAdd}>
                                 <Avatar className="cursor-pointer" value="..." round={true} size={35}/>
                             </TeamMemberDropdown>
                         </div>
