@@ -12,10 +12,6 @@ class AgreementsList extends React.Component {
     }
   }
 
-  componentDidMount() {
-    this.props.fetchItems()
-  }
-
   onClickHeader = () => {
     this.setState({ isOpen: !this.state.isOpen })
   };
@@ -32,14 +28,12 @@ class AgreementsList extends React.Component {
     </div>
   );
 
-  applyFilter(goals) {
-    return goals.filter((goal) => this.props.filter(goal))
-  }
-
   renderListItems = () => {
+    const {
+      agreements = []
+    } = this.props;
 
-    let agreements = this.props.agreements || [];
-    agreements = this.applyFilter(agreements);
+    console.log(agreements)
 
     return agreements.map((element) => (
         <AgreementItem

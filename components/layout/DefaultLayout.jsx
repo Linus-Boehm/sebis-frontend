@@ -1,5 +1,7 @@
 import '../../assets/css/tailwind.css';
 import '../../assets/css/bulma.scss';
+import '../../assets/css/forms.scss';
+import '../../assets/css/goal-info.scss';
 import ReactNotification from "react-notifications-component";
 import "react-notifications-component/dist/theme.css";
 import Link from 'next/link'

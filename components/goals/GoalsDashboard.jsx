@@ -41,6 +41,7 @@ class GoalsDashboard extends React.Component {
           {teams && teams.map(team => (
             <TeamGoalsList
               key={"team-" + team._id}
+              title={team._id}
 
               team={team}
               searchFilter={searchFilter}

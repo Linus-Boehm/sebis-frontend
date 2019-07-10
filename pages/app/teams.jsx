@@ -1,17 +1,20 @@
 import React from "react";
 import { connect } from "react-redux";
 import DefaultLayout from "~/components/layout/DefaultLayout";
-import GoalsDashboardContainer from "~/components/goals/GoalsDashboardContainer";
+import TeamDashboard from "../../components/teams/TeamDashboardContainer";
 import GoalInfoContainer from "../../components/goals/GoalInfoContainer";
 import { fetchUsers } from "../../store/actions/users";
+import { fetchTeamById, resetTeam } from "../../store/actions/teams";
 
-class Dashboard extends React.Component {
+class teams extends React.Component {
   async componentDidMount() {
     await this.props.dispatch(fetchUsers());
+    await this.props.dispatch(resetTeam());
+    await this.props.dispatch(fetchTeamById(this.props.currentId));
   }
 
-  static async getInitialProps({ store }) {
-    return {};
+  static async getInitialProps({ query }) {
+    return { currentId: query.id };
   }
 
   render() {
@@ -20,12 +23,12 @@ class Dashboard extends React.Component {
         <div className="flex h-full">
           <div className="column">
             <div className="content">
-              <GoalsDashboardContainer />
+              <TeamDashboard team_id={this.props.currentId}/>
             </div>
           </div>
           {this.props.selectedGoal._id && (
             <div className="column is-one-third border-l-2 border-gray-200">
-              <GoalInfoContainer />
+              <GoalInfoContainer/>
             </div>
           )}
         </div>
@@ -42,4 +45,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(Dashboard);
+export default connect(mapStateToProps)(teams);

@@ -9,28 +9,14 @@ class AgreementsDashboard extends React.Component {
 
   render() {
     const {
-      fetches,
-
-      fetchMyAgreements,
-
-      user
+      agreements
     } = this.props;
-
-    const userId = (user || {})._id;
-
-    // Used to filter outdated/stale agreements in store
-    const lastFetchTime = (fetches[ "my" ] || {}).assignedAt || new Date();
-
     return (
       <div>
         <AgreementsList
           title="My Agreements"
-          fetchItems={fetchMyAgreements}
 
-          filter={(agreement) => (
-            agreement.assignedAt >= lastFetchTime &&
-            (agreement.assignee === userId || agreement.reviewer === userId)
-          )}
+          agreements={agreements}
         />
       </div>
     )

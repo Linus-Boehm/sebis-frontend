@@ -22,7 +22,7 @@ class TeamGoalsList extends React.Component {
     } = this.props;
 
     // Used to filter outdated/stale goals in store
-    const lastFetchTime = (fetches[ `team-${team._id}` ] || {}).assignedAt || new Date();
+    const lastFetchTime = (fetches[ `team-${team._id}` ] || {}).assignedAt;
 
     return (
       <GoalList
@@ -34,7 +34,7 @@ class TeamGoalsList extends React.Component {
 
         filter={(goal) => (
           goal.assignedAt >= lastFetchTime &&
-          goal.related_to === team._id
+          goal.related_to && goal.related_to === team._id
         )}
 
         newGoalTemplate={{

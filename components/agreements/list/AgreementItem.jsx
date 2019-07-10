@@ -9,10 +9,7 @@ class AgreementItem extends React.Component {
 
     } = this.props;
 
-    const {
-      title,
-      assignee
-    } = agreement || {};
+    const title = 'Objective Agreement - ' + agreement._id
 
     return (
       <div

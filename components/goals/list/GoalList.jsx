@@ -116,7 +116,16 @@ class GoalList extends React.Component {
                 />
               )
             ).concat([
-              <AddGoalItem key={goal._id + '-add'} parentGoal={goal} onCreateGoal={onCreateGoal}/>
+              <AddGoalItem
+                key={goal._id + '-add'}
+                onCreateGoal={() => {
+                  onCreateGoal({
+                    parent_goal: goal._id,
+                    related_to: goal.related_to,
+                    related_model: goal.related_model
+                  })
+                }}
+                isSubGoal/>
             ])
           }
         </React.Fragment>

@@ -1,75 +1,69 @@
-import React from 'react';
-import uuidv4 from 'uuid/v4'
+import React from "react";
+import uuidv4 from "uuid/v4";
 import { connect } from "react-redux";
 import GoalList from "./GoalList";
 import * as GoalActions from "../../../store/actions/goals";
+import * as CommentActions from "../../../store/actions/comments";
 import { pick } from "lodash";
 
 class GoalListContainer extends React.Component {
-
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       isOpen: true
-    }
+    };
   }
 
   componentDidMount() {
-    this.props.fetchItems()
-
+    this.props.fetchItems();
 
     if (this.props.fetchInterval) {
       setInterval(() => {
-        this.props.fetchItems()
-      }, this.props.fetchInterval)
+        this.props.fetchItems();
+      }, this.props.fetchInterval);
     }
   }
 
-  onSelectItem = async (id) => {
+  onSelectGoal = async id => {
     const goal = Object.values(pick(this.props.allGoals, id))[ 0 ];
-
-    return this.props.dispatch(GoalActions.assignSelectedGoal(goal))
+    this.props.dispatch(CommentActions.fetchComments(id));
+    return this.props.dispatch(GoalActions.assignSelectedGoal(goal));
   };
 
-  onCreateGoal = async ({ parentGoalId }) => {
+  onCreateGoal = async (goalContext) => {
     const { newGoalTemplate } = this.props;
 
     const newGoal = {
       _id: uuidv4(),
-      parent_goal: parentGoalId,
-
       ...newGoalTemplate,
+
+      ...goalContext,
     };
 
     await this.props.dispatch(GoalActions.createGoal(newGoal));
 
-    await this.onSelectItem(newGoal._id)
+    await this.onSelectGoal(newGoal._id);
   };
 
   render() {
-
     return (
       <GoalList
         onCreateGoal={this.onCreateGoal}
-        onSelectGoal={this.onSelectItem}
+        onSelectItem={this.onSelectGoal}
         goals={Object.values(this.props.allGoals)}
         filter={() => true}
-
         {...this.props}
       />
-    )
+    );
   }
 }
 
 function mapStateToProps(state) {
-  const {
-    selectedGoal,
-    goals
-  } = state.goals;
+  const { selectedGoal, goals } = state.goals;
 
   return {
     allGoals: goals,
-    selectedGoal,
+    selectedGoal
   };
 }
 

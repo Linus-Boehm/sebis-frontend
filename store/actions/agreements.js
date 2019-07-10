@@ -51,7 +51,7 @@ export const fetchMyAgreements = () => async (dispatch) => {
       return dispatch({
         type: ASSIGN_AGREEMENTS,
         data,
-        fetchKey: 'myAgreements'
+        fetchKey: 'my'
       });
     }
 

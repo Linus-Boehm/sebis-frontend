@@ -25,7 +25,7 @@ class OrganizationGoalsList extends React.Component {
     const organizationId = (user || {}).organization_id;
 
     // Used to filter outdated/stale goals in store
-    const lastFetchTime = (fetches[ 'organization' ] || {}).assignedAt || new Date();
+    const lastFetchTime = (fetches[ 'organization' ] || {}).assignedAt;
 
     return (
       <GoalList
@@ -37,7 +37,7 @@ class OrganizationGoalsList extends React.Component {
 
         filter={(goal) => (
           goal.assignedAt >= lastFetchTime &&
-          goal.related_to === organizationId
+          goal.related_to && goal.related_to === organizationId
         )}
 
         newGoalTemplate={{
@@ -57,7 +57,7 @@ function mapStateToProps(state) {
 
   const {
     user
-  } = state.users;
+  } = state.auth;
 
   return {
     fetches,

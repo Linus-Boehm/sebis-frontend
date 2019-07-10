@@ -40,10 +40,10 @@ function mapStateToProps(state) {
 
   const {
     user
-  } = state.users;
+  } = state.auth;
 
   return {
-    teams: Object.values(teamList)//filterByMyTeams(Object.values(teamList), user),
+    teams: filterByMyTeams(Object.values(teamList), user)
   };
 }
 

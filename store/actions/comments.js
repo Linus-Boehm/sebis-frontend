@@ -1,4 +1,4 @@
-import { ASSIGN_COMMENT, ASSIGN_COMMENTS } from "../types/comment";
+import {ASSIGN_COMMENT, ASSIGN_COMMENTS, RESET_COMMENT} from "../types/comment";
 import api from "~/services/BackendApi";
 
 export const assignComment = comment => async dispatch => {
@@ -15,8 +15,8 @@ export const createComment = (comment, goalId) => async dispatch => {
     let { data, status } = await api.comments.create({ comment, goalId });
     if (status === 200) {
       dispatch({
-        type: ASSIGN_COMMENT,
-        data: data
+        type: RESET_COMMENT,
+        data: {}
       });
       dispatch({
         type: ASSIGN_COMMENTS,
@@ -26,10 +26,10 @@ export const createComment = (comment, goalId) => async dispatch => {
   } catch (e) {}
 };
 
-export const fetchComments = goalId => async dispatch => {
+export const fetchComments = relatedToID => async dispatch => {
   try {
     console.log("FetchComments...");
-    let { data, status } = await api.comments.fetchByGoalId(goalId);
+    let { data, status } = await api.comments.fetchByRelatedToID(relatedToID);
 
     console.log(status);
     if (status === 200) {

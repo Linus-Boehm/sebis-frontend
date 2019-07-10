@@ -13,12 +13,15 @@ import ActiveLink from "./ActiveLink";
 class MenuSidebar extends React.Component {
   render() {
     let teams = Object.values(this.props.teams.teamList);
+
     let teamItems =
       teams.length > 0 ? (
         teams.map(team => (
-          <div key={team.id}>
-            <h3>{team.name}</h3>
-          </div>
+          <ActiveLink href={"/app/teams?id=" + team._id}>
+            <div key={team.id}>
+              <a>{team.name}</a>
+            </div>
+          </ActiveLink>
         ))
       ) : (
         <li>
@@ -43,7 +46,7 @@ class MenuSidebar extends React.Component {
                 </ActiveLink>
               </li>
               <li>
-                <Link href={"/app/agreements/my"}>
+                <Link href={"/app/agreements"}>
                   <a>My Agreements</a>
                 </Link>
               </li>

@@ -1,5 +1,6 @@
 import React from 'react';
 import Avatar from 'react-avatar';
+import GoalAvatar from "../../utils/user/GoalAvatar";
 
 class GoalItem extends React.Component {
 
@@ -32,8 +33,7 @@ class GoalItem extends React.Component {
     } = this.props;
 
     const {
-      title,
-      assignee
+      title
     } = goal || {};
 
     return (
@@ -50,13 +50,7 @@ class GoalItem extends React.Component {
           {this.highlightByFilter(title, searchFilter)}
         </div>
           <div className="pr-2">
-            {assignee && <Avatar
-              size={25}
-              name={assignee.firstname + ' ' + assignee.lastname}
-              textSizeRatio={2}
-
-              round
-            />}
+            <GoalAvatar selectedGoal={goal} size={25} textSizeRatio={2} />
         </div>
       </div>
     )

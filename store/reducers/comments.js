@@ -1,4 +1,4 @@
-import { ASSIGN_COMMENTS, ASSIGN_COMMENT } from "../types/comment";
+import {ASSIGN_COMMENTS, ASSIGN_COMMENT, RESET_COMMENT} from "../types/comment";
 import { keyBy } from "lodash";
 
 const initialState = {
@@ -22,7 +22,11 @@ export default (state = initialState, { type, data }) => {
         ...state,
         comment: { ...state.comment, ...data }
       };
-
+    case RESET_COMMENT:
+      return {
+        ...state,
+        comment: {...initialState.comment}
+      };
     default:
       return state;
   }
