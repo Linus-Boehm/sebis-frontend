@@ -11,6 +11,7 @@ class AgreementsDashboard extends React.Component {
     const {
       agreements
     } = this.props;
+
     return (
       <div>
         <AgreementsList
