@@ -9,10 +9,13 @@ import Router from "next/router";
 import * as actions from "../../store/actions/auth";
 import { fetchTeams } from "../../store/actions/teams";
 import ActiveLink from "./ActiveLink";
+import {filter, findIndex} from "lodash";
 
 class MenuSidebar extends React.Component {
   render() {
-    let teams = Object.values(this.props.teams.teamList);
+    let teams = filter(this.props.teams.teamList, (team)=>{
+      return findIndex(team.team_roles, (role)=>{return role.user_id === this.props.auth.user._id})>=0;
+    });
 
     let teamItems =
       teams.length > 0 ? (

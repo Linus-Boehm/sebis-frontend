@@ -13,6 +13,9 @@ export function me(token = null) {
   }
   return Request.get(`${baseUrl()}/me`, { headers: headers });
 }
+export function teams() {
+  return Request.get(`${baseUrl()}/me/teams`, );
+}
 export function fetchAll() {
   return Request.get(`${baseUrl()}/`);
 }
