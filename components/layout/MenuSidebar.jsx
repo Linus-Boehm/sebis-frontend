@@ -9,21 +9,23 @@ import Router from "next/router";
 import * as actions from "../../store/actions/auth";
 import { fetchTeams } from "../../store/actions/teams";
 import ActiveLink from "./ActiveLink";
-import {filter, findIndex} from "lodash";
+import { filter, findIndex } from "lodash";
 
 class MenuSidebar extends React.Component {
   render() {
-    let teams = filter(this.props.teams.teamList, (team)=>{
-      return findIndex(team.team_roles, (role)=>{return role.user_id === this.props.auth.user._id})>=0;
+    let teams = filter(this.props.teams.teamList, team => {
+      return (
+        findIndex(team.team_roles, role => {
+          return role.user_id === this.props.auth.user._id;
+        }) >= 0
+      );
     });
 
     let teamItems =
       teams.length > 0 ? (
         teams.map(team => (
           <ActiveLink href={"/app/teams?id=" + team._id}>
-            <div key={team.id}>
-              <a>{team.name}</a>
-            </div>
+            <a key={team.id}>{team.name}</a>
           </ActiveLink>
         ))
       ) : (
@@ -54,9 +56,9 @@ class MenuSidebar extends React.Component {
                 </Link>
               </li>
               <li>
-                <Link>
+                <ActiveLink href={"/app/company-goals"}>
                   <a>Company Goals</a>
-                </Link>
+                </ActiveLink>
               </li>
             </ul>
           </div>

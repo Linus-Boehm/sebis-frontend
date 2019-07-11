@@ -32,7 +32,7 @@ export const login = ({email, password}) => async (dispatch) => {
         const {data, status} = await api.auth.login({email, password})
         if (status === 200) {
             dispatch({type: AUTHENTICATE, payload: {token: data.token, user: data.user}});
-            dispatch({type: ASSIGN_TEAMS, payload: data.teams});
+            dispatch({type: ASSIGN_TEAMS, data: data.teams});
             Router.push('/app/dashboard');
             return data
         }
@@ -69,7 +69,7 @@ export const reauthenticate = async (dispatch) => {
             console.log(status)
             if(status === 200){
                 console.log(data)
-                dispatch({type: ASSIGN_TEAMS, payload: data.teams});
+                dispatch({type: ASSIGN_TEAMS, data: data.teams});
                 dispatch({type: AUTHENTICATE, payload: {token: token, user: data.user}});
                 return true
             }

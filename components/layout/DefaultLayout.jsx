@@ -16,26 +16,12 @@ import { fetchUsers } from "../../store/actions/users";
 import MenuSidebar from "./MenuSIdebar";
 import UserAvatar from "../utils/user/UserAvatar";
 import { logout } from "../../store/actions/auth";
+import ActiveLink from "./ActiveLink";
 
 class DefaultLayout extends React.Component {
   constructor(props) {
     super(props);
-    this.addNotification = this.addNotification.bind(this);
     this.notificationDOMRef = React.createRef();
-  }
-
-  addNotification() {
-    this.notificationDOMRef.current.addNotification({
-      title: "Awesomeness",
-      message: "Awesome Notifications!",
-      type: "success",
-      insert: "top",
-      container: "top-right",
-      animationIn: [ "animated", "fadeIn" ],
-      animationOut: [ "animated", "fadeOut" ],
-      dismiss: { duration: 2000 },
-      dismissable: { click: true }
-    });
   }
 
   logOut = async (e) => {
@@ -52,9 +38,9 @@ class DefaultLayout extends React.Component {
     } else {
       //Dispatch this store actions if user is logged in
       //this.props.dispatch()
-
       this.props.dispatch(fetchTeams())
       this.props.dispatch(fetchUsers())
+
     }
   }
 
@@ -75,12 +61,17 @@ class DefaultLayout extends React.Component {
         </div>
         <div id="navbarmenu" className="navbar-menu">
           <div className="navbar-start">
-            <Link prefetch href="/">
-              <a className="navbar-item">Home</a>
-            </Link>
-            <Link prefetch href="/teams">
-              <a className="navbar-item">Teams</a>
-            </Link>
+            {
+              !this.props.auth.isAuthenticated ? (
+                <ActiveLink activeClassName="is-tab is-active" href={"/"}>
+                  <a className="navbar-item">Home</a>
+                </ActiveLink>
+              ) : (
+                <ActiveLink activeClassName="is-tab is-active" href={"/app/dashboard"}>
+                  <a className="navbar-item">My Goals</a>
+                </ActiveLink>
+              )}
+
           </div>
           <div className="navbar-end pr-4">
             {

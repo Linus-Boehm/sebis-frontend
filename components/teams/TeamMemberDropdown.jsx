@@ -70,8 +70,22 @@ class TeamMemberDropdown extends React.Component {
     getDropDownClass() {
         return 'team-member-dropdown z-50 absolute ' + (this.state.isToggled ? 'hidden' : 'show')
     }
+    renderInviteUsers(){
+        return !this.state.showUserAdd ? (
+            <button className="button is-link mt-4" onClick={this.toggleUserAdd}>Invite</button>
+        ) : (
+            <div className="flex flex-col">
+                <button className="button is-warning mt-4" onClick={this.toggleUserAdd}>Cancel</button>
+                <UserSearchSelect value={this.state.userSearchInput} className="mt-4"
+                                  onChange={this.onSearchInput}
+                                  onSelect={(e,team)=>{this.toggleUserAdd(e); this.toggleDropdown(e); this.props.onSelect(e,team)}}
+                                  filteredUsers={this.state.filteredUsers}/>
+            </div>
 
+        )
+    }
     render() {
+        let hideEdit = this.props.hideEdit || false
         let team = this.props.teams.teamList[this.props.teamId] || this.props.teams.team;
         let teamMemberList = (<span>No Users in Team</span>)
         if (team && team.team_roles) {
@@ -83,9 +97,9 @@ class TeamMemberDropdown extends React.Component {
                 <div className="flex justify-between my-2" key={user._id}>
                     <UserAvatar user={user}/>
                     <span className="pt-2">{user.firstname} {user.lastname}</span>
-                    <div className="pt-2">
-                        <a className="delete "></a>
-                    </div>
+                    {!hideEdit && (<div className="pt-2">
+                        <a className="delete" onClick={(e)=>{this.props.onRemove(e, user)}}></a>
+                    </div>)}
                 </div>
             )) : (<span>No Users in Team</span>)
         }
@@ -98,18 +112,7 @@ class TeamMemberDropdown extends React.Component {
                     <div className="flex flex-col">
                         <h4>Members</h4>
                         {teamMemberList}
-                        {!this.state.showUserAdd ? (
-                            <button className="button is-link mt-4" onClick={this.toggleUserAdd}>Invite</button>
-                        ) : (
-                            <div className="flex flex-col">
-                                <button className="button is-warning mt-4" onClick={this.toggleUserAdd}>Cancel</button>
-                                <UserSearchSelect value={this.state.userSearchInput} className="mt-4"
-                                                  onChange={this.onSearchInput}
-                                                  onSelect={(e,team)=>{this.toggleUserAdd(e); this.toggleDropdown(e); this.props.onSelect(e,team)}}
-                                                  filteredUsers={this.state.filteredUsers}/>
-                            </div>
-
-                        )}
+                        {!hideEdit && this.renderInviteUsers()}
                     </div>
                 </div>
 
