@@ -34,7 +34,7 @@ class CommentForm extends React.Component {
       await this.props.dispatch(
         CommentActions.createComment(
           this.props.comments.comment,
-          this.props.goals.selectedGoal._id
+          this.props.relatedTo
         )
       );
     } catch (e) {
@@ -45,7 +45,7 @@ class CommentForm extends React.Component {
       isLoading: false
     });
 
-    if(this.commentTextarea.current != null) {
+    if (this.commentTextarea.current != null) {
       this.commentTextarea.current.focus();
     }
   };
@@ -75,7 +75,11 @@ class CommentForm extends React.Component {
           </div>
         </label>
         <div className="flex w-full">
-          <button disabled={this.state.isLoading} type="submit" className="button is-primary ml-auto ">
+          <button
+            disabled={this.state.isLoading}
+            type="submit"
+            className="button is-primary ml-auto "
+          >
             Submit
           </button>
         </div>

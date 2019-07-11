@@ -20,7 +20,7 @@ class CommentBox extends Component {
   }
 
   displayUser(user_id) {
-    let user = this.props.users.userList[ user_id ];
+    let user = this.props.users.userList[user_id];
     if (!!user) {
       return user.firstname + " " + user.lastname;
     }
@@ -32,8 +32,8 @@ class CommentBox extends Component {
       filter(this.props.comments.commentList, comment => {
         return comment.related_to == this.props.relatedTo;
       }),
-      [ "date" ],
-      [ "desc" ]
+      ["date"],
+      ["desc"]
     );
   }
 
@@ -43,7 +43,7 @@ class CommentBox extends Component {
         <div className="columns p-1">
           <div className="column is-2">
             <UserAvatar
-              user={this.props.users.userList[ comment.created_by ]}
+              user={this.props.users.userList[comment.created_by]}
               className="cursor-pointer is-s"
             />
           </div>
@@ -66,11 +66,15 @@ class CommentBox extends Component {
 
     return (
       <div className="comment-box">
-        <h3 className="blue-title goal-info-subheader"><label htmlFor="comment-textarea">Feed</label></h3>
+        <h3 className="blue-title goal-info-subheader">
+          <label htmlFor="comment-textarea">Feed</label>
+        </h3>
         {commentItems}
-        <div className="columns"/>
-        <h3 className="blue-title goal-info-subheader"><label for="comment-textarea">Add a comment</label></h3>
-        <CommentForm className="p-1"/>
+        <div className="columns" />
+        <h3 className="blue-title goal-info-subheader">
+          <label for="comment-textarea">Add a comment</label>
+        </h3>
+        <CommentForm className="p-1" relatedTo={this.props.relatedTo} />
       </div>
     );
   } // end render
