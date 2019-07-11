@@ -21,6 +21,10 @@ class AgreementInfoContainer extends React.Component {
     this.props.dispatch(AgreementActions.assignSelectedAgreement(agreement))
   };
 
+  onChangeAgreement = (data) => {
+    this.props.dispatch(AgreementActions.assignSelectedAgreement(data))
+  };
+
   // ---
 
   async componentDidMount() {
@@ -37,6 +41,8 @@ class AgreementInfoContainer extends React.Component {
     return (
       <AgreementInfo
         {...this.props}
+
+        onChangeAgreement={this.onChangeAgreement}
       />
     )
   }
@@ -48,9 +54,14 @@ function mapStateToProps(state) {
     agreements
   } = state.agreements;
 
+  const {
+    userList
+  } = state.users;
+
   return {
     agreements,
-    selectedAgreement
+    selectedAgreement,
+    userList
   };
 }
 

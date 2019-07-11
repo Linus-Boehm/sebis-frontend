@@ -2,6 +2,8 @@ import '../../assets/css/tailwind.css';
 import '../../assets/css/bulma.scss';
 import '../../assets/css/forms.scss';
 import '../../assets/css/goal-info.scss';
+import '../../assets/css/day-picker.scss';
+
 import ReactNotification from "react-notifications-component";
 import "react-notifications-component/dist/theme.css";
 import Link from 'next/link'
@@ -10,9 +12,10 @@ import React from "react";
 import Router from 'next/router';
 import * as actions from "../../store/actions/auth";
 import { fetchTeams } from "../../store/actions/teams";
+import { fetchUsers } from "../../store/actions/users";
 import MenuSidebar from "./MenuSIdebar";
 import UserAvatar from "../utils/user/UserAvatar";
-import {logout} from "../../store/actions/auth";
+import { logout } from "../../store/actions/auth";
 
 class DefaultLayout extends React.Component {
   constructor(props) {
@@ -34,6 +37,7 @@ class DefaultLayout extends React.Component {
       dismissable: { click: true }
     });
   }
+
   logOut = async (e) => {
     e.preventDefault()
     await this.props.dispatch(logout())
@@ -49,6 +53,8 @@ class DefaultLayout extends React.Component {
       //Dispatch this store actions if user is logged in
       //this.props.dispatch()
 
+      this.props.dispatch(fetchTeams())
+      this.props.dispatch(fetchUsers())
     }
   }
 

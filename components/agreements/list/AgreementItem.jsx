@@ -1,27 +1,33 @@
 import React from 'react';
 import Link from 'next/link'
+import AgreementTitle from '../common/AgreementTitle'
 
 
 class AgreementItem extends React.Component {
 
   render() {
     const {
-      agreement
-
+      agreement = {},
+      reviewer = {},
+      assignee = {}
     } = this.props;
 
-    const title = 'Objective Agreement - ' + agreement._id
 
     return (
       <Link href={`/app/agreement-info?id=${agreement._id}`}>
         <div
-          className={`flex items-center bg-gray-200 hover:bg-gray-300 mb-2 p-2 cursor-pointer`}
+          className={`flex items-center bg-gray-200 hover:bg-gray-300 mb-3 p-3 cursor-pointer`}
         >
-          <div className="flex-grow ml-3 select-none">
-            {title}
+          <div className="ml-1 flex-grow select-none">
+            <span className="is-size-5">
+            <AgreementTitle
+              agreement={agreement}
+              assignee={assignee}
+            />
+            </span>
           </div>
-          <div className="pr-2">
-            AS
+          <div>
+            <span className="is-size-7 text-gray-600">Id: {agreement._id}</span>
           </div>
         </div>
       </Link>

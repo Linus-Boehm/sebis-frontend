@@ -9,8 +9,10 @@ class AgreementsDashboard extends React.Component {
 
   render() {
     const {
-      agreements
+      agreements,
+      userList
     } = this.props;
+
 
     return (
       <div>
@@ -18,6 +20,7 @@ class AgreementsDashboard extends React.Component {
           title="My Agreements"
 
           agreements={agreements}
+          userList={userList}
         />
       </div>
     )

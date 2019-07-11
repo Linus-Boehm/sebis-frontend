@@ -51,8 +51,15 @@ function mapStateToProps(state) {
     user
   } = state.auth;
 
+  const {
+    userList
+  } = state.users;
+
+  const myAgreements = filterMyAgreements({ agreements: Object.values(agreements), user, fetches });
+
   return {
-    agreements: filterMyAgreements({ agreements: Object.values(agreements), user, fetches }),
+    agreements: myAgreements,
+    userList
   };
 }
 
