@@ -8,6 +8,9 @@ import GoalAvatar from "../utils/user/GoalAvatar";
 import SubGoalList from "./list/SubGoalList";
 import * as CommentActions from "../../store/actions/comments";
 import * as GoalActions from "../../store/actions/goals";
+import GoalProgressBar from "../utils/progress/GoalProgressBar";
+import EditButton from "../utils/buttons/EditButton";
+import ActiveLink from "../layout/ActiveLink";
 
 class GoalInfo extends React.Component {
 
@@ -45,6 +48,7 @@ class GoalInfo extends React.Component {
 
     return (
       <div className="w-full h-full goal-info">
+        <div className="content">
         <div className="goal-detail-header flex">
           <div className="people justify-start flex-1">
             <GoalAvatar className="m-1" selectedGoal={selectedGoal}/>
@@ -125,8 +129,16 @@ class GoalInfo extends React.Component {
         }
 
         <h3 className="goal-info-subheader">Progress</h3>
+        <div className="flex w-full justify-between px-1">
+
+          <GoalProgressBar className="mt-0" value="4/5"/>
+          <ActiveLink href={"/app/goals/progress?id="+selectedGoal._id}>
+            <EditButton className="is-small"><span className="pl-1">Edit Progress</span></EditButton>
+          </ActiveLink>
+        </div>
         <CommentBox relatedTo={selectedGoal._id}/>
         {JSON.stringify(selectedGoal)}
+        </div>
       </div>
     );
   }

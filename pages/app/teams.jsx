@@ -5,12 +5,14 @@ import TeamDashboardContainer from "../../components/teams/TeamDashboardContaine
 import GoalInfoContainer from "../../components/goals/GoalInfoContainer";
 import { fetchUsers } from "../../store/actions/users";
 import { fetchTeamById, resetTeam } from "../../store/actions/teams";
+import {fetchTeamGoals} from "../../store/actions/goals";
 
 class teams extends React.Component {
   async componentDidMount() {
     await this.props.dispatch(fetchUsers());
     await this.props.dispatch(resetTeam());
     await this.props.dispatch(fetchTeamById(this.props.currentId));
+    await this.props.dispatch(fetchTeamGoals(this.props.currentId));
   }
 
   static async getInitialProps({ query }) {
