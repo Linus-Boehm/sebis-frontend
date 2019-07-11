@@ -122,7 +122,8 @@ class GoalList extends React.Component {
                   onCreateGoal({
                     parent_goal: goal._id,
                     related_to: goal.related_to,
-                    related_model: goal.related_model
+                    related_model: goal.related_model,
+                    is_private: true
                   })
                 }}
                 isSubGoal/>

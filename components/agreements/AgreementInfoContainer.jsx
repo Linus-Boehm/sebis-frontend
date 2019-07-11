@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import * as AgreementActions from '../../store/actions/agreements';
 import AgreementInfo from './AgreementInfo';
+import * as AgreementActions from "../../store/actions/agreements";
 
 class AgreementInfoContainer extends React.Component {
 
@@ -16,13 +16,28 @@ class AgreementInfoContainer extends React.Component {
   fetchAndSelectAgreement = async () => {
     await this.fetchMyAgreements();
 
-    const agreement = await this.props.agreements[ this.props.queryId ]
+    const agreement = this.props.agreements[ this.props.queryId ]
 
     this.props.dispatch(AgreementActions.assignSelectedAgreement(agreement))
   };
 
-  onChangeAgreement = (data) => {
-    this.props.dispatch(AgreementActions.assignSelectedAgreement(data))
+  onChangeInput = (changes) => {
+    const { selectedAgreement } = this.props;
+
+    this.props.dispatch(AgreementActions.assignSelectedAgreement({
+      ...selectedAgreement,
+      ...changes
+    }))
+  };
+
+  onUpdateAgreement = async () => {
+    const { selectedAgreement } = this.props;
+
+    await this.props.dispatch(AgreementActions.updateAgreement(selectedAgreement))
+
+    const agreement = this.props.agreements[ selectedAgreement._id ];
+    await this.props.dispatch(AgreementActions.assignSelectedAgreement(agreement))
+
   };
 
   // ---
@@ -42,7 +57,8 @@ class AgreementInfoContainer extends React.Component {
       <AgreementInfo
         {...this.props}
 
-        onChangeAgreement={this.onChangeAgreement}
+        onChangeInput={this.onChangeInput}
+        onUpdateAgreement={this.onUpdateAgreement}
       />
     )
   }

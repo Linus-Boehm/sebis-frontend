@@ -59,7 +59,7 @@ export const fetchMyGoals = () => async (dispatch) => {
 
 export const fetchAgreementGoals = (agreementId) => async (dispatch) => {
   try {
-    let { data, status } = await api.goals.fetchMyGoals()
+    let { data, status } = await api.goals.fetchAgreementGoals(agreementId)
 
     if (status === 200) {
       return dispatch({

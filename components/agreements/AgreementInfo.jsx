@@ -3,6 +3,9 @@ import Link from 'next/link'
 import AgreementTitle from "./common/AgreementTitle";
 import UserAvatar from "../utils/user/UserAvatar";
 import DayPickerInput from "react-day-picker/DayPickerInput";
+import AgreementGoalsList from "../goals/list/AgreementGoalsList";
+import TextareaAutosize from "react-autosize-textarea";
+import { updateAgreement } from "../../store/actions/agreements";
 
 const AvatarWithName = ({ user, title }) => (
   user && user._id ? (
@@ -34,18 +37,8 @@ class AgreementInfo extends React.Component {
     super(props);
   }
 
-  onStartDateChange = (selectedDay, modifiers, dayPickerInput) => {
-    this.props.onChangeAgreement({
-      ...this.props.selectedAgreement,
-      start_date: selectedDay
-    })
-  };
-
-  onEndDateChange = (selectedDay, modifiers, dayPickerInput) => {
-    this.props.onChangeAgreement({
-      ...this.props.selectedAgreement,
-      end_date: selectedDay
-    })
+  onChange = async (changes) => {
+    await this.props.onChangeInput(changes);
   };
 
   render() {
@@ -57,7 +50,8 @@ class AgreementInfo extends React.Component {
     const {
       _id,
       start_date,
-      end_date
+      end_date,
+      description
     } = selectedAgreement;
 
     const assignee = userList[ selectedAgreement.assignee ];
@@ -111,7 +105,11 @@ class AgreementInfo extends React.Component {
                 }}
 
                 hideOnDayClick={false}
-                onDayChange={this.onStartDateChange}
+                onDayChange={async (date) => {
+                  await this.onChange({ start_date: date })
+                  this.props.onUpdateAgreement()
+
+                }}
               />
             </div>
           </div>
@@ -135,7 +133,10 @@ class AgreementInfo extends React.Component {
                   fromMonth: startDate,
                   month: startDate
                 }}
-                onDayChange={this.onEndDateChange}
+                onDayChange={async (date) => {
+                  await this.onChange({ end_date: date })
+                  this.props.onUpdateAgreement()
+                }}
 
                 hideOnDayClick={false}
                 ref={el => (this.endDatePicker = el)}
@@ -149,6 +150,21 @@ class AgreementInfo extends React.Component {
             />
           </div>
         </div>
+        <div>
+          <TextareaAutosize
+            rows={4}
+            className="input editable-input-and-show-value"
+            name="description"
+            placeholder="Additonal details..."
+            onBlur={this.props.onUpdateAgreement}
+            onChange={(e) => this.onChange({ [ e.target.name ]: e.target.value })}
+            value={description ? description : ""}
+          />
+        </div>
+        <div>
+          <AgreementGoalsList agreement={selectedAgreement}/>
+        </div>
+        {JSON.stringify(selectedAgreement)}
       </div>
     )
   }

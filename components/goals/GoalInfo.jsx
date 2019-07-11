@@ -19,12 +19,6 @@ class GoalInfo extends React.Component {
     };
   }
 
-  handleSubmit = e => {
-    e.preventDefault();
-
-    this.props.onUpdateGoal();
-  };
-
   handleDelete = e => {
     e.preventDefault();
 
@@ -38,11 +32,10 @@ class GoalInfo extends React.Component {
 
   setDeleteModalVisibility = (isDeleteModalVisible = false) => {
     this.setState({ isDeleteModalVisible });
-  }
+  };
 
-  onChange = e => {
-    const changes = { [ e.target.name ]: e.target.value };
-    this.props.onChangeInput(changes);
+  onChange = async (changes) => {
+    await this.props.onChangeInput(changes);
   };
 
   render() {
@@ -58,7 +51,7 @@ class GoalInfo extends React.Component {
           </div>
 
           <div className="justify-end actions">
-            <button className="button is-danger ml-2" title={"Delete Goal"} onClick={()=> {
+            <button className="button is-danger ml-2" title={"Delete Goal"} onClick={() => {
               this.setDeleteModalVisibility(true)
             }}>
               <FaTrashAlt/>
@@ -95,8 +88,8 @@ class GoalInfo extends React.Component {
                 name="title"
                 placeholder="Enter a title"
                 value={title ? title : ""}
-                onBlur={this.handleSubmit}
-                onChange={this.onChange}
+                onBlur={this.props.onUpdateGoal}
+                onChange={(e) => this.onChange({ [ e.target.name ]: e.target.value })}
               />
             </p>
           </div>
@@ -108,8 +101,8 @@ class GoalInfo extends React.Component {
             className="input editable-input-and-show-value"
             name="description"
             placeholder="Add description..."
-            onBlur={this.handleSubmit}
-            onChange={this.onChange}
+            onBlur={this.props.onUpdateGoal}
+            onChange={(e) => this.onChange({ [ e.target.name ]: e.target.value })}
             value={description ? description : ""}/>
         </div>
 
