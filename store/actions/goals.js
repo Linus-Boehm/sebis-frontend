@@ -23,16 +23,25 @@ export const fetchGoalById = (id, useCache = true) => async (dispatch, getState)
       let { data, status } = await api.goals.fetchById(id)
 
       if (status === 200) {
-        return dispatch({
+        dispatch({
           type: ASSIGN_GOALS,
           data: [ data ]
         });
+        dispatch({
+          type: ASSIGN_SELECTED_GOAL,
+          data: data
+        });
+        return data
       }
     } catch (e) {
       console.log(e);
     }
   } else {
-    return
+    dispatch({
+      type: ASSIGN_SELECTED_GOAL,
+      data: cachedData
+    });
+    return cachedData
   }
 
   throw new Error("error in action fetchGoalById")

@@ -1,19 +1,29 @@
 import React from "react";
 import { connect } from "react-redux";
 import TeamDashboard from "./TeamDashboard";
-import {fetchTeamById, updateTeamMember} from "../../store/actions/teams";
+import {fetchTeamById, removeTeamMember, resetTeam, updateTeamMember} from "../../store/actions/teams";
 import {findIndex} from "lodash";
+import {fetchUsers} from "../../store/actions/users";
+import {fetchTeamGoals} from "../../store/actions/goals";
 
 class TeamDashboardContainer extends React.Component {
+
+  onTeamMemberRemove = async(e, user) => {
+    e.preventDefault();
+    this.props.dispatch(removeTeamMember(this.props.team_id, user._id))
+  }
 
   fetchAndSelectTeam = async () => {
     try {
       if (this.props.team_id)
+        await this.props.dispatch(resetTeam());
         this.props.dispatch(fetchTeamById(this.props.team_id));
+        this.props.dispatch(fetchTeamGoals(this.props.team_id));
     } catch (e) {
       console.log(e);
     }
   }
+
   onTeamMemberAdd = async (e, user)=>{
     e.preventDefault();
     this.props.dispatch(updateTeamMember(this.props.team_id, {
@@ -37,7 +47,7 @@ class TeamDashboardContainer extends React.Component {
   render() {
     const hideEdit = !this.props.authUser || findIndex(this.props.team.team_roles, (role)=>{return role.user_id === this.props.authUser._id && role.role === 'leader'}) < 0;
     return (
-      <TeamDashboard {...this.props} onTeamMemberAdd={this.onTeamMemberAdd} hideEdit={hideEdit}/>
+      <TeamDashboard {...this.props} onTeamMemberRemove={this.onTeamMemberRemove} onTeamMemberAdd={this.onTeamMemberAdd} hideEdit={hideEdit}/>
     );
   }
 }

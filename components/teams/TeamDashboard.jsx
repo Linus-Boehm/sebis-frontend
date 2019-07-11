@@ -37,7 +37,7 @@ class TeamDashboard extends React.Component {
                     <div className="mx-2">
                         <div className="flex">
                             {this.renderTeamMembers()}
-                            <TeamMemberDropdown hideEdit={this.props.hideEdit} onSelect={this.props.onTeamMemberAdd}>
+                            <TeamMemberDropdown hideEdit={this.props.hideEdit} onSelect={this.props.onTeamMemberAdd} onRemove={this.props.onTeamMemberRemove}>
                                 <Avatar className="cursor-pointer" value="..." round={true} size={35}/>
                             </TeamMemberDropdown>
                         </div>
