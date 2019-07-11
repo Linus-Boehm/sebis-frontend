@@ -30,18 +30,26 @@ class AgreementsList extends React.Component {
 
   renderListItems = () => {
     const {
-      agreements = []
+      agreements = [],
+      userList = {}
     } = this.props;
 
-    console.log(agreements)
 
-    return agreements.map((element) => (
-        <AgreementItem
-          key={element._id}
+    return agreements.map((element) => {
+        const reviewer = userList[ element.reviewer ];
+        const assignee = userList[ element.assignee ];
 
-          agreement={element}
-        />
-      )
+        return (
+          <AgreementItem
+            key={element._id}
+
+            agreement={element}
+            reviewer={reviewer}
+            assignee={assignee}
+
+          />
+        )
+      }
     )
   };
 

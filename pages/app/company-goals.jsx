@@ -1,32 +1,26 @@
-import React from 'react';
+import React from "react";
 import { connect } from "react-redux";
 import DefaultLayout from "~/components/layout/DefaultLayout";
-import AgreementInfoContainer from "../../components/agreements/AgreementInfoContainer";
 import GoalInfoContainer from "../../components/goals/GoalInfoContainer";
+import OrganizationGoalsList from "../../components/goals/list/OrganizationGoalsList";
 
-class Dashboard extends React.Component {
-
-
+class companyGoals extends React.Component {
   static async getInitialProps({ query }) {
-    return {
-      queryId: query.id
-    };
+    return { currentId: query.id };
   }
 
-
   render() {
-
     return (
       <DefaultLayout forceAuth={true}>
         <div className="flex h-full">
-          <div className="container">
+          <div className="column">
             <div className="content">
-              <AgreementInfoContainer queryId={this.props.queryId}/>
+              <OrganizationGoalsList />
             </div>
           </div>
           {this.props.selectedGoal._id && (
             <div className="column is-one-third border-l-2 border-gray-200">
-              <GoalInfoContainer/>
+              <GoalInfoContainer />
             </div>
           )}
         </div>
@@ -36,14 +30,11 @@ class Dashboard extends React.Component {
 }
 
 function mapStateToProps(state) {
-  const {
-    selectedGoal,
-  } = state.goals;
+  const { selectedGoal } = state.goals;
 
   return {
-    selectedGoal: selectedGoal,
+    selectedGoal: selectedGoal
   };
 }
 
-
-export default connect(mapStateToProps)(Dashboard);
+export default connect(mapStateToProps)(companyGoals);
