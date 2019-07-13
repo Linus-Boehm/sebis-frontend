@@ -157,7 +157,7 @@ class AgreementInfo extends React.Component {
               Bonus at 100% fulfillment
             </span>
           </div>
-          <div className="column is-2" style={{ marginLeft: "35px" }}>
+          <div className="column is-3" style={{ marginLeft: "35px" }}>
             <CurrencyInput
               precision="0"
               prefix="$"
@@ -170,11 +170,11 @@ class AgreementInfo extends React.Component {
             />
           </div>
 
-          <div className="column is-2 is-offset-1">
+          <div className="column is-2 ">
             <span className="s-size-6 text-gray-400 ">Maximum Bonus</span>
           </div>
 
-          <div className="column is-2 is-offset-1">
+          <div className="column is-3 is-offset-1">
             <CurrencyInput
               precision="0"
               prefix="$"
@@ -183,7 +183,6 @@ class AgreementInfo extends React.Component {
               name="max_bonus"
               onBlur={this.props.onUpdateAgreement}
               onChangeEvent={e => this.onChange({ max_bonus: e.target.value })}
-
               value={max_bonus ? max_bonus : ""}
             />
           </div>
