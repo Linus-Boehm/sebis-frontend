@@ -93,7 +93,8 @@ class GoalInfo extends React.Component {
                 rows={1}
                 placeholder="Enter a title"
                 value={title ? title : ""}
-                onBlur={this.props.onUpdateGoal}
+                onKeyDown={(e) => e.keyCode !== 13}
+                onKeyUp={(e) => e.target.value = e.target.value.replace(/[\r\n\v]+/g, ' ')}
                 onChange={(e) => this.onChange({ [ e.target.name ]: e.target.value })}
               />
             </p>
@@ -130,25 +131,25 @@ class GoalInfo extends React.Component {
         }
 
         <h3 className="goal-info-subheader">Progress</h3>
-        <div className="flex w-full justify-between px-1">
-          {selectedGoal.progress_type ?
-            <div>
-              <GoalProgressBar className="mt-0" value="4/5"/>
-              <ActiveLink href={"/app/goals/progress?id=" + selectedGoal._id}>
-                <EditButton className="is-small"><span className="pl-1">Edit Progress</span></EditButton>
-              </ActiveLink>
-            </div> :
-            <div>
-              <p>Define progress type to start.</p>
-              <select name={"progressType"}>
+        {selectedGoal.progress_type ?
+          <div className="flex w-full justify-between px-1">
+            <GoalProgressBar className="mt-0" value="4/5"/>
+            <ActiveLink href={"/app/goals/progress?id=" + selectedGoal._id}>
+              <EditButton className="is-small"><span className="pl-1">Edit Progress</span></EditButton>
+            </ActiveLink>
+          </div> :
+          <div>
+            <p>Define progress type to start.</p>
+            <div className="select">
+              <select name={"progress_type"} onChange={(e) => this.onChange({ [ e.target.name ]: e.target.value }) && this.props.onUpdateGoal()}>
                 <option value={""}>Please select</option>
                 <option value={GOAL_TYPE.QUALITATIVE}>Qualitative Goal (Smileys)</option>
                 <option value={GOAL_TYPE.COUNT}>Numeric Goal</option>
                 <option value={GOAL_TYPE.BOOLEAN}>Goal to reach (Done or Not Done)</option>
               </select>
             </div>
-          }
-        </div>
+          </div>
+        }
         <CommentBox relatedTo={selectedGoal._id}/>
         {JSON.stringify(selectedGoal)}
         </div>
