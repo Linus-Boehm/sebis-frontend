@@ -7,6 +7,7 @@ import AgreementGoalsList from "../goals/list/AgreementGoalsList";
 import TextareaAutosize from "react-autosize-textarea";
 import { updateAgreement } from "../../store/actions/agreements";
 import CommentBox from "../layout/Comment/CommentBox";
+import CurrencyInput from "react-currency-input";
 
 const AvatarWithName = ({ user, title }) =>
   user && user._id ? (
@@ -39,7 +40,14 @@ class AgreementInfo extends React.Component {
   render() {
     const { selectedAgreement = {}, userList = {} } = this.props;
 
-    const { _id, start_date, end_date, description } = selectedAgreement;
+    const {
+      _id,
+      start_date,
+      end_date,
+      description,
+      bonus,
+      max_bonus
+    } = selectedAgreement;
 
     const assignee = userList[selectedAgreement.assignee];
     const reviewer = userList[selectedAgreement.reviewer];
@@ -73,6 +81,7 @@ class AgreementInfo extends React.Component {
               <DayPickerInput
                 placeholder="None"
                 value={startDate}
+                style={{ fontWeight: "bold" }}
                 dayPickerProps={{
                   selectedDays: [startDate, { from: startDate, to: endDate }],
                   disabledDays: { after: endDate },
@@ -120,9 +129,20 @@ class AgreementInfo extends React.Component {
             <AvatarWithName user={reviewer} title="Reviewer" />
           </div>
         </div>
+
+        <div>
+          <span
+            className="s-size-6 text-gray-400 "
+            style={{ marginLeft: "55px" }}
+          >
+            Description
+          </span>
+        </div>
+
         <div>
           <TextareaAutosize
             rows={4}
+            style={{ marginLeft: "55px", width: "80%" }}
             className="input editable-input-and-show-value"
             name="description"
             placeholder="Additonal details..."
@@ -131,11 +151,50 @@ class AgreementInfo extends React.Component {
             value={description ? description : ""}
           />
         </div>
+        <div className="columns p-0 pt-3">
+          <div className="column is-2" style={{ marginLeft: "55px" }}>
+            <span className="s-size-6 text-gray-400 ">
+              Bonus at 100% fulfillment
+            </span>
+          </div>
+          <div className="column is-2" style={{ marginLeft: "35px" }}>
+            <CurrencyInput
+              precision="0"
+              prefix="$"
+              style={{ fontWeight: "bold" }}
+              name="bonus"
+              className="input editable-input-and-show-value"
+              onBlur={this.props.onUpdateAgreement}
+              onChange={e => this.onChange({ bonus: e })}
+              value={bonus ? bonus : ""}
+            />
+          </div>
+
+          <div className="column is-2 is-offset-1">
+            <span className="s-size-6 text-gray-400 ">Maximum Bonus</span>
+          </div>
+
+          <div className="column is-2 is-offset-1">
+            <CurrencyInput
+              precision="0"
+              prefix="$"
+              className="input editable-input-and-show-value"
+              style={{ fontWeight: "bold" }}
+              name="max_bonus"
+              onBlur={this.props.onUpdateAgreement}
+              onChange={e => this.onChange({ max_bonus: e })}
+              value={max_bonus ? max_bonus : ""}
+            />
+          </div>
+        </div>
         <div>
           <AgreementGoalsList agreement={selectedAgreement} />
         </div>
         {JSON.stringify(selectedAgreement)}
-        <CommentBox relatedTo={selectedAgreement._id} />
+        <CommentBox
+          relatedTo={selectedAgreement._id}
+          style={{ width: "80%" }}
+        />
       </div>
     );
   }
