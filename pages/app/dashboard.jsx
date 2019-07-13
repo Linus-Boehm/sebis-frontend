@@ -24,7 +24,7 @@ class Dashboard extends React.Component {
             </div>
           </div>
           {this.props.selectedGoal._id && (
-            <div className="column is-one-third border-l-2 border-gray-200">
+            <div className="column is-one-third border-l-2 border-gray-200 .flex-shrink-0">
               <GoalInfoContainer />
             </div>
           )}
