@@ -8,7 +8,8 @@ class Signup extends React.Component {
     super(props);
     this.state = {
       email: "",
-      password: ""
+      password: "",
+      error: null
     };
     this.onChange = this.onChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -19,11 +20,19 @@ class Signup extends React.Component {
   async handleSubmit(e) {
     e.preventDefault();
     try {
+      this.setState({
+        error: null
+      });
       await this.props.login({
         email: this.state.email,
         password: this.state.password
       });
     } catch (e) {
+      if(typeof e == "string") {
+        this.setState({
+          error: e
+        })
+      }
       console.error(e);
     }
   }
@@ -41,6 +50,16 @@ class Signup extends React.Component {
           className="container"
           style={{ width: "540px" }}
         >
+          { this.state.error && <div className={"message is-danger"}>
+            <div className="message-header">
+              <p>Error</p>
+            </div>
+            <div className="message-body">
+              {this.state.error}
+            </div>
+
+          </div>
+          }
           <div className="field">
             <p className="control">
               <input

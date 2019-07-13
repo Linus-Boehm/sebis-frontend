@@ -43,19 +43,23 @@ export const login = ({email, password}) => async (dispatch) => {
             case 422:
 
                 break;
+            case 403:
+            case 404:
+                throw "Unknown username or password"
+                break;
             case 401:
 
                 break;
             case 500:
-
+                throw "Unknown server error"
                 break;
             default:
 
                 break;
         }
     }
-    throw new Error("error on login user")
 
+    throw new Error("error on login user")
 };
 
 export const reauthenticate = async (dispatch) => {
