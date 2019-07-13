@@ -165,7 +165,7 @@ class AgreementInfo extends React.Component {
               name="bonus"
               className="input editable-input-and-show-value"
               onBlur={this.props.onUpdateAgreement}
-              onChange={e => this.onChange({ bonus: e })}
+              onChangeEvent={e => this.onChange({ bonus: e.target.value })}
               value={bonus ? bonus : ""}
             />
           </div>
@@ -182,7 +182,8 @@ class AgreementInfo extends React.Component {
               style={{ fontWeight: "bold" }}
               name="max_bonus"
               onBlur={this.props.onUpdateAgreement}
-              onChange={e => this.onChange({ max_bonus: e })}
+              onChangeEvent={e => this.onChange({ max_bonus: e.target.value })}
+
               value={max_bonus ? max_bonus : ""}
             />
           </div>
