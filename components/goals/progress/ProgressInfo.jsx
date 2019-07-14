@@ -1,4 +1,5 @@
 import React from "react";
+import DatePicker from "react-datepicker";
 
 class ProgressInfo extends React.Component {
 
@@ -21,7 +22,7 @@ class ProgressInfo extends React.Component {
   handleChange(date) {
     this.setState({
       startDate: date
-    });
+    })
   }
 
   render() {
@@ -36,6 +37,8 @@ class ProgressInfo extends React.Component {
         </h2>
 
         <p className={"whitespace-pre-line"}>{selectedGoal.description}</p>
+        <DatePicker selected={this.state.startDate}
+                    onChange={this.handleChange.bind(this)} />
       </div>
     );
   }
