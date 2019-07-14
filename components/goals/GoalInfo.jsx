@@ -125,7 +125,7 @@ class GoalInfo extends React.Component {
         {selectedGoal.related_to != null &&
         <div>
           <h3 className="goal-info-subheader">Linked to</h3>
-
+          TODO
         </div>
         }
 

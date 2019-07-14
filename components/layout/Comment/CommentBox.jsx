@@ -66,9 +66,11 @@ class CommentBox extends Component {
 
     return (
       <div className="comment-box">
-        <h3 className="blue-title goal-info-subheader">
-          <label htmlFor="comment-textarea">Feed</label>
-        </h3>
+        {this.filterCommentsByRelatedId().length > 0 &&
+          <h3 className="blue-title goal-info-subheader">
+            <label htmlFor="comment-textarea">Feed</label>
+          </h3>
+        }
         {commentItems}
         <div className="columns" />
         <h3 className="blue-title goal-info-subheader">
