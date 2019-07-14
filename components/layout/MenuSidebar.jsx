@@ -51,9 +51,9 @@ class MenuSidebar extends React.Component {
                 </ActiveLink>
               </li>
               <li>
-                <Link href={"/app/agreements"}>
+                <ActiveLink href={"/app/agreements"}>
                   <a>My Agreements</a>
-                </Link>
+                </ActiveLink>
               </li>
               <li>
                 <ActiveLink href={"/app/company-goals"}>

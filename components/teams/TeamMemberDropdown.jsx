@@ -116,11 +116,7 @@ class TeamMemberDropdown extends React.Component {
               <span className="pt-2">
                 {user.firstname} {user.lastname}
               </span>
-              <Link prefetch href={"/app/agreement-info?id=" + user._id}>
-                <button className="button is-primary is-small">
-                  <span className="pl-1"> Create OA</span>
-                </button>
-              </Link>
+
               {!hideEdit && (
                 <div className="pt-2">
                   <a
