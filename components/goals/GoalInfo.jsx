@@ -38,6 +38,11 @@ class GoalInfo extends React.Component {
     this.setState({ isDeleteModalVisible });
   };
 
+  onChangeAndSave = async (changes) => {
+    await this.onChange(changes);
+    await this.props.onUpdateGoal()
+  };
+
   onChange = async (changes) => {
     await this.props.onChangeInput(changes);
   };
@@ -142,7 +147,7 @@ class GoalInfo extends React.Component {
           <div>
             <p>Define progress type to start.</p>
             <div className="select">
-              <select name={"progress_type"} onChange={(e) => this.onChange({ [ e.target.name ]: e.target.value }) && this.props.onUpdateGoal()}>
+              <select name={"progress_type"} onChange={(e) => this.onChangeAndSave({ [ e.target.name ]: e.target.value }) }>
                 <option value={""}>Please select</option>
                 <option value={GOAL_TYPE.QUALITATIVE}>Qualitative Goal (Smileys)</option>
                 <option value={GOAL_TYPE.COUNT}>Numeric Goal</option>
