@@ -11,6 +11,7 @@ import * as GoalActions from "../../store/actions/goals";
 import GoalProgressBar from "../utils/progress/GoalProgressBar";
 import EditButton from "../utils/buttons/EditButton";
 import ActiveLink from "../layout/ActiveLink";
+import { connect } from "react-redux";
 class AgreementGoalInfo extends React.Component {
   constructor(props) {
     super(props);
@@ -154,6 +155,16 @@ class AgreementGoalInfo extends React.Component {
               />
             </div>
             <div className="column is-1 is-goal-info-subheader">%</div>
+            <div className="column is-3 is-offset-2 is-goal-info-subheader">
+              {" "}
+              {(oa_weight / 100) *
+                Number(
+                  this.props.agreements.selectedAgreement.bonus
+                    .replace("$", "")
+                    .replace(",", "")
+                )}{" "}
+              €
+            </div>
           </div>
 
           <CommentBox relatedTo={selectedGoal._id} />
@@ -164,4 +175,4 @@ class AgreementGoalInfo extends React.Component {
   }
 }
 
-export default AgreementGoalInfo;
+export default connect(state => state)(AgreementGoalInfo);

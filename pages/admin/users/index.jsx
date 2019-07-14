@@ -87,14 +87,18 @@ class Index extends React.Component {
     return (
       <DefaultLayout forceAuth={true}>
         <div className="container">
-          <Link prefetch href="/admin/users/new">
-            <button className="button is-primary">
-              <Icon color="#fff" size="1em" path={mdiPlusCircleOutline} />
-              <span className="pl-1"> Add User</span>
-            </button>
-          </Link>
           <div className="content">
-            <h1>Users</h1>
+            <div className="flex">
+              <h1>Users</h1>
+              <div className="ml-auto">
+                <Link prefetch href="/admin/users/new">
+                  <button className="button is-primary">
+                    <Icon color="#fff" size="1em" path={mdiPlusCircleOutline} />
+                    <span className="pl-1"> Add User</span>
+                  </button>
+                </Link>
+              </div>
+            </div>
             <table className="table">
               <thead>
                 <tr>

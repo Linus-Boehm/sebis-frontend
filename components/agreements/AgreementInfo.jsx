@@ -8,6 +8,9 @@ import TextareaAutosize from "react-autosize-textarea";
 import { updateAgreement } from "../../store/actions/agreements";
 import CommentBox from "../layout/Comment/CommentBox";
 import CurrencyInput from "react-currency-input";
+import { isNull } from "util";
+import { connect } from "react-redux";
+import AgreementUserDropdown from "./AgreementUserDropdown";
 
 const AvatarWithName = ({ user, title }) =>
   user && user._id ? (
@@ -36,6 +39,35 @@ class AgreementInfo extends React.Component {
   onChange = async changes => {
     await this.props.onChangeInput(changes);
   };
+
+  getReviewer() {
+    const { selectedAgreement = {}, userList = {} } = this.props;
+
+    const reviewer = userList[selectedAgreement.reviewer];
+    console.log("PROPS");
+    console.log(this.props);
+    if (reviewer !== undefined && reviewer !== null) {
+      return reviewer;
+    } else {
+      return this.props.auth.user;
+    }
+  }
+
+  getAssignee() {
+    const { selectedAgreement = {}, userList = {} } = this.props;
+
+    const assignee = userList[selectedAgreement.assignee];
+    if (assignee !== undefined && assignee !== null) {
+      return <AvatarWithName user={assignee} title="Employee" />;
+    } else {
+      return (
+        <AgreementUserDropdown
+          onChangeInput={this.props.onChangeInput}
+          onUpdateAgreement={this.props.onUpdateAgreement}
+        />
+      );
+    }
+  }
 
   render() {
     const { selectedAgreement = {}, userList = {} } = this.props;
@@ -70,9 +102,8 @@ class AgreementInfo extends React.Component {
           </span>
         </div>
         <div className="columns p-0 pt-3">
-          <div className="column">
-            <AvatarWithName user={assignee} title="Employee" />
-          </div>
+          <div className="column">{this.getAssignee()}</div>
+
           <div className="column">
             <div>
               <span className="is-size-6 text-gray-400">Start date</span>
@@ -126,7 +157,7 @@ class AgreementInfo extends React.Component {
             </div>
           </div>
           <div className="column">
-            <AvatarWithName user={reviewer} title="Reviewer" />
+            <AvatarWithName user={this.getReviewer()} title="Manager" />
           </div>
         </div>
 
@@ -157,7 +188,7 @@ class AgreementInfo extends React.Component {
               Bonus at 100% fulfillment
             </span>
           </div>
-          <div className="column is-3" style={{ marginLeft: "35px" }}>
+          <div className="column is-2" style={{ marginLeft: "35px" }}>
             <CurrencyInput
               precision="0"
               prefix="$"
@@ -170,11 +201,11 @@ class AgreementInfo extends React.Component {
             />
           </div>
 
-          <div className="column is-2 ">
+          <div className="column is-2 is-offset-1 ">
             <span className="s-size-6 text-gray-400 ">Maximum Bonus</span>
           </div>
 
-          <div className="column is-3 is-offset-1">
+          <div className="column is-2 is-offset-1">
             <CurrencyInput
               precision="0"
               prefix="$"
@@ -200,4 +231,4 @@ class AgreementInfo extends React.Component {
   }
 }
 
-export default AgreementInfo;
+export default connect(state => state)(AgreementInfo);
