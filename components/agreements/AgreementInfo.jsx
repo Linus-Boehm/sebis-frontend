@@ -221,8 +221,13 @@ class AgreementInfo extends React.Component {
         <div>
           <AgreementGoalsList agreement={selectedAgreement} />
         </div>
-        {JSON.stringify(selectedAgreement)}
+        <br />
+        <button className="button is-primary " style={{ marginLeft: "84%" }}>
+          Confirm Agreement
+        </button>
+
         <CommentBox relatedTo={selectedAgreement._id} />
+        {JSON.stringify(selectedAgreement)}
       </div>
     );
   }
