@@ -46,7 +46,7 @@ class GoalItem extends React.Component {
           onSelect(goal._id)
         }}
       >
-        <div className="flex-grow ml-3 select-none">
+        <div className="flex-grow ml-3 max-w-full break-all select-none">
           {this.highlightByFilter(title, searchFilter)}
         </div>
           <div className="pr-2">

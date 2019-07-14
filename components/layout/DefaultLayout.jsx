@@ -126,7 +126,7 @@ class DefaultLayout extends React.Component {
             this.props.auth.isAuthenticated && !this.props.hideSidebar &&
             <MenuSidebar/>
           }
-          <div className="column section">
+          <div className="column section overflow-hidden w-full">
 
             {this.props.children}
           </div>

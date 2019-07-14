@@ -95,6 +95,7 @@ class GoalInfo extends React.Component {
                 value={title ? title : ""}
                 onKeyDown={(e) => e.keyCode !== 13}
                 onKeyUp={(e) => e.target.value = e.target.value.replace(/[\r\n\v]+/g, ' ')}
+                onBlur={this.props.onUpdateGoal}
                 onChange={(e) => this.onChange({ [ e.target.name ]: e.target.value })}
               />
             </p>
