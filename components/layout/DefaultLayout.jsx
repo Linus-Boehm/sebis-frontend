@@ -3,6 +3,7 @@ import '../../assets/css/bulma.scss';
 import '../../assets/css/forms.scss';
 import '../../assets/css/goal-info.scss';
 import '../../assets/css/day-picker.scss';
+import "react-datepicker/dist/react-datepicker.css";
 
 import ReactNotification from "react-notifications-component";
 import "react-notifications-component/dist/theme.css";
