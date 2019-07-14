@@ -8,11 +8,9 @@ import { fetchUsers } from "../../store/actions/users";
 import { filter, indexOf } from "lodash";
 import Link from "next/link";
 
-class TeamMemberDropdown extends React.Component {
+class AgreementUserDropdown extends React.Component {
   constructor(props) {
     super(props);
-    let team =
-      this.props.teams.teamList[this.props.teamId] || this.props.teams.team;
 
     this.state = {
       isToggled: true,
@@ -35,16 +33,8 @@ class TeamMemberDropdown extends React.Component {
     e.preventDefault();
     let val = e.target.value;
     let rgxp = new RegExp(val, "g");
-    let team =
-      this.props.teams.teamList[this.props.teamId] || this.props.teams.team;
-    let userIds = team.team_roles.map(user => {
-      return user.user_id;
-    });
     let res = filter(Object.values(this.props.users.userList), user => {
-      return (
-        (user.firstname.match(rgxp) || user.lastname.match(rgxp)) &&
-        indexOf(userIds, user._id) === -1
-      );
+      return user.firstname.match(rgxp) || user.lastname.match(rgxp);
     });
     this.setState({
       ...this.state,
@@ -52,6 +42,16 @@ class TeamMemberDropdown extends React.Component {
       filteredUsers: res
     });
   };
+
+  onUserClick = async _id => {
+    let user = Object.values(this.props.users.userList).filter(
+      user => user._id === _id
+    )[0];
+    console.log(this.props);
+    await this.props.onChangeInput({ assignee: user });
+    this.props.onUpdateAgreement();
+  };
+
   toggleUserAdd = e => {
     e.preventDefault();
     this.setState({
@@ -69,68 +69,33 @@ class TeamMemberDropdown extends React.Component {
   }
 
   getDropDownClass() {
-    return (
-      "team-member-dropdown z-50 absolute " +
-      (this.state.isToggled ? "hidden" : "show")
-    );
+    return "team-member-dropdown z-50 absolute ";
   }
-  renderInviteUsers() {
-    return !this.state.showUserAdd ? (
-      <button className="button is-link mt-4" onClick={this.toggleUserAdd}>
-        Invite
-      </button>
-    ) : (
-      <div className="flex flex-col">
-        <button className="button is-warning mt-4" onClick={this.toggleUserAdd}>
-          Cancel
-        </button>
-        <UserSearchSelect
-          value={this.state.userSearchInput}
-          className="mt-4"
-          onChange={this.onSearchInput}
-          onSelect={(e, team) => {
-            this.toggleUserAdd(e);
-            this.toggleDropdown(e);
-            this.props.onSelect(e, team);
-          }}
-          filteredUsers={this.state.filteredUsers}
-        />
-      </div>
-    );
-  }
+
   render() {
     let hideEdit = this.props.hideEdit || false;
-    let team =
-      this.props.teams.teamList[this.props.teamId] || this.props.teams.team;
-    let teamMemberList = <span>No Users in Team</span>;
-    if (team && team.team_roles) {
-      let teamUsers = team.team_roles.map(user => {
-        return this.props.users.userList[user.user_id];
-      });
-      console.log(teamUsers);
-      teamMemberList =
-        teamUsers && teamUsers.length > 0 ? (
-          teamUsers.map(user => (
-            <div className="flex justify-between my-2" key={user._id}>
+    let users = this.props.users.userList;
+    let currentUser = this.props.auth.user;
+    users = Object.values(users);
+    let userList = <span>No Users</span>;
+    if (users && currentUser) {
+      users = users.filter(user => user._id !== currentUser._id);
+      userList =
+        users && users.length > 0 ? (
+          users.map(user => (
+            <div
+              className="flex justify-between my-2"
+              key={user._id}
+              onClick={() => this.onUserClick(user._id)}
+            >
               <UserAvatar user={user} />
               <span className="pt-2">
                 {user.firstname} {user.lastname}
               </span>
-
-              {!hideEdit && (
-                <div className="pt-2">
-                  <a
-                    className="delete"
-                    onClick={e => {
-                      this.props.onRemove(e, user);
-                    }}
-                  />
-                </div>
-              )}
             </div>
           ))
         ) : (
-          <span>No Users in Team</span>
+          <span>No Users</span>
         );
     }
     return (
@@ -141,9 +106,8 @@ class TeamMemberDropdown extends React.Component {
         <div className={this.getDropDownClass()}>
           <div className="team-member-dropdown-inner bg-white p-4 rounded-lg shadow-md relative">
             <div className="flex flex-col">
-              <h4>Members</h4>
-              {teamMemberList}
-              {!hideEdit && this.renderInviteUsers()}
+              {userList}
+              {!hideEdit}
             </div>
           </div>
         </div>
@@ -188,4 +152,4 @@ class TeamMemberDropdown extends React.Component {
   }
 }
 
-export default connect(state => state)(TeamMemberDropdown);
+export default connect(state => state)(AgreementUserDropdown);
