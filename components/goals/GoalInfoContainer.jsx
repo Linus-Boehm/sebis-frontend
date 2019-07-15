@@ -53,6 +53,7 @@ class GoalInfoContainer extends React.Component {
         onChangeInput={this.onChangeInput}
         onDeleteGoal={this.onDeleteGoal}
         onSelectGoal={this.onSelectGoal}
+        agreementMode={this.props.agreementMode}
 
         {...this.props}
       />
@@ -67,11 +68,13 @@ function mapStateToProps(state) {
   } = state.goals;
 
   const {
-    agreements
+    agreements,
+    selectedAgreement
   } = state.agreements;
 
   return {
     selectedGoal,
+    selectedAgreement,
     allGoals: goals,
     agreements: agreements
   };

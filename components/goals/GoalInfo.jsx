@@ -52,12 +52,25 @@ class GoalInfo extends React.Component {
     return null
   }
 
+  getWeightInDollars = () => {
+    if (!!this.props.selectedAgreement.bonus) {
+      return Math.floor(
+        (this.props.selectedGoal.oa_weight / 100) *
+        this.props.selectedAgreement.bonus
+      );
+    }
+
+    return "0";
+  };
+
   render() {
     const { selectedGoal, onClose, editModeEnabled } = this.props;
 
-    const { title, description } = selectedGoal;
+    const { title, description, oa_weight } = selectedGoal;
 
     const agreement = selectedGoal.related_model === "ObjectiveAgreement" && this.getAgreementById(selectedGoal.related_to);
+
+    const agreement_mode = this.props.agreementMode === true;
 
     return (
       <div className="w-full h-full goal-info">
@@ -99,96 +112,124 @@ class GoalInfo extends React.Component {
             </div>
           </div>
 
-        <div className="pt-2">
-          <div className="field">
-            <p className="control">
-              <TextareaAutosize
-                disabled={editModeEnabled}
-                className="input goal-title editable-input-and-show-value"
-                name="title"
-                placeholder="Enter a title"
-                value={title ? title : ""}
-                onKeyDown={(e) => e.keyCode !== 13}
-                onKeyUp={(e) => e.target.value = e.target.value.replace(/[\r\n\v]+/g, ' ')}
-                onBlur={this.props.onUpdateGoal}
-                onChange={(e) => this.onChange({ [ e.target.name ]: e.target.value })}
-              />
-            </p>
+          <div className="pt-2">
+            <div className="field">
+              <p className="control">
+                <TextareaAutosize
+                  disabled={editModeEnabled}
+                  className="input goal-title editable-input-and-show-value"
+                  name="title"
+                  placeholder="Enter a title"
+                  value={title ? title : ""}
+                  onKeyDown={(e) => e.keyCode !== 13}
+                  onKeyUp={(e) => e.target.value = e.target.value.replace(/[\r\n\v]+/g, ' ')}
+                  onBlur={this.props.onUpdateGoal}
+                  onChange={(e) => this.onChange({ [ e.target.name ]: e.target.value })}
+                />
+              </p>
+            </div>
           </div>
-        </div>
-        <div className="pt-2">
-          <TextareaAutosize
-            disabled={editModeEnabled}
-            rows={3}
-            className="input editable-input-and-show-value"
-            name="description"
-            placeholder="Add description..."
-            onBlur={this.props.onUpdateGoal}
-            onChange={(e) => this.onChange({ [ e.target.name ]: e.target.value })}
-            value={description ? description : ""}/>
-        </div>
+          <div className="pt-2">
+            <TextareaAutosize
+              disabled={editModeEnabled}
+              rows={3}
+              className="input editable-input-and-show-value"
+              name="description"
+              placeholder="Add description..."
+              onBlur={this.props.onUpdateGoal}
+              onChange={(e) => this.onChange({ [ e.target.name ]: e.target.value })}
+              value={description ? description : ""}/>
+          </div>
 
-        <SubGoalList
-          parentGoal={selectedGoal}
-          {...this.props}/>
+          <SubGoalList
+            parentGoal={selectedGoal}
+            {...this.props}/>
 
-        {agreement &&
-        <div>
-          <h3 className="goal-info-subheader">Linked to</h3>
-          <AgreementItem
-            size_class={""}
-            key={agreement._id}
+          {agreement &&
+          <div>
+            <h3 className="goal-info-subheader">Linked to</h3>
+            <AgreementItem
+              size_class={""}
+              key={agreement._id}
 
-            agreement={agreement}
-            reviewer={agreement.reviewer}
-            assignee={agreement.assignee}
+              agreement={agreement}
+              reviewer={agreement.reviewer}
+              assignee={agreement.assignee}
 
-          />
-        </div>
-        }
+            />
+          </div>
+          }
 
-          {selectedGoal.parent_goal && (
-            <div>
-              <h3 className="goal-info-subheader">Contributing to</h3>
-              <GoalItem
-                goal={this.props.allGoals[selectedGoal.parent_goal]}
-                onSelect={this.onSelectGoal}
-              />
-            </div>
-          )}
-
-          <h3 className="goal-info-subheader">Progress</h3>
-          {selectedGoal.progress_type ? (
-            <div className="flex w-full justify-between px-1">
-              <GoalProgress className="mt-0" goal={selectedGoal} />
-              <ActiveLink href={"/app/goals/progress?id=" + selectedGoal._id}>
-                <EditButton className="is-small">
-                  <span className="pl-1">Edit Progress</span>
-                </EditButton>
-              </ActiveLink>
-            </div>
-          ) : (
-            <div>
-              <p>Define progress type to start.</p>
-              <div className="select">
-                <select
-                  name={"progress_type"}
-                  onChange={e =>
-                    this.onChangeAndSave({ [e.target.name]: e.target.value })
-                  }
-                >
-                  <option value={""}>Please select</option>
-                  <option value={GOAL_TYPE.QUALITATIVE}>
-                    Qualitative Goal (Smileys)
-                  </option>
-                  <option value={GOAL_TYPE.COUNT}>Numeric Goal</option>
-                  <option value={GOAL_TYPE.BOOLEAN}>
-                    Goal to reach (Done or Not Done)
-                  </option>
-                </select>
+          {agreement_mode ?
+            <>
+              <h3 className="goal-info-subheader">Weight of Total Bonus</h3>
+              <div className="columns">
+                <div className="column is-3 is-offset-1">
+                  <input
+                    className="input editable-input-and-show-value"
+                    type="number"
+                    max="10"
+                    step="10"
+                    name="oa_weight"
+                    onBlur={this.props.onUpdateGoal}
+                    onChange={e =>
+                      this.onChange({ [e.target.name]: e.target.value })
+                    }
+                    value={oa_weight ? oa_weight : ""}
+                  />
+                </div>
+                <div className="column is-1 is-goal-info-subheader">%</div>
+                <div className="column is-3 is-offset-2 is-goal-info-subheader">
+                  {this.getWeightInDollars()} $
+                </div>
               </div>
-            </div>
-          )}
+            </>
+            :
+            <>
+              {selectedGoal.parent_goal && (
+                <div>
+                  <h3 className="goal-info-subheader">Contributing to</h3>
+                  <GoalItem
+                    goal={this.props.allGoals[selectedGoal.parent_goal]}
+                    onSelect={this.onSelectGoal}
+                  />
+                </div>
+              )}
+
+              <h3 className="goal-info-subheader">Progress</h3>
+              {selectedGoal.progress_type ? (
+                <div className="flex w-full justify-between px-1">
+                  <GoalProgress className="mt-0" goal={selectedGoal} />
+                  <ActiveLink href={"/app/goals/progress?id=" + selectedGoal._id}>
+                    <EditButton className="is-small">
+                      <span className="pl-1">Edit Progress</span>
+                    </EditButton>
+                  </ActiveLink>
+                </div>
+              ) : (
+                <div>
+                  <p>Define progress type to start.</p>
+                  <div className="select">
+                    <select
+                      name={"progress_type"}
+                      onChange={e =>
+                        this.onChangeAndSave({ [e.target.name]: e.target.value })
+                      }
+                    >
+                      <option value={""}>Please select</option>
+                      <option value={GOAL_TYPE.QUALITATIVE}>
+                        Qualitative Goal (Smileys)
+                      </option>
+                      <option value={GOAL_TYPE.COUNT}>Numeric Goal</option>
+                      <option value={GOAL_TYPE.BOOLEAN}>
+                        Goal to reach (Done or Not Done)
+                      </option>
+                    </select>
+                  </div>
+                </div>
+              )}
+            </>
+          }
           <CommentBox relatedTo={selectedGoal._id} />
         </div>
       </div>
