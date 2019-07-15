@@ -9,11 +9,14 @@ import { updateAgreement } from "../../store/actions/agreements";
 import CommentBox from "../layout/Comment/CommentBox";
 import CurrencyInput from "react-currency-input";
 import { isNull } from "util";
-
+import { FaTrashAlt, FaTimes } from "react-icons/fa";
+import ConfirmModal from "../utils/modal/ConfirmModal";
 import Icon from "@mdi/react";
 import { mdiChevronLeft } from "@mdi/js";
 import { connect } from "react-redux";
 import AgreementUserDropdown from "./AgreementUserDropdown";
+import * as AgreementActions from "../../store/actions/agreements";
+import Router from "next/router";
 
 const AvatarWithName = ({ user, title }) =>
   user && user._id ? (
@@ -37,10 +40,20 @@ const AvatarWithName = ({ user, title }) =>
 class AgreementInfo extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      isDeleteModalVisible: false
+    };
   }
 
   onChange = async changes => {
     await this.props.onChangeInput(changes);
+  };
+
+  handleDelete = async () => {
+    await this.props.dispatch(
+      AgreementActions.deleteAgreement(this.props.selectedAgreement)
+    );
+    Router.push("/app/agreements");
   };
 
   getAssignee() {
@@ -60,6 +73,9 @@ class AgreementInfo extends React.Component {
       );
     }
   }
+  setDeleteModalVisibility = (isDeleteModalVisible = false) => {
+    this.setState({ isDeleteModalVisible });
+  };
 
   render() {
     const { selectedAgreement = {}, userList = {} } = this.props;
@@ -81,7 +97,7 @@ class AgreementInfo extends React.Component {
 
     return (
       <div>
-        <div>
+        <div className="flex">
           <Link href="/app/agreements">
             <div className="cursor-pointer hover:text-blue-300 flex">
               <span className="pt-1">
@@ -90,6 +106,27 @@ class AgreementInfo extends React.Component {
               <span className=""> Back to List</span>
             </div>
           </Link>
+          <button
+            className="button is-danger ml-auto"
+            title={"Delete Objective Agreement"}
+            onClick={() => {
+              this.setDeleteModalVisibility(true);
+            }}
+          >
+            <FaTrashAlt />
+          </button>
+          <ConfirmModal
+            title="Confirm Delete"
+            active={this.state.isDeleteModalVisible}
+            confirmButtonType="is-danger"
+            confirmButtonText="Delete"
+            onCloseModal={() => {
+              this.setDeleteModalVisibility(false);
+            }}
+            onConfirm={this.handleDelete}
+          >
+            Are you sure to delete the Objective Agreement?
+          </ConfirmModal>
         </div>
         <div className="mt-3">
           <span className="is-size-4 font-bold">
