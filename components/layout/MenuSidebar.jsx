@@ -24,7 +24,7 @@ class MenuSidebar extends React.Component {
     let teamItems =
       teams.length > 0 ? (
         teams.map(team => (
-          <ActiveLink href={"/app/teams?id=" + team._id}>
+          <ActiveLink key={team._id} href={"/app/teams?id=" + team._id}>
             <a key={team.id}>{team.name}</a>
           </ActiveLink>
         ))
@@ -37,7 +37,6 @@ class MenuSidebar extends React.Component {
         </li>
       );
 
-    console.log("TeamItems ", teamItems);
 
     return (
       <div className="column is-2 is-narrow-mobile is-fullheight is-hidden-mobile border-r-2 border-gray-200">
