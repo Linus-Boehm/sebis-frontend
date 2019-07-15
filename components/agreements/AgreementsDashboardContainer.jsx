@@ -1,13 +1,13 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import * as AgreementActions from '../../store/actions/agreements';
-import AgreementsDashboard from './AgreementsDashboard';
+import React from "react";
+import { connect } from "react-redux";
+import * as AgreementActions from "../../store/actions/agreements";
+import AgreementsDashboard from "./AgreementsDashboard";
+import { orderBy } from "lodash";
 
 class AgreementsDashboardContainer extends React.Component {
-
   fetchMyAgreements = async () => {
     try {
-      await this.props.dispatch(AgreementActions.fetchMyAgreements())
+      await this.props.dispatch(AgreementActions.fetchMyAgreements());
     } catch (e) {
       console.log(e);
     }
@@ -16,46 +16,43 @@ class AgreementsDashboardContainer extends React.Component {
   // ---
 
   async componentDidMount() {
-    this.fetchMyAgreements()
+    this.fetchMyAgreements();
   }
 
   render() {
-    return (
-      <AgreementsDashboard
-        {...this.props}
-      />
-    )
+    return <AgreementsDashboard {...this.props} />;
   }
 }
 
 function filterMyAgreements({ agreements, user, fetches }) {
-
   const userId = (user || {})._id;
 
   // Used to filter outdated/stale agreements in store
-  const lastFetchTime = (fetches[ "my" ] || {}).assignedAt || new Date();
+  const lastFetchTime = (fetches["my"] || {}).assignedAt || new Date();
 
-  return agreements.filter((agreement) => (
-    agreement.assignedAt >= lastFetchTime &&
-    (agreement.assignee === userId || agreement.reviewer === userId)
-  ))
+  return orderBy(
+    agreements.filter(
+      agreement =>
+        agreement.assignedAt >= lastFetchTime &&
+        (agreement.assignee === userId || agreement.reviewer === userId)
+    ),
+    ["start_date"],
+    ["desc"]
+  );
 }
 
 function mapStateToProps(state) {
-  const {
-    agreements,
+  const { agreements, fetches } = state.agreements;
+
+  const { user } = state.auth;
+
+  const { userList } = state.users;
+
+  const myAgreements = filterMyAgreements({
+    agreements: Object.values(agreements),
+    user,
     fetches
-  } = state.agreements;
-
-  const {
-    user
-  } = state.auth;
-
-  const {
-    userList
-  } = state.users;
-
-  const myAgreements = filterMyAgreements({ agreements: Object.values(agreements), user, fetches });
+  });
 
   return {
     agreements: myAgreements,

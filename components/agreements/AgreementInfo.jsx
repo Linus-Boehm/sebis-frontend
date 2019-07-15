@@ -86,16 +86,17 @@ class AgreementInfo extends React.Component {
       return this.props.selectedAgreement.assignee_confirmed;
     }
   };
-  updateConfirm = () => {
+  updateConfirm = async () => {
     if (this.props.auth.user._id === this.props.selectedAgreement.reviewer) {
-      this.onChange({
+      await this.onChange({
         reviewer_confirmed: !this.props.selectedAgreement.reviewer_confirmed
       });
     } else {
-      this.onChange({
+      await this.onChange({
         assignee_confirmed: !this.props.selectedAgreement.assignee_confirmed
       });
     }
+    this.props.onUpdateAgreement();
   };
 
   render() {
@@ -282,11 +283,18 @@ class AgreementInfo extends React.Component {
           </div>
         </div>
         <div>
-          <AgreementGoalsList agreement={selectedAgreement} />
+          <AgreementGoalsList
+            disableGoalAdd={!this.props.isEditable}
+            agreement={selectedAgreement}
+          />
         </div>
         <br />
         <div className="flex w-full ">
           <button
+            disabled={
+              selectedAgreement.assignee_confirmed &&
+              selectedAgreement.reviewer_confirmed
+            }
             className={
               "button ml-auto " +
               (this.getMyConfirmState() ? "is-light" : "is-primary")
@@ -296,7 +304,7 @@ class AgreementInfo extends React.Component {
             }}
           >
             {this.getMyConfirmState()
-              ? "Cancel Agreement"
+              ? "Cancel Confirmation"
               : "Confirm Agreement"}
           </button>
         </div>
