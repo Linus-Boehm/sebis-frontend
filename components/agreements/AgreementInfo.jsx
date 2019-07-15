@@ -109,6 +109,7 @@ class AgreementInfo extends React.Component {
           <button
             className="button is-danger ml-auto"
             title={"Delete Objective Agreement"}
+            disabled={!this.props.isEditable}
             onClick={() => {
               this.setDeleteModalVisibility(true);
             }}
@@ -143,6 +144,7 @@ class AgreementInfo extends React.Component {
             <div className="day-picker-input">
               <DayPickerInput
                 placeholder="None"
+                inputProps={{ disabled: !this.props.isEditable }}
                 value={startDate}
                 style={{ fontWeight: "bold" }}
                 dayPickerProps={{
@@ -170,6 +172,7 @@ class AgreementInfo extends React.Component {
               <DayPickerInput
                 placeholder="None"
                 value={endDate}
+                inputProps={{ disabled: !this.props.isEditable }}
                 dayPickerProps={{
                   selectedDays: [endDate, { from: startDate, to: endDate }],
                   disabledDays: { before: startDate },
@@ -205,6 +208,7 @@ class AgreementInfo extends React.Component {
         <div>
           <TextareaAutosize
             rows={4}
+            disabled={!this.props.isEditable}
             style={{ marginLeft: "55px", width: "80%" }}
             className="input editable-input-and-show-value"
             name="description"
@@ -222,6 +226,7 @@ class AgreementInfo extends React.Component {
           </div>
           <div className="column is-2" style={{ marginLeft: "35px" }}>
             <CurrencyInput
+              disabled={!this.props.isEditable}
               precision="0"
               prefix="$"
               style={{ fontWeight: "bold" }}
@@ -241,6 +246,7 @@ class AgreementInfo extends React.Component {
 
           <div className="column is-2 is-offset-1">
             <CurrencyInput
+              disabled={!this.props.isEditable}
               precision="0"
               prefix="$"
               className="input editable-input-and-show-value"
