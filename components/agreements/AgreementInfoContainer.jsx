@@ -1,12 +1,13 @@
 import React from "react";
 import { connect } from "react-redux";
+import { find } from "lodash";
 import AgreementInfo from "./AgreementInfo";
 import * as AgreementActions from "../../store/actions/agreements";
 
 class AgreementInfoContainer extends React.Component {
   fetchMyAgreements = async () => {
     try {
-      await this.props.dispatch(AgreementActions.fetchMyAgreements());
+      return await this.props.dispatch(AgreementActions.fetchMyAgreements());
     } catch (e) {
       console.log(e);
     }
@@ -22,6 +23,16 @@ class AgreementInfoContainer extends React.Component {
 
   onChangeInput = changes => {
     const { selectedAgreement } = this.props;
+    let result = !!find(Object.keys(changes), e => {
+      return e == "reviewer_confirmed" || e == "assignee_confirmed";
+    });
+    if (!result) {
+      changes = {
+        ...changes,
+        reviewer_confirmed: false,
+        assignee_confirmed: false
+      };
+    }
 
     this.props.dispatch(
       AgreementActions.assignSelectedAgreement({
@@ -37,10 +48,8 @@ class AgreementInfoContainer extends React.Component {
     await this.props.dispatch(
       AgreementActions.updateAgreement(selectedAgreement)
     );
-
-    const agreement = this.props.agreements[selectedAgreement._id];
     await this.props.dispatch(
-      AgreementActions.assignSelectedAgreement(agreement)
+      AgreementActions.assignSelectedAgreement(selectedAgreement)
     );
   };
 
@@ -56,6 +65,13 @@ class AgreementInfoContainer extends React.Component {
     }
   }
   isEditable() {
+    if (
+      !this.props.selectedAgreement ||
+      (this.props.selectedAgreement.assignee_confirmed === true &&
+        this.props.selectedAgreement.reviewer_confirmed === true)
+    ) {
+      return false;
+    }
     return true;
   }
 

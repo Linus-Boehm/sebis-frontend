@@ -76,6 +76,27 @@ class AgreementInfo extends React.Component {
   setDeleteModalVisibility = (isDeleteModalVisible = false) => {
     this.setState({ isDeleteModalVisible });
   };
+  getMyConfirmState = () => {
+    if (
+      this.props.auth.user &&
+      this.props.auth.user._id === this.props.selectedAgreement.reviewer
+    ) {
+      return this.props.selectedAgreement.reviewer_confirmed;
+    } else {
+      return this.props.selectedAgreement.assignee_confirmed;
+    }
+  };
+  updateConfirm = () => {
+    if (this.props.auth.user._id === this.props.selectedAgreement.reviewer) {
+      this.onChange({
+        reviewer_confirmed: !this.props.selectedAgreement.reviewer_confirmed
+      });
+    } else {
+      this.onChange({
+        assignee_confirmed: !this.props.selectedAgreement.assignee_confirmed
+      });
+    }
+  };
 
   render() {
     const { selectedAgreement = {}, userList = {} } = this.props;
@@ -265,8 +286,18 @@ class AgreementInfo extends React.Component {
         </div>
         <br />
         <div className="flex w-full ">
-          <button className="button is-primary ml-auto">
-            Confirm Agreement
+          <button
+            className={
+              "button ml-auto " +
+              (this.getMyConfirmState() ? "is-light" : "is-primary")
+            }
+            onClick={e => {
+              this.updateConfirm();
+            }}
+          >
+            {this.getMyConfirmState()
+              ? "Cancel Agreement"
+              : "Confirm Agreement"}
           </button>
         </div>
 
