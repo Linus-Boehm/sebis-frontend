@@ -53,14 +53,14 @@ class CommentForm extends React.Component {
   render() {
     return (
       <form className={this.props.className} onSubmit={this.handleOnSubmit}>
-        <label htmlFor="comment-textarea" className="columns">
-          <div className="column is-2">
+        <label htmlFor="comment-textarea" className="flex">
+          <div className="pr-2">
             <UserAvatar
               user={this.props.auth.user}
               className="cursor-pointer"
             />
           </div>
-          <div className="column is-10 ">
+          <div className="flex-1">
             <TextareaAutosize
               disabled={this.state.isLoading}
               className="textarea"
@@ -74,7 +74,7 @@ class CommentForm extends React.Component {
             />
           </div>
         </label>
-        <div className="flex w-full">
+        <div className="flex w-full pt-2">
           <button
             disabled={this.state.isLoading}
             type="submit"

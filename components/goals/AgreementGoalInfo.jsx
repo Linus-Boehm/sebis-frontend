@@ -157,19 +157,15 @@ class AgreementGoalInfo extends React.Component {
             </div>
             <div className="column is-1 is-goal-info-subheader">%</div>
             <div className="column is-3 is-offset-2 is-goal-info-subheader">
-              {" "}
-              {(oa_weight / 100) *
-                Number(
+              {Math.floor(
+                (oa_weight / 100) *
                   this.props.agreements.selectedAgreement.bonus
-                    .replace("$", "")
-                    .replace(",", "")
-                )}{" "}
-              €
+              )}
+              $
             </div>
           </div>
 
           <CommentBox relatedTo={selectedGoal._id} />
-          {JSON.stringify(selectedGoal)}
         </div>
       </div>
     );

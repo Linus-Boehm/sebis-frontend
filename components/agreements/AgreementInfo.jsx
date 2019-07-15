@@ -9,6 +9,9 @@ import { updateAgreement } from "../../store/actions/agreements";
 import CommentBox from "../layout/Comment/CommentBox";
 import CurrencyInput from "react-currency-input";
 import { isNull } from "util";
+
+import Icon from "@mdi/react";
+import { mdiChevronLeft } from "@mdi/js";
 import { connect } from "react-redux";
 import AgreementUserDropdown from "./AgreementUserDropdown";
 
@@ -39,19 +42,6 @@ class AgreementInfo extends React.Component {
   onChange = async changes => {
     await this.props.onChangeInput(changes);
   };
-
-  getReviewer() {
-    const { selectedAgreement = {}, userList = {} } = this.props;
-
-    const reviewer = userList[selectedAgreement.reviewer];
-    console.log("PROPS");
-    console.log(this.props);
-    if (reviewer !== undefined && reviewer !== null) {
-      return reviewer;
-    } else {
-      return this.props.auth.user;
-    }
-  }
 
   getAssignee() {
     const { selectedAgreement = {}, userList = {} } = this.props;
@@ -91,9 +81,12 @@ class AgreementInfo extends React.Component {
       <div>
         <div>
           <Link href="/app/agreements">
-            <span className="cursor-pointer hover:text-blue-300">
-              {"< Back to List"}
-            </span>
+            <div className="cursor-pointer hover:text-blue-300 flex">
+              <span className="pt-1">
+                <Icon size="1em" path={mdiChevronLeft} />
+              </span>
+              <span className=""> Back to List</span>
+            </div>
           </Link>
         </div>
         <div className="mt-3">
@@ -157,7 +150,7 @@ class AgreementInfo extends React.Component {
             </div>
           </div>
           <div className="column">
-            <AvatarWithName user={this.getReviewer()} title="Manager" />
+            <AvatarWithName user={reviewer} title="Manager" />
           </div>
         </div>
 
@@ -196,7 +189,9 @@ class AgreementInfo extends React.Component {
               name="bonus"
               className="input editable-input-and-show-value"
               onBlur={this.props.onUpdateAgreement}
-              onChangeEvent={e => this.onChange({ bonus: e.target.value })}
+              onChangeEvent={(e, maskedvalue, floatvalue) =>
+                this.onChange({ bonus: floatvalue })
+              }
               value={bonus ? bonus : ""}
             />
           </div>
@@ -213,7 +208,9 @@ class AgreementInfo extends React.Component {
               style={{ fontWeight: "bold" }}
               name="max_bonus"
               onBlur={this.props.onUpdateAgreement}
-              onChangeEvent={e => this.onChange({ max_bonus: e.target.value })}
+              onChangeEvent={(e, maskedvalue, floatvalue) =>
+                this.onChange({ max_bonus: floatvalue })
+              }
               value={max_bonus ? max_bonus : ""}
             />
           </div>
@@ -222,12 +219,13 @@ class AgreementInfo extends React.Component {
           <AgreementGoalsList agreement={selectedAgreement} />
         </div>
         <br />
-        <button className="button is-primary " style={{ marginLeft: "84%" }}>
-          Confirm Agreement
-        </button>
+        <div className="flex w-full ">
+          <button className="button is-primary ml-auto">
+            Confirm Agreement
+          </button>
+        </div>
 
         <CommentBox relatedTo={selectedAgreement._id} />
-        {JSON.stringify(selectedAgreement)}
       </div>
     );
   }

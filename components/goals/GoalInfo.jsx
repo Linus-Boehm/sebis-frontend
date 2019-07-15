@@ -12,8 +12,6 @@ import GoalProgressBar from "../utils/progress/GoalProgressBar";
 import EditButton from "../utils/buttons/EditButton";
 import ActiveLink from "../layout/ActiveLink";
 import {GOAL_TYPE} from "../../store/types/goal";
-import AgreementItem from "../agreements/list/AgreementItem";
-import * as AgreementActions from "../../store/actions/agreements";
 
 class GoalInfo extends React.Component {
 
@@ -33,19 +31,21 @@ class GoalInfo extends React.Component {
 
   onSelectGoal = id => {
     this.props.dispatch(CommentActions.fetchComments(id));
-    return this.props.dispatch(GoalActions.assignSelectedGoal(this.props.allGoals[ id ]));
+    return this.props.dispatch(
+      GoalActions.assignSelectedGoal(this.props.allGoals[id])
+    );
   };
 
   setDeleteModalVisibility = (isDeleteModalVisible = false) => {
     this.setState({ isDeleteModalVisible });
   };
 
-  onChangeAndSave = async (changes) => {
+  onChangeAndSave = async changes => {
     await this.onChange(changes);
-    await this.props.onUpdateGoal()
+    await this.props.onUpdateGoal();
   };
 
-  onChange = async (changes) => {
+  onChange = async changes => {
     await this.props.onChangeInput(changes);
   };
 
@@ -82,38 +82,42 @@ class GoalInfo extends React.Component {
     return (
       <div className="w-full h-full goal-info">
         <div className="content">
-        <div className="goal-detail-header flex">
-          <div className="people justify-start flex-1">
-            <GoalAvatar className="m-1" selectedGoal={selectedGoal}/>
-          </div>
+          <div className="goal-detail-header flex">
+            <div className="people justify-start flex-1">
+              <GoalAvatar className="m-1" selectedGoal={selectedGoal} />
+            </div>
 
-          <div className="justify-end actions">
-            <button className="button is-danger ml-2" title={"Delete Goal"} onClick={() => {
-              this.setDeleteModalVisibility(true)
-            }}>
-              <FaTrashAlt/>
-            </button>
-            <ConfirmModal
-              title="Confirm Delete"
-              active={this.state.isDeleteModalVisible}
-              confirmButtonType="is-danger"
-              confirmButtonText="Delete"
-              onCloseModal={() => {
-                this.setDeleteModalVisibility(false)
-              }}
-              onConfirm={this.handleDelete}
-            >
-              Are you sure?
-            </ConfirmModal>
+            <div className="justify-end actions">
+              <button
+                className="button is-danger ml-2"
+                title={"Delete Goal"}
+                onClick={() => {
+                  this.setDeleteModalVisibility(true);
+                }}
+              >
+                <FaTrashAlt />
+              </button>
+              <ConfirmModal
+                title="Confirm Delete"
+                active={this.state.isDeleteModalVisible}
+                confirmButtonType="is-danger"
+                confirmButtonText="Delete"
+                onCloseModal={() => {
+                  this.setDeleteModalVisibility(false);
+                }}
+                onConfirm={this.handleDelete}
+              >
+                Are you sure?
+              </ConfirmModal>
 
-            <button
-              className="ml-3 text-gray-600 is-size-12 cursor-pointer p-2"
-              onClick={onClose}
-            >
-              <FaTimes size={24}/>
-            </button>
+              <button
+                className="ml-3 text-gray-600 is-size-12 cursor-pointer p-2"
+                onClick={onClose}
+              >
+                <FaTimes size={24} />
+              </button>
+            </div>
           </div>
-        </div>
 
         <div className="pt-2">
           <div className="field">
@@ -163,35 +167,49 @@ class GoalInfo extends React.Component {
         </div>
         }
 
-        {selectedGoal.parent_goal &&
-        <div>
-          <h3 className="goal-info-subheader">Contributing to</h3>
-          <GoalItem key={"parent_goal_" + selectedGoal.parent_goal} goal={this.props.allGoals[ selectedGoal.parent_goal ]} onSelect={this.onSelectGoal}/>
-        </div>
-        }
-
-        <h3 className="goal-info-subheader">Progress</h3>
-        {selectedGoal.progress_type ?
-          <div className="flex w-full justify-between px-1">
-            <GoalProgressBar className="mt-0" value="4/5"/>
-            <ActiveLink href={"/app/goals/progress?id=" + selectedGoal._id}>
-              <EditButton className="is-small"><span className="pl-1">Edit Progress</span></EditButton>
-            </ActiveLink>
-          </div> :
-          <div>
-            <p>Define progress type to start.</p>
-            <div className="select">
-              <select name={"progress_type"} onChange={(e) => this.onChangeAndSave({ [ e.target.name ]: e.target.value }) }>
-                <option value={""}>Please select</option>
-                <option value={GOAL_TYPE.QUALITATIVE}>Qualitative Goal (Smileys)</option>
-                <option value={GOAL_TYPE.COUNT}>Numeric Goal</option>
-                <option value={GOAL_TYPE.BOOLEAN}>Goal to reach (Done or Not Done)</option>
-              </select>
+          {selectedGoal.parent_goal && (
+            <div>
+              <h3 className="goal-info-subheader">Contributing to</h3>
+              <GoalItem
+                goal={this.props.allGoals[selectedGoal.parent_goal]}
+                onSelect={this.onSelectGoal}
+              />
             </div>
-          </div>
-        }
-        <CommentBox relatedTo={selectedGoal._id}/>
-        {JSON.stringify(selectedGoal)}
+          )}
+
+          <h3 className="goal-info-subheader">Progress</h3>
+          {selectedGoal.progress_type ? (
+            <div className="flex w-full justify-between px-1">
+              <GoalProgressBar className="mt-0" value="4/5" />
+              <ActiveLink href={"/app/goals/progress?id=" + selectedGoal._id}>
+                <EditButton className="is-small">
+                  <span className="pl-1">Edit Progress</span>
+                </EditButton>
+              </ActiveLink>
+            </div>
+          ) : (
+            <div>
+              <p>Define progress type to start.</p>
+              <div className="select">
+                <select
+                  name={"progress_type"}
+                  onChange={e =>
+                    this.onChangeAndSave({ [e.target.name]: e.target.value })
+                  }
+                >
+                  <option value={""}>Please select</option>
+                  <option value={GOAL_TYPE.QUALITATIVE}>
+                    Qualitative Goal (Smileys)
+                  </option>
+                  <option value={GOAL_TYPE.COUNT}>Numeric Goal</option>
+                  <option value={GOAL_TYPE.BOOLEAN}>
+                    Goal to reach (Done or Not Done)
+                  </option>
+                </select>
+              </div>
+            </div>
+          )}
+          <CommentBox relatedTo={selectedGoal._id} />
         </div>
       </div>
     );
