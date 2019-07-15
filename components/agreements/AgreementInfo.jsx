@@ -9,6 +9,9 @@ import { updateAgreement } from "../../store/actions/agreements";
 import CommentBox from "../layout/Comment/CommentBox";
 import CurrencyInput from "react-currency-input";
 import { isNull } from "util";
+
+import Icon from "@mdi/react";
+import { mdiChevronLeft } from "@mdi/js";
 import { connect } from "react-redux";
 import AgreementUserDropdown from "./AgreementUserDropdown";
 
@@ -39,19 +42,6 @@ class AgreementInfo extends React.Component {
   onChange = async changes => {
     await this.props.onChangeInput(changes);
   };
-
-  getReviewer() {
-    const { selectedAgreement = {}, userList = {} } = this.props;
-
-    const reviewer = userList[selectedAgreement.reviewer];
-    console.log("PROPS");
-    console.log(this.props);
-    if (reviewer !== undefined && reviewer !== null) {
-      return reviewer;
-    } else {
-      return this.props.auth.user;
-    }
-  }
 
   getAssignee() {
     const { selectedAgreement = {}, userList = {} } = this.props;
@@ -91,9 +81,12 @@ class AgreementInfo extends React.Component {
       <div>
         <div>
           <Link href="/app/agreements">
-            <span className="cursor-pointer hover:text-blue-300">
-              {"< Back to List"}
-            </span>
+            <div className="cursor-pointer hover:text-blue-300 flex">
+              <span className="pt-1">
+                <Icon size="1em" path={mdiChevronLeft} />
+              </span>
+              <span className=""> Back to List</span>
+            </div>
           </Link>
         </div>
         <div className="mt-3">
@@ -157,7 +150,7 @@ class AgreementInfo extends React.Component {
             </div>
           </div>
           <div className="column">
-            <AvatarWithName user={this.getReviewer()} title="Manager" />
+            <AvatarWithName user={reviewer} title="Manager" />
           </div>
         </div>
 
@@ -233,7 +226,6 @@ class AgreementInfo extends React.Component {
         </div>
 
         <CommentBox relatedTo={selectedAgreement._id} />
-        {JSON.stringify(selectedAgreement)}
       </div>
     );
   }

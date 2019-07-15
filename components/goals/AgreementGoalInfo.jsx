@@ -165,7 +165,6 @@ class AgreementGoalInfo extends React.Component {
           </div>
 
           <CommentBox relatedTo={selectedGoal._id} />
-          {JSON.stringify(selectedGoal)}
         </div>
       </div>
     );
