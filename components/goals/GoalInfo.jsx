@@ -162,18 +162,20 @@ class GoalInfo extends React.Component {
 
           {agreement_mode ?
             <>
-              <h3 className="goal-info-subheader">Weight of Total Bonus</h3>
+              <h3 className="goal-info-subheader"><label htmlFor={"goal_weight_" + selectedGoal._id}>Weight of Total Bonus</label></h3>
               <div className="columns">
                 <div className="column is-3 is-offset-1">
                   <input
+                    id={"goal_weight_" + selectedGoal._id}
                     className="input editable-input-and-show-value"
                     type="number"
-                    max="10"
+                    max="100"
+                    min={0}
                     step="10"
                     name="oa_weight"
                     onBlur={this.props.onUpdateGoal}
                     onChange={e =>
-                      this.onChange({ [e.target.name]: e.target.value })
+                      this.onChange({ [e.target.name]: e.target.value > 100 ? 100 : e.target.value })
                     }
                     value={oa_weight ? oa_weight : ""}
                   />
