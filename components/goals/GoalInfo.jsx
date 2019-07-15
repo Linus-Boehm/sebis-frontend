@@ -160,78 +160,81 @@ class GoalInfo extends React.Component {
           </div>
           }
 
-          {agreement_mode ?
-            <>
-              <h3 className="goal-info-subheader"><label htmlFor={"goal_weight_" + selectedGoal._id}>Weight of Total Bonus</label></h3>
-              <div className="columns">
-                <div className="column is-3 is-offset-1">
-                  <input
-                    id={"goal_weight_" + selectedGoal._id}
-                    className="input editable-input-and-show-value"
-                    type="number"
-                    max="100"
-                    min={0}
-                    step="10"
-                    name="oa_weight"
-                    onBlur={this.props.onUpdateGoal}
+          {agreement_mode &&
+          <>
+            <h3 className="goal-info-subheader"><label htmlFor={"goal_weight_" + selectedGoal._id}>Weight of Total
+              Bonus</label></h3>
+            <div className="columns">
+              <div className="column is-3 is-offset-1">
+                <input
+                  id={"goal_weight_" + selectedGoal._id}
+                  className="input editable-input-and-show-value"
+                  type="number"
+                  max="100"
+                  min={0}
+                  step="10"
+                  name="oa_weight"
+                  onBlur={this.props.onUpdateGoal}
+                  onChange={e =>
+                    this.onChange({[e.target.name]: e.target.value > 100 ? 100 : e.target.value})
+                  }
+                  value={oa_weight ? oa_weight : ""}
+                />
+              </div>
+              <div className="column is-1 is-goal-info-subheader">%</div>
+              <div className="column is-3 is-offset-2 is-goal-info-subheader">
+                {this.getWeightInDollars()} $
+              </div>
+            </div>
+          </>
+          }
+
+          <>
+            {selectedGoal.parent_goal && (
+              <div>
+                <h3 className="goal-info-subheader">Contributing to</h3>
+                <GoalItem
+                  goal={this.props.allGoals[selectedGoal.parent_goal]}
+                  onSelect={this.onSelectGoal}
+                />
+              </div>
+            )}
+
+            <h3 className="goal-info-subheader">Progress</h3>
+            {selectedGoal.progress_type ? (
+              <div className="flex w-full justify-between px-1">
+                <GoalProgress className="mt-0" goal={selectedGoal} />
+                {!agreement_mode &&
+                <ActiveLink href={"/app/goals/progress?id=" + selectedGoal._id}>
+                  <EditButton className="is-small">
+                    <span className="pl-1">Edit Progress</span>
+                  </EditButton>
+                </ActiveLink>
+                }
+              </div>
+            ) : (
+              <div>
+                <p>Define progress type to start.</p>
+                <div className="select">
+                  <select
+                    name={"progress_type"}
                     onChange={e =>
-                      this.onChange({ [e.target.name]: e.target.value > 100 ? 100 : e.target.value })
+                      this.onChangeAndSave({ [e.target.name]: e.target.value })
                     }
-                    value={oa_weight ? oa_weight : ""}
-                  />
-                </div>
-                <div className="column is-1 is-goal-info-subheader">%</div>
-                <div className="column is-3 is-offset-2 is-goal-info-subheader">
-                  {this.getWeightInDollars()} $
+                  >
+                    <option value={""}>Please select</option>
+                    <option value={GOAL_TYPE.QUALITATIVE}>
+                      Qualitative Goal (Smileys)
+                    </option>
+                    <option value={GOAL_TYPE.COUNT}>Numeric Goal</option>
+                    <option value={GOAL_TYPE.BOOLEAN}>
+                      Goal to reach (Reached or not reached)
+                    </option>
+                  </select>
                 </div>
               </div>
-            </>
-            :
-            <>
-              {selectedGoal.parent_goal && (
-                <div>
-                  <h3 className="goal-info-subheader">Contributing to</h3>
-                  <GoalItem
-                    goal={this.props.allGoals[selectedGoal.parent_goal]}
-                    onSelect={this.onSelectGoal}
-                  />
-                </div>
-              )}
-
-              <h3 className="goal-info-subheader">Progress</h3>
-              {selectedGoal.progress_type ? (
-                <div className="flex w-full justify-between px-1">
-                  <GoalProgress className="mt-0" goal={selectedGoal} />
-                  <ActiveLink href={"/app/goals/progress?id=" + selectedGoal._id}>
-                    <EditButton className="is-small">
-                      <span className="pl-1">Edit Progress</span>
-                    </EditButton>
-                  </ActiveLink>
-                </div>
-              ) : (
-                <div>
-                  <p>Define progress type to start.</p>
-                  <div className="select">
-                    <select
-                      name={"progress_type"}
-                      onChange={e =>
-                        this.onChangeAndSave({ [e.target.name]: e.target.value })
-                      }
-                    >
-                      <option value={""}>Please select</option>
-                      <option value={GOAL_TYPE.QUALITATIVE}>
-                        Qualitative Goal (Smileys)
-                      </option>
-                      <option value={GOAL_TYPE.COUNT}>Numeric Goal</option>
-                      <option value={GOAL_TYPE.BOOLEAN}>
-                        Goal to reach (Done or Not Done)
-                      </option>
-                    </select>
-                  </div>
-                </div>
-              )}
-            </>
-          }
+            )}
+          </>
           <CommentBox relatedTo={selectedGoal._id} />
         </div>
       </div>
