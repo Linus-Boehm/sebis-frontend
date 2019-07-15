@@ -1,5 +1,4 @@
 import React from "react";
-import DatePicker from "react-datepicker";
 import { FaAlignLeft, FaCalendarAlt } from "react-icons/fa"
 import BaseButton from "../../utils/buttons/BaseButton";
 import GoalAvatar from "../../utils/user/GoalAvatar";
@@ -7,8 +6,6 @@ import Link from 'next/link'
 import UserAvatar from "../../utils/user/UserAvatar";
 import AgreementTitle from "../../agreements/common/AgreementTitle";
 import moment from "moment";
-import {mdiChevronLeft} from "@mdi/js";
-import Icon from "@mdi/react";
 import GoalProgress from "./GoalProgress";
 import {getCurrentOverallProgress, getMaximumProgress} from "../../../services/Goal/GoalProgressService";
 
@@ -16,9 +13,6 @@ class ProgressInfo extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-      startDate: new Date()
-    };
   }
 
   onChangeAndSave = async (changes) => {
@@ -29,12 +23,6 @@ class ProgressInfo extends React.Component {
   onChange = async (changes) => {
     await this.props.onChangeInput(changes);
   };
-
-  handleChange(date) {
-    this.setState({
-      startDate: date
-    })
-  }
 
   getAgreementById(agreement) {
     if(this.props.agreements[agreement] != null) {
@@ -62,7 +50,7 @@ class ProgressInfo extends React.Component {
         <div className={"ProgressHeader"}>
           <div className="flex h-full">
             <h2 className="has-text-grey-darker column title">
-              {selectedGoal.title}
+              {title}
             </h2>
 
             <div className="actions column justify-end text-right actions">
@@ -121,10 +109,10 @@ class ProgressInfo extends React.Component {
             </div>
           </div>
 
-          {selectedGoal.description &&
+          {description &&
             <div className={"description"}>
               <FaAlignLeft className={"float-left mt-1"}/>
-              <p className={"whitespace-pre-line ml-8"}>{selectedGoal.description}</p>
+              <p className={"whitespace-pre-line ml-8"}>{description}</p>
               <div className={"clearfix"}/>
             </div>
           }

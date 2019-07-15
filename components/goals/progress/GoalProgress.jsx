@@ -20,7 +20,7 @@ class GoalProgress extends React.Component {
       progress
     } = goal;
 
-    const all_progress = getCurrentOverallProgress(goal)
+    const all_progress = getCurrentOverallProgress(goal);
 
     switch (progress_type) {
       case GOAL_TYPE.COUNT:

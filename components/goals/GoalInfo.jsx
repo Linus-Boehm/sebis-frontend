@@ -11,6 +11,7 @@ import ActiveLink from "../layout/ActiveLink";
 import { GOAL_TYPE } from "../../store/types/goal";
 import AgreementItem from "../agreements/list/AgreementItem";
 import GoalProgress from "./progress/GoalProgress";
+import {getMaximumProgress} from "../../services/Goal/GoalProgressService";
 
 class GoalInfo extends React.Component {
 
@@ -53,7 +54,7 @@ class GoalInfo extends React.Component {
   }
 
   getWeightInDollars = () => {
-    if (!!this.props.selectedAgreement.bonus) {
+    if (!!this.props.selectedAgreement.bonus && !!this.props.selectedGoal.oa_weight) {
       return Math.floor(
         (this.props.selectedGoal.oa_weight / 100) *
           this.props.selectedAgreement.bonus
@@ -216,7 +217,7 @@ class GoalInfo extends React.Component {
           )}
 
           <h3 className="goal-info-subheader">Progress</h3>
-          {selectedGoal.progress_type ? (
+          {selectedGoal.progress_type && getMaximumProgress(selectedGoal) !== 0 ? (
             <div className="flex w-full justify-between px-1">
               <GoalProgress className="mt-0" goal={selectedGoal} />
               <ActiveLink
@@ -248,6 +249,23 @@ class GoalInfo extends React.Component {
                     Goal to reach (Done or Not Done)
                   </option>
                 </select>
+              </div>
+              <div className="pt-2">
+              {selectedGoal.progress_type === GOAL_TYPE.COUNT &&
+                <label className="control font-bold">
+                  Maximum Progress
+                  <input
+                    className="input"
+                    name={"maximum_progress"}
+                    type="number"
+                    placeholder="Maximum Progress"
+                    onBlur={e =>
+                      this.onChangeAndSave({
+                        [e.target.name]: e.target.value
+                      })
+                    } />
+                </label>
+              }
               </div>
             </div>
           )}

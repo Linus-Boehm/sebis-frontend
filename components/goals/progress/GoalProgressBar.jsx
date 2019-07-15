@@ -4,7 +4,7 @@ import LoadingIcon from "mdi-react/LoadingIcon";
 
 class GoalProgressBar extends React.Component {
     render() {
-        const progress = this.props.progress?this.props.progress:80;
+        const progress = this.props.progress;
         const buttonClass = 'goal-progress-bar rounded-sm shadow-md has-background-grey-light relative overflow-hidden'
             + ' '
             + (this.props.className ? this.props.className : '')
