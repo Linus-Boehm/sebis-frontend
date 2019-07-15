@@ -53,6 +53,7 @@ class ProgressInfo extends React.Component {
                 <GoalAvatar className="m-1 float-left" selectedGoal={selectedGoal}/>
                 <h4 className={"field-info text-gray-400"}>Assigned to</h4>
                 <h4 className={"field-value"}>{selectedGoal.assignee.firstname} {selectedGoal.assignee.lastname}</h4>
+                <div className={"clearfix"}/>
               </div>
             }
 
@@ -62,6 +63,7 @@ class ProgressInfo extends React.Component {
                   <FaCalendarAlt size={45} className={"float-left"} />
                   <h4 className={"field-info text-gray-400"}>End date</h4>
                   <h4 className={"field-value"}>TODO</h4>
+                  <div className={"clearfix"}/>
                 </div>
 
                 <div className={"column field"}>
@@ -76,11 +78,18 @@ class ProgressInfo extends React.Component {
                 <GoalAvatar className="m-1 float-left" selectedGoal={selectedGoal}/>
                 <h4 className={"field-info text-gray-400"}>Reviewed by</h4>
                 <h4 className={"field-value"}>{selectedGoal.assignee.firstname} {selectedGoal.assignee.lastname}</h4>
+                <div className={"clearfix"}/>
               </div>
             }
           </div>
 
-          <FaAlignLeft className={"float-left mt-1"} /> <p className={"whitespace-pre-line ml-8"}>{selectedGoal.description}</p>
+          {selectedGoal.description &&
+            <div className={"description"}>
+              <FaAlignLeft className={"float-left mt-1"}/>
+              <p className={"whitespace-pre-line ml-8"}>{selectedGoal.description}</p>
+              <div className={"clearfix"}/>
+            </div>
+          }
           <DatePicker selected={this.state.startDate}
                       onChange={this.handleChange.bind(this)} />
 
