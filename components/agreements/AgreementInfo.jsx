@@ -51,10 +51,12 @@ class AgreementInfo extends React.Component {
       return <AvatarWithName user={assignee} title="Employee" />;
     } else {
       return (
-        <AgreementUserDropdown
-          onChangeInput={this.props.onChangeInput}
-          onUpdateAgreement={this.props.onUpdateAgreement}
-        />
+        <div className="pl-4">
+          <AgreementUserDropdown
+            onChangeInput={this.props.onChangeInput}
+            onUpdateAgreement={this.props.onUpdateAgreement}
+          />
+        </div>
       );
     }
   }
