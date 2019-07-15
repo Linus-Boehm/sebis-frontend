@@ -11,10 +11,10 @@ import ActiveLink from "../layout/ActiveLink";
 import { GOAL_TYPE } from "../../store/types/goal";
 import AgreementItem from "../agreements/list/AgreementItem";
 import GoalProgress from "./progress/GoalProgress";
-import {getMaximumProgress} from "../../services/Goal/GoalProgressService";
+import { getMaximumProgress } from "../../services/Goal/GoalProgressService";
+import { connect } from "react-redux";
 
 class GoalInfo extends React.Component {
-
   constructor(props) {
     super(props);
     this.state = {
@@ -54,7 +54,10 @@ class GoalInfo extends React.Component {
   }
 
   getWeightInDollars = () => {
-    if (!!this.props.selectedAgreement.bonus && !!this.props.selectedGoal.oa_weight) {
+    if (
+      !!this.props.selectedAgreement.bonus &&
+      !!this.props.selectedGoal.oa_weight
+    ) {
       return Math.floor(
         (this.props.selectedGoal.oa_weight / 100) *
           this.props.selectedAgreement.bonus
@@ -150,9 +153,7 @@ class GoalInfo extends React.Component {
             />
           </div>
 
-          <SubGoalList
-            parentGoal={selectedGoal}
-            {...this.props}/>
+          <SubGoalList parentGoal={selectedGoal} {...this.props} />
 
           {agreement && (
             <div>
@@ -161,50 +162,48 @@ class GoalInfo extends React.Component {
                 size_class={""}
                 key={agreement._id}
                 agreement={agreement}
-                reviewer={agreement.reviewer}
-                assignee={agreement.assignee}
+                reviewer={this.props.reviewer}
+                assignee={this.props.assignee}
               />
             </div>
           )}
 
-          {agreement_mode &&
-          <>
-            <h3 className="goal-info-subheader">
-              <label htmlFor={"goal_weight_" + selectedGoal._id}>
-                Weight of Total Bonus
-              </label>
-            </h3>
-            <div className="flex">
-              <div className="flex-1 goal-weight-input control has-icons-right">
-                <input
-                  id={"goal_weight_" + selectedGoal._id}
-                  className="input editable-input-and-show-value text-right"
-                  disabled={editModeDisabled}
-                  type="number"
-                  max="100"
-                  min={0}
-                  step="10"
-                  name="oa_weight"
-                  placeholder={"Percentage"}
-                  onBlur={this.props.onUpdateGoal}
-                  onChange={e =>
-                    this.onChange({
-                      [e.target.name]:
-                        e.target.value > 100 ? 100 : e.target.value
-                    })
-                  }
-                  value={oa_weight ? oa_weight : ""}
-                />
-                <span className="text-black icon is-middle is-right">
-                  %
-                </span>
+          {agreement_mode && (
+            <>
+              <h3 className="goal-info-subheader">
+                <label htmlFor={"goal_weight_" + selectedGoal._id}>
+                  Weight of Total Bonus
+                </label>
+              </h3>
+              <div className="flex">
+                <div className="flex-1 goal-weight-input control has-icons-right">
+                  <input
+                    id={"goal_weight_" + selectedGoal._id}
+                    className="input editable-input-and-show-value text-right"
+                    disabled={editModeDisabled}
+                    type="number"
+                    max="100"
+                    min={0}
+                    step="10"
+                    name="oa_weight"
+                    placeholder={"Percentage"}
+                    onBlur={this.props.onUpdateGoal}
+                    onChange={e =>
+                      this.onChange({
+                        [e.target.name]:
+                          e.target.value > 100 ? 100 : e.target.value
+                      })
+                    }
+                    value={oa_weight ? oa_weight : ""}
+                  />
+                  <span className="text-black icon is-middle is-right">%</span>
+                </div>
+                <div className="flex-1 goal-weight text-right font-bold">
+                  = {this.getWeightInDollars()} $
+                </div>
               </div>
-              <div className="flex-1 goal-weight text-right font-bold">
-                = {this.getWeightInDollars()} $
-              </div>
-            </div>
-          </>
-          }
+            </>
+          )}
 
           {selectedGoal.parent_goal && (
             <div>
@@ -217,12 +216,11 @@ class GoalInfo extends React.Component {
           )}
 
           <h3 className="goal-info-subheader">Progress</h3>
-          {selectedGoal.progress_type && getMaximumProgress(selectedGoal) !== 0 ? (
+          {selectedGoal.progress_type &&
+          getMaximumProgress(selectedGoal) !== 0 ? (
             <div className="flex w-full justify-between px-1">
               <GoalProgress className="mt-0" goal={selectedGoal} />
-              <ActiveLink
-                href={"/app/goals/progress?id=" + selectedGoal._id}
-              >
+              <ActiveLink href={"/app/goals/progress?id=" + selectedGoal._id}>
                 <EditButton className="is-small">
                   <span className="pl-1">Edit Progress</span>
                 </EditButton>
@@ -251,21 +249,22 @@ class GoalInfo extends React.Component {
                 </select>
               </div>
               <div className="pt-2">
-              {selectedGoal.progress_type === GOAL_TYPE.COUNT &&
-                <label className="control font-bold">
-                  Maximum Progress
-                  <input
-                    className="input"
-                    name={"maximum_progress"}
-                    type="number"
-                    placeholder="Maximum Progress"
-                    onBlur={e =>
-                      this.onChangeAndSave({
-                        [e.target.name]: e.target.value
-                      })
-                    } />
-                </label>
-              }
+                {selectedGoal.progress_type === GOAL_TYPE.COUNT && (
+                  <label className="control font-bold">
+                    Maximum Progress
+                    <input
+                      className="input"
+                      name={"maximum_progress"}
+                      type="number"
+                      placeholder="Maximum Progress"
+                      onBlur={e =>
+                        this.onChangeAndSave({
+                          [e.target.name]: e.target.value
+                        })
+                      }
+                    />
+                  </label>
+                )}
               </div>
             </div>
           )}
@@ -276,4 +275,14 @@ class GoalInfo extends React.Component {
   }
 }
 
-export default GoalInfo;
+function mapStateToProps(state) {
+  let { reviewer, assignee } = state.agreements.selectedAgreement;
+  reviewer = state.users.userList[reviewer];
+  assignee = state.users.userList[assignee];
+  return {
+    assignee,
+    reviewer
+  };
+}
+
+export default connect(mapStateToProps)(GoalInfo);

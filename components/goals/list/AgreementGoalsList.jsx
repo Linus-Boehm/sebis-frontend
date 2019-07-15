@@ -38,7 +38,8 @@ class AgreementGoalsList extends React.Component {
         }
         newGoalTemplate={{
           related_model: "ObjectiveAgreement",
-          related_to: agreement._id
+          related_to: agreement._id,
+          assignee: agreement.assignee
         }}
       />
     ) : null;
