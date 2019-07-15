@@ -72,44 +72,45 @@ class AgreementUserDropdown extends React.Component {
     return "team-member-dropdown z-50 absolute ";
   }
 
-  render() {
-    let hideEdit = this.props.hideEdit || false;
-    let users = this.props.users.userList;
+  onSearchInput = e => {
+    //TODO debounce Requests
+    e.preventDefault();
+
     let currentUser = this.props.auth.user;
-    users = Object.values(users);
-    let userList = <span>No Users</span>;
-    if (users && currentUser) {
-      users = users.filter(user => user._id !== currentUser._id);
-      userList =
-        users && users.length > 0 ? (
-          users.map(user => (
-            <div
-              className="flex justify-between my-2"
-              key={user._id}
-              onClick={() => this.onUserClick(user._id)}
-            >
-              <UserAvatar user={user} />
-              <span className="pt-2">
-                {user.firstname} {user.lastname}
-              </span>
-            </div>
-          ))
-        ) : (
-          <span>No Users</span>
-        );
-    }
+    let val = e.target.value;
+    let rgxp = new RegExp(val, "g");
+
+    let res = filter(Object.values(this.props.users.userList), user => {
+      return (
+        (user.firstname.match(rgxp) || user.lastname.match(rgxp)) &&
+        user._id !== currentUser._id
+      );
+    });
+    this.setState({
+      ...this.state,
+      userSearchInput: val,
+      filteredUsers: res
+    });
+  };
+  renderAssignee() {
+    return;
+  }
+  render() {
     return (
       <div className="dropdown-wrapper relative" onClick={this.props.onClick}>
         <div className="dropdown-trigger" onClick={this.toggleDropdown}>
           {this.props.children}
         </div>
         <div className={this.getDropDownClass()}>
-          <div className="team-member-dropdown-inner bg-white p-4 rounded-lg shadow-md relative">
-            <div className="flex flex-col">
-              {userList}
-              {!hideEdit}
-            </div>
-          </div>
+          <UserSearchSelect
+            className="w-64"
+            value={this.state.userSearchInput}
+            onChange={this.onSearchInput}
+            filteredUsers={this.state.filteredUsers}
+            onSelect={(e, user) => {
+              this.onUserClick(user._id);
+            }}
+          />
         </div>
         {/*language=CSS*/}
         <style jsx>

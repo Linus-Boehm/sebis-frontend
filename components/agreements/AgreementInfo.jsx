@@ -196,7 +196,9 @@ class AgreementInfo extends React.Component {
               name="bonus"
               className="input editable-input-and-show-value"
               onBlur={this.props.onUpdateAgreement}
-              onChangeEvent={e => this.onChange({ bonus: e.target.value })}
+              onChangeEvent={(e, maskedvalue, floatvalue) =>
+                this.onChange({ bonus: floatvalue })
+              }
               value={bonus ? bonus : ""}
             />
           </div>
@@ -213,7 +215,9 @@ class AgreementInfo extends React.Component {
               style={{ fontWeight: "bold" }}
               name="max_bonus"
               onBlur={this.props.onUpdateAgreement}
-              onChangeEvent={e => this.onChange({ max_bonus: e.target.value })}
+              onChangeEvent={(e, maskedvalue, floatvalue) =>
+                this.onChange({ max_bonus: floatvalue })
+              }
               value={max_bonus ? max_bonus : ""}
             />
           </div>
@@ -222,9 +226,11 @@ class AgreementInfo extends React.Component {
           <AgreementGoalsList agreement={selectedAgreement} />
         </div>
         <br />
-        <button className="button is-primary " style={{ marginLeft: "84%" }}>
-          Confirm Agreement
-        </button>
+        <div className="flex w-full ">
+          <button className="button is-primary ml-auto">
+            Confirm Agreement
+          </button>
+        </div>
 
         <CommentBox relatedTo={selectedAgreement._id} />
         {JSON.stringify(selectedAgreement)}

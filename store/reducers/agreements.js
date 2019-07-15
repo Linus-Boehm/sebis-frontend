@@ -1,12 +1,16 @@
 import {
   ASSIGN_AGREEMENTS,
-  ASSIGN_SELECTED_AGREEMENT, DELETE_AGREEMENT,
+  ASSIGN_SELECTED_AGREEMENT,
+  DELETE_AGREEMENT,
   RESET_SELECTED_AGREEMENT
-} from '../types/agreement'
-import { keyBy, map } from 'lodash';
+} from "../types/agreement";
+import { keyBy, map } from "lodash";
 
 const initialState = {
-  selectedAgreement: {},
+  selectedAgreement: {
+    bonus: 0,
+    oa_weight: 0
+  },
 
   agreements: {},
 
@@ -14,7 +18,6 @@ const initialState = {
 };
 
 export default (state = initialState, { type, data, fetchKey }) => {
-
   switch (type) {
     case RESET_SELECTED_AGREEMENT:
       return {
@@ -32,7 +35,7 @@ export default (state = initialState, { type, data, fetchKey }) => {
       const currentTime = new Date();
 
       let dataToAssign = map(data, el => ({ ...el, assignedAt: currentTime }));
-      dataToAssign = keyBy(dataToAssign, '_id');
+      dataToAssign = keyBy(dataToAssign, "_id");
 
       const fetchData = {
         ids: Object.keys(dataToAssign),
@@ -46,13 +49,13 @@ export default (state = initialState, { type, data, fetchKey }) => {
 
         fetches: {
           ...state.fetches,
-          [ fetchKey ]: fetchData
+          [fetchKey]: fetchData
         }
       };
 
     case DELETE_AGREEMENT:
       const agreements = { ...state.agreements };
-      delete agreements[ data._id ];
+      delete agreements[data._id];
 
       return {
         ...state,
@@ -62,5 +65,4 @@ export default (state = initialState, { type, data, fetchKey }) => {
     default:
       return state;
   }
-
-}
+};
