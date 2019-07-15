@@ -3,123 +3,119 @@ import {
   ASSIGN_SELECTED_AGREEMENT,
   ASSIGN_AGREEMENTS,
   DELETE_AGREEMENT
-} from '../types/agreement'
-import api from '~/services/BackendApi';
+} from "../types/agreement";
+import api from "~/services/BackendApi";
 
-export const resetSelectedAgreement = () => async (dispatch) => {
+export const resetSelectedAgreement = () => async dispatch => {
   dispatch({
     type: RESET_SELECTED_AGREEMENT
   });
 };
 
-export const assignSelectedAgreement = (data) => async (dispatch) => {
+export const assignSelectedAgreement = data => async dispatch => {
   dispatch({
     type: ASSIGN_SELECTED_AGREEMENT,
     data
   });
 };
 
-export const fetchAgreementById = (id, useCache = true) => async (dispatch, getState) => {
-
-  const cachedData = getState().agreements.agreements[ id ]
+export const fetchAgreementById = (id, useCache = true) => async (
+  dispatch,
+  getState
+) => {
+  const cachedData = getState().agreements.agreements[id];
 
   if (!cachedData || !useCache) {
     try {
-      let { data, status } = await api.agreements.fetchById(id)
+      let { data, status } = await api.agreements.fetchById(id);
 
       if (status === 200) {
         return dispatch({
           type: ASSIGN_AGREEMENTS,
-          data: [ data ]
+          data: [data]
         });
       }
     } catch (e) {
       console.log(e);
     }
   } else {
-    return
+    return;
   }
 
-  throw new Error("error in action fetchAgreementById")
+  throw new Error("error in action fetchAgreementById");
 };
 
-export const fetchMyAgreements = () => async (dispatch) => {
+export const fetchMyAgreements = () => async dispatch => {
   try {
-    let { data, status } = await api.agreements.fetchMy()
+    let { data, status } = await api.agreements.fetchMy();
 
     if (status === 200) {
       return dispatch({
         type: ASSIGN_AGREEMENTS,
         data,
-        fetchKey: 'my'
+        fetchKey: "my"
       });
     }
-
   } catch (e) {
-    console.log(e)
+    console.log(e);
   }
 
-  throw new Error("error in action fetchTeamAgreements")
+  throw new Error("error in action fetchTeamAgreements");
 };
 
-export const createAgreement = (agreement) => async (dispatch) => {
+export const createAgreement = agreement => async dispatch => {
   try {
-    let { data, status } = await api.agreements.create(agreement)
+    let { data, status } = await api.agreements.create(agreement);
 
     if (status === 200) {
       return dispatch({
         type: ASSIGN_AGREEMENTS,
-        data: [ data ],
-        fetchKey: 'lastCreated'
+        data: [data],
+        fetchKey: "lastCreated"
       });
     }
-
   } catch (e) {
-    console.log(e)
+    console.log(e);
   }
 
-  throw new Error("error in action createAgreement")
+  throw new Error("error in action createAgreement");
 };
 
-export const updateAgreement = (agreement) => async (dispatch) => {
+export const updateAgreement = agreement => async dispatch => {
   try {
-    let { data, status } = await api.agreements.update(agreement)
+    let { data, status } = await api.agreements.update(agreement);
 
     if (status === 200) {
       return dispatch({
         type: ASSIGN_AGREEMENTS,
-        data: [ data ],
-        fetchKey: 'lastUpdated'
+        data: [data],
+        fetchKey: "lastUpdated"
       });
     }
-
   } catch (e) {
-    console.log(e)
+    console.log(e);
   }
 
-  throw new Error("error in action updateAgreement")
+  throw new Error("error in action updateAgreement");
 };
 
-export const deleteAgreement = (agreement) => async (dispatch) => {
+export const deleteAgreement = agreement => async dispatch => {
   try {
-    let { data, status } = await api.agreements.updateAgreement({ _id: agreement._id, deleted_at: new Date() })
+    let { data, status } = await api.agreements.update({
+      _id: agreement._id,
+      deleted_at: new Date()
+    });
 
     if (status === 200) {
       return dispatch({
         type: DELETE_AGREEMENT,
         data,
-        fetchKey: 'lastDeleted'
+        fetchKey: "lastDeleted"
       });
     }
-
   } catch (e) {
-    console.log(e)
+    console.log(e);
   }
 
-  throw new Error("error in action deleteAgreement")
+  throw new Error("error in action deleteAgreement");
 };
-
-
-
-
-

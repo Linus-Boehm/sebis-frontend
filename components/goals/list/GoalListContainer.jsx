@@ -26,7 +26,6 @@ class GoalListContainer extends React.Component {
 
   onSelectGoal = async id => {
     const goal = Object.values(pick(this.props.allGoals, id))[ 0 ];
-    this.props.dispatch(CommentActions.fetchComments(id));
     return this.props.dispatch(GoalActions.assignSelectedGoal(goal));
   };
 

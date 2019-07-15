@@ -8,6 +8,15 @@ import TextareaAutosize from "react-autosize-textarea";
 import { updateAgreement } from "../../store/actions/agreements";
 import CommentBox from "../layout/Comment/CommentBox";
 import CurrencyInput from "react-currency-input";
+import { isNull } from "util";
+import { FaTrashAlt, FaTimes } from "react-icons/fa";
+import ConfirmModal from "../utils/modal/ConfirmModal";
+import Icon from "@mdi/react";
+import { mdiChevronLeft } from "@mdi/js";
+import { connect } from "react-redux";
+import AgreementUserDropdown from "./AgreementUserDropdown";
+import * as AgreementActions from "../../store/actions/agreements";
+import Router from "next/router";
 
 const AvatarWithName = ({ user, title }) =>
   user && user._id ? (
@@ -31,10 +40,63 @@ const AvatarWithName = ({ user, title }) =>
 class AgreementInfo extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      isDeleteModalVisible: false
+    };
   }
 
   onChange = async changes => {
     await this.props.onChangeInput(changes);
+  };
+
+  handleDelete = async () => {
+    await this.props.dispatch(
+      AgreementActions.deleteAgreement(this.props.selectedAgreement)
+    );
+    Router.push("/app/agreements");
+  };
+
+  getAssignee() {
+    const { selectedAgreement = {}, userList = {} } = this.props;
+
+    const assignee = userList[selectedAgreement.assignee];
+    if (assignee !== undefined && assignee !== null) {
+      return <AvatarWithName user={assignee} title="Employee" />;
+    } else {
+      return (
+        <div className="pl-4">
+          <AgreementUserDropdown
+            onChangeInput={this.props.onChangeInput}
+            onUpdateAgreement={this.props.onUpdateAgreement}
+          />
+        </div>
+      );
+    }
+  }
+  setDeleteModalVisibility = (isDeleteModalVisible = false) => {
+    this.setState({ isDeleteModalVisible });
+  };
+  getMyConfirmState = () => {
+    if (
+      this.props.auth.user &&
+      this.props.auth.user._id === this.props.selectedAgreement.reviewer
+    ) {
+      return this.props.selectedAgreement.reviewer_confirmed;
+    } else {
+      return this.props.selectedAgreement.assignee_confirmed;
+    }
+  };
+  updateConfirm = async () => {
+    if (this.props.auth.user._id === this.props.selectedAgreement.reviewer) {
+      await this.onChange({
+        reviewer_confirmed: !this.props.selectedAgreement.reviewer_confirmed
+      });
+    } else {
+      await this.onChange({
+        assignee_confirmed: !this.props.selectedAgreement.assignee_confirmed
+      });
+    }
+    this.props.onUpdateAgreement();
   };
 
   render() {
@@ -57,22 +119,47 @@ class AgreementInfo extends React.Component {
 
     return (
       <div>
-        <div>
+        <div className="flex">
           <Link href="/app/agreements">
-            <span className="cursor-pointer hover:text-blue-300">
-              {"< Back to List"}
-            </span>
+            <div className="cursor-pointer hover:text-blue-300 flex">
+              <span className="pt-1">
+                <Icon size="1em" path={mdiChevronLeft} />
+              </span>
+              <span className=""> Back to List</span>
+            </div>
           </Link>
+          <button
+            className="button is-danger ml-auto"
+            title={"Delete Objective Agreement"}
+            disabled={!this.props.isEditable}
+            onClick={() => {
+              this.setDeleteModalVisibility(true);
+            }}
+          >
+            <FaTrashAlt />
+          </button>
+          <ConfirmModal
+            title="Confirm Delete"
+            active={this.state.isDeleteModalVisible}
+            confirmButtonType="is-danger"
+            confirmButtonText="Delete"
+            onCloseModal={() => {
+              this.setDeleteModalVisibility(false);
+            }}
+            onConfirm={this.handleDelete}
+          >
+            Are you sure to delete the Objective Agreement?
+          </ConfirmModal>
         </div>
         <div className="mt-3">
           <span className="is-size-4 font-bold">
+            Objective Agreement for
             <AgreementTitle agreement={selectedAgreement} assignee={assignee} />
           </span>
         </div>
         <div className="columns p-0 pt-3">
-          <div className="column">
-            <AvatarWithName user={assignee} title="Employee" />
-          </div>
+          <div className="column">{this.getAssignee()}</div>
+
           <div className="column">
             <div>
               <span className="is-size-6 text-gray-400">Start date</span>
@@ -80,6 +167,7 @@ class AgreementInfo extends React.Component {
             <div className="day-picker-input">
               <DayPickerInput
                 placeholder="None"
+                inputProps={{ disabled: !this.props.isEditable }}
                 value={startDate}
                 style={{ fontWeight: "bold" }}
                 dayPickerProps={{
@@ -107,6 +195,7 @@ class AgreementInfo extends React.Component {
               <DayPickerInput
                 placeholder="None"
                 value={endDate}
+                inputProps={{ disabled: !this.props.isEditable }}
                 dayPickerProps={{
                   selectedDays: [endDate, { from: startDate, to: endDate }],
                   disabledDays: { before: startDate },
@@ -126,7 +215,7 @@ class AgreementInfo extends React.Component {
             </div>
           </div>
           <div className="column">
-            <AvatarWithName user={reviewer} title="Reviewer" />
+            <AvatarWithName user={reviewer} title="Manager" />
           </div>
         </div>
 
@@ -142,6 +231,7 @@ class AgreementInfo extends React.Component {
         <div>
           <TextareaAutosize
             rows={4}
+            disabled={!this.props.isEditable}
             style={{ marginLeft: "55px", width: "80%" }}
             className="input editable-input-and-show-value"
             name="description"
@@ -157,47 +247,73 @@ class AgreementInfo extends React.Component {
               Bonus at 100% fulfillment
             </span>
           </div>
-          <div className="column is-3" style={{ marginLeft: "35px" }}>
+          <div className="column is-2" style={{ marginLeft: "35px" }}>
             <CurrencyInput
+              disabled={!this.props.isEditable}
               precision="0"
               prefix="$"
               style={{ fontWeight: "bold" }}
               name="bonus"
               className="input editable-input-and-show-value"
               onBlur={this.props.onUpdateAgreement}
-              onChangeEvent={e => this.onChange({ bonus: e.target.value })}
+              onChangeEvent={(e, maskedvalue, floatvalue) =>
+                this.onChange({ bonus: floatvalue })
+              }
               value={bonus ? bonus : ""}
             />
           </div>
 
-          <div className="column is-2 ">
+          <div className="column is-2 is-offset-1 ">
             <span className="s-size-6 text-gray-400 ">Maximum Bonus</span>
           </div>
 
-          <div className="column is-3 is-offset-1">
+          <div className="column is-2 is-offset-1">
             <CurrencyInput
+              disabled={!this.props.isEditable}
               precision="0"
               prefix="$"
               className="input editable-input-and-show-value"
               style={{ fontWeight: "bold" }}
               name="max_bonus"
               onBlur={this.props.onUpdateAgreement}
-              onChangeEvent={e => this.onChange({ max_bonus: e.target.value })}
+              onChangeEvent={(e, maskedvalue, floatvalue) =>
+                this.onChange({ max_bonus: floatvalue })
+              }
               value={max_bonus ? max_bonus : ""}
             />
           </div>
         </div>
         <div>
-          <AgreementGoalsList agreement={selectedAgreement} />
+          <AgreementGoalsList
+            disableGoalAdd={!this.props.isEditable}
+            agreement={selectedAgreement}
+          />
         </div>
-        {JSON.stringify(selectedAgreement)}
-        <CommentBox
-          relatedTo={selectedAgreement._id}
-          style={{ width: "80%" }}
-        />
+        <br />
+        <div className="flex w-full ">
+          <button
+            disabled={
+              selectedAgreement.assignee_confirmed &&
+              selectedAgreement.reviewer_confirmed
+            }
+            className={
+              "button ml-auto " +
+              (this.getMyConfirmState() ? "is-light" : "is-primary")
+            }
+            onClick={e => {
+              this.updateConfirm();
+            }}
+          >
+            {this.getMyConfirmState()
+              ? "Cancel Confirmation"
+              : "Confirm Agreement"}
+          </button>
+        </div>
+
+        <CommentBox relatedTo={selectedAgreement._id} />
       </div>
     );
   }
 }
 
-export default AgreementInfo;
+export default connect(state => state)(AgreementInfo);

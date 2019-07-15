@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import DefaultLayout from "~/components/layout/DefaultLayout";
 import AgreementInfoContainer from "../../components/agreements/AgreementInfoContainer";
-import AgreementGoalInfoContainer from "../../components/goals/AgreementGoalInfoContainer";
+import GoalInfoContainer from "../../components/goals/GoalInfoContainer";
 
 class Dashboard extends React.Component {
   static async getInitialProps({ query }) {
@@ -14,18 +14,7 @@ class Dashboard extends React.Component {
   render() {
     return (
       <DefaultLayout forceAuth={true}>
-        <div className="flex h-full">
-          <div className="container">
-            <div className="content">
-              <AgreementInfoContainer queryId={this.props.queryId} />
-            </div>
-          </div>
-          {this.props.selectedGoal._id && (
-            <div className="column is-one-third border-l-2 border-gray-200">
-              <AgreementGoalInfoContainer />
-            </div>
-          )}
-        </div>
+        <AgreementInfoContainer queryId={this.props.queryId} />
       </DefaultLayout>
     );
   }

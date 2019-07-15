@@ -40,22 +40,22 @@ class CommentBox extends Component {
   render() {
     const commentItems = this.filterCommentsByRelatedId().map(comment => (
       <div key={comment._id}>
-        <div className="columns p-1">
-          <div className="column is-2">
+        <div className="flex">
+          <div className="pr-2">
             <UserAvatar
               user={this.props.users.userList[comment.created_by]}
               className="cursor-pointer is-s"
             />
           </div>
-          <div className="column is-6">
+          <div className="flex-1 ">
             <div style={{ fontWeight: "bold" }}>
               {this.displayUser(comment.created_by)}
             </div>
 
-            <div> {comment.text}</div>
+            <div className="break-all"> {comment.text}</div>
           </div>
           <div
-            className="column is-6"
+            className="flex"
             style={{ fontSize: 12, color: "#C5C5C5", fontWeight: "bold" }}
           >
             <p>{moment(comment.date).fromNow()}</p>
@@ -66,15 +66,19 @@ class CommentBox extends Component {
 
     return (
       <div className="comment-box">
-        <h3 className="blue-title goal-info-subheader">
-          <label htmlFor="comment-textarea">Feed</label>
-        </h3>
+        {this.filterCommentsByRelatedId().length > 0 && (
+          <h3 className="blue-title goal-info-subheader">
+            <label htmlFor="comment-textarea">Feed</label>
+          </h3>
+        )}
         {commentItems}
         <div className="columns" />
         <h3 className="blue-title goal-info-subheader">
-          <label for="comment-textarea">Add a comment</label>
+          <label htmlFor={"comment-textarea-" + this.props.relatedTo}>
+            Add a comment
+          </label>
         </h3>
-        <CommentForm className="p-1" relatedTo={this.props.relatedTo} />
+        <CommentForm className="pl-1 pr-1" relatedTo={this.props.relatedTo} />
       </div>
     );
   } // end render

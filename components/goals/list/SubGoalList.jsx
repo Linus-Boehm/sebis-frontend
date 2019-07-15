@@ -31,7 +31,7 @@ class SubGoalList extends React.Component {
           <h3 className="goal-info-subheader">Subgoals</h3>
           {
             this.findSubgoals().map((goal) => {
-              return <GoalItem goal={goal} onSelect={this.onSelectGoal} />
+              return <GoalItem key={"subgoal_" + goal._id} goal={goal} onSelect={this.onSelectGoal} />
             })
           }
         </div>

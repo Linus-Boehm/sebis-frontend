@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import * as GoalActions from '../../store/actions/goals';
 import GoalInfo from './GoalInfo';
 import { pick } from "lodash";
+import * as AgreementActions from "../../store/actions/agreements";
+import * as CommentActions from "../../store/actions/comments";
 
 class GoalInfoContainer extends React.Component {
 
@@ -22,7 +24,13 @@ class GoalInfoContainer extends React.Component {
 
     const goal = Object.values(pick(this.props.allGoals, selectedGoal._id))[ 0 ];
     await this.props.dispatch(GoalActions.assignSelectedGoal(goal))
+  };
 
+  onSelectGoal = id => {
+    const goal = this.props.allGoals[id];
+    return this.props.dispatch(
+      GoalActions.assignSelectedGoal(goal)
+    );
   };
 
   onDeleteGoal = async () => {
@@ -44,6 +52,8 @@ class GoalInfoContainer extends React.Component {
         onClose={this.onClose}
         onChangeInput={this.onChangeInput}
         onDeleteGoal={this.onDeleteGoal}
+        onSelectGoal={this.onSelectGoal}
+        agreementMode={this.props.agreementMode}
 
         {...this.props}
       />
@@ -57,9 +67,16 @@ function mapStateToProps(state) {
     goals
   } = state.goals;
 
+  const {
+    agreements,
+    selectedAgreement
+  } = state.agreements;
+
   return {
     selectedGoal,
-    allGoals: goals
+    selectedAgreement,
+    allGoals: goals,
+    agreements: agreements
   };
 }
 

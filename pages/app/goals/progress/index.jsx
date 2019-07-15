@@ -3,11 +3,15 @@ import { connect } from "react-redux";
 import DefaultLayout from "~/components/layout/DefaultLayout";
 import { fetchUsers } from "~/store/actions/users";
 import {fetchGoalById} from "../../../../store/actions/goals";
+import {fetchComments} from "../../../../store/actions/comments";
+import CommentBox from "../../../../components/layout/Comment/CommentBox";
+import ProgressInfoContainer from "../../../../components/goals/progress/ProgressInfoContainer";
 
 class ProgressIndex extends React.Component {
     async componentDidMount() {
         await this.props.dispatch(fetchUsers());
         await this.props.dispatch(fetchGoalById(this.props.currentId));
+        await this.props.dispatch(fetchComments(this.props.currentId));
     }
 
     static async getInitialProps({ query }) {
@@ -15,15 +19,24 @@ class ProgressIndex extends React.Component {
     }
 
     render() {
+        const { selectedGoal } = this.props;
+
         return (
             <DefaultLayout forceAuth={true}>
-                <div className="content">
-                    <h2 className="has-text-grey-darker">
-                        Progress for goal: {this.props.selectedGoal.title}
-                    </h2>
-                    
-                </div>
+                <div className="flex h-full">
+                    <div className="column">
+                        <div className="content">
+                            <ProgressInfoContainer />
+                        </div>
+                    </div>
 
+                    <div className="goal-info column is-one-third border-l-2 border-gray-200 .flex-shrink-0">
+                        <CommentBox
+                          relatedTo={selectedGoal._id}
+                          {...this.props}
+                        />
+                    </div>
+                </div>
             </DefaultLayout>
         );
     }

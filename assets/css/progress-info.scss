@@ -1,0 +1,15 @@
+.ProgressHeader .title {
+  @apply pl-0;
+}
+.ProgressHeader .actions {
+  @apply p-3;
+}
+.ProgressHeader .field {
+  @apply pl-0 pr-0 pt-0;
+}
+.ProgressHeader .field .field-info, .progress-form .field-info {
+  @apply text-gray-600;
+}
+.ProgressHeader .field .field-info, .ProgressHeader .field .field-value {
+  @apply ml-16 mb-2;
+}

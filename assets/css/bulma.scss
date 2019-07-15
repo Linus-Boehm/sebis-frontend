@@ -4,19 +4,52 @@
 // Set your colors
 $primary: #194ab3;
 $primary-invert: findColorInvert($primary);
-$link: #4099FF;
+$link: #4099ff;
 $link-invert: findColorInvert($link);
+$danger: #ac1718;
+$warning: #cecece;
+
 // Setup $colors to use as bulma classes (e.g. 'is-twitter')
 $colors: (
-        "white": ($white, $black),
-        "black": ($black, $white),
-        "light": ($light, $light-invert),
-        "dark": ($dark, $dark-invert),
-        "primary": ($primary, $primary-invert),
-        "info": ($info, $info-invert),
-        "success": ($success, $success-invert),
-        "warning": ($warning, $warning-invert),
-        "danger": ($danger, $danger-invert),
-        "link": ($link, $link-invert),
+  "white": (
+    $white,
+    $black
+  ),
+  "black": (
+    $black,
+    $white
+  ),
+  "light": (
+    $light,
+    $light-invert
+  ),
+  "dark": (
+    $dark,
+    $dark-invert
+  ),
+  "primary": (
+    $primary,
+    $primary-invert
+  ),
+  "info": (
+    $info,
+    $info-invert
+  ),
+  "success": (
+    $success,
+    $success-invert
+  ),
+  "warning": (
+    $warning,
+    $warning-invert
+  ),
+  "danger": (
+    $danger,
+    $danger-invert
+  ),
+  "link": (
+    $link,
+    $link-invert
+  )
 );
 @import "../../node_modules/bulma/bulma";

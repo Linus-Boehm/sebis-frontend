@@ -1,5 +1,7 @@
 import { RESET_SELECTED_GOAL, ASSIGN_SELECTED_GOAL, ASSIGN_GOALS, DELETE_GOAL } from '../types/goal'
 import api from '~/services/BackendApi';
+import * as CommentActions from "./comments";
+import * as AgreementActions from "./agreements";
 
 export const resetSelectedGoal = () => async (dispatch) => {
   dispatch({
@@ -12,6 +14,12 @@ export const assignSelectedGoal = (data) => async (dispatch) => {
     type: ASSIGN_SELECTED_GOAL,
     data
   });
+
+  dispatch(CommentActions.fetchComments(data._id));
+
+  if(data.related_model === "ObjectiveAgreement") {
+    dispatch(AgreementActions.fetchAgreementById(data.related_to))
+  }
 };
 
 export const fetchGoalById = (id, useCache = true) => async (dispatch, getState) => {
@@ -27,20 +35,14 @@ export const fetchGoalById = (id, useCache = true) => async (dispatch, getState)
           type: ASSIGN_GOALS,
           data: [ data ]
         });
-        dispatch({
-          type: ASSIGN_SELECTED_GOAL,
-          data: data
-        });
+        dispatch(assignSelectedGoal(data));
         return data
       }
     } catch (e) {
       console.log(e);
     }
   } else {
-    dispatch({
-      type: ASSIGN_SELECTED_GOAL,
-      data: cachedData
-    });
+    dispatch(assignSelectedGoal(cachedData));
     return cachedData
   }
 
