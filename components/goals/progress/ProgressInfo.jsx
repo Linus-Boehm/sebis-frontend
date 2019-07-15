@@ -3,7 +3,7 @@ import DatePicker from "react-datepicker";
 import { FaAlignLeft, FaCalendarAlt } from "react-icons/fa"
 import BaseButton from "../../utils/buttons/BaseButton";
 import GoalAvatar from "../../utils/user/GoalAvatar";
-import * as AgreementActions from "../../../store/actions/agreements";
+import Link from 'next/link'
 import UserAvatar from "../../utils/user/UserAvatar";
 import AgreementTitle from "../../agreements/common/AgreementTitle";
 import moment from "moment";
@@ -45,6 +45,8 @@ class ProgressInfo extends React.Component {
     const { title, description } = selectedGoal;
 
     const agreement = selectedGoal.related_model === "ObjectiveAgreement" && this.getAgreementById(selectedGoal.related_to);
+    const reviewer = agreement ? this.props.userList[agreement.reviewer] : null;
+    const assignee = agreement ? this.props.userList[agreement.assignee] : null;
 
     return (
       <div>
@@ -71,7 +73,7 @@ class ProgressInfo extends React.Component {
             }
 
             {agreement &&
-              <div>
+              <>
                 <div className={"flex-1 field"}>
                   <FaCalendarAlt size={45} className={"float-left"} />
                   <h4 className={"field-info text-gray-400"}>End date</h4>
@@ -82,17 +84,21 @@ class ProgressInfo extends React.Component {
                 <div className={"flex-1 field"}>
                   <h4 className={"field-info text-gray-400"}>Related to</h4>
                   <h4 className={"field-value"}>
-                    <AgreementTitle agreement={agreement} assignee={agreement.assignee} />
+                    <Link href={`/app/agreement-info?id=${agreement._id}`}>
+                      <a>
+                        <AgreementTitle agreement={agreement} assignee={assignee} />
+                      </a>
+                    </Link>
                   </h4>
                 </div>
 
                 <div className={"flex-1 field"}>
-                  <UserAvatar className="m-1 float-left" size={45} user={agreement.reviewer}/>
+                  <UserAvatar className="m-1 float-left" size={45} user={reviewer}/>
                   <h4 className={"field-info text-gray-400"}>Reviewed by</h4>
-                  <h4 className={"field-value"}>{agreement.reviewer.firstname} {agreement.reviewer.lastname}</h4>
+                  <h4 className={"field-value"}>{reviewer.firstname} {reviewer.lastname}</h4>
                   <div className={"clearfix"}/>
                 </div>
-              </div>
+              </>
             }
           </div>
 
