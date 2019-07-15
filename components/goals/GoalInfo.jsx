@@ -6,12 +6,11 @@ import ConfirmModal from "../utils/modal/ConfirmModal";
 import GoalItem from "./list/GoalItem";
 import GoalAvatar from "../utils/user/GoalAvatar";
 import SubGoalList from "./list/SubGoalList";
-import GoalProgressBar from "../utils/progress/GoalProgressBar";
 import EditButton from "../utils/buttons/EditButton";
 import ActiveLink from "../layout/ActiveLink";
 import {GOAL_TYPE} from "../../store/types/goal";
 import AgreementItem from "../agreements/list/AgreementItem";
-
+import GoalProgress from "./progress/GoalProgress";
 
 class GoalInfo extends React.Component {
 
@@ -161,7 +160,7 @@ class GoalInfo extends React.Component {
           <h3 className="goal-info-subheader">Progress</h3>
           {selectedGoal.progress_type ? (
             <div className="flex w-full justify-between px-1">
-              <GoalProgressBar className="mt-0" value="4/5" />
+              <GoalProgress className="mt-0" goal={selectedGoal} />
               <ActiveLink href={"/app/goals/progress?id=" + selectedGoal._id}>
                 <EditButton className="is-small">
                   <span className="pl-1">Edit Progress</span>

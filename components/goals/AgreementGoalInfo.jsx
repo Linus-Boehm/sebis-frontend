@@ -8,7 +8,7 @@ import GoalAvatar from "../utils/user/GoalAvatar";
 import SubGoalList from "./list/SubGoalList";
 import * as CommentActions from "../../store/actions/comments";
 import * as GoalActions from "../../store/actions/goals";
-import GoalProgressBar from "../utils/progress/GoalProgressBar";
+import GoalProgressBar from "./progress/GoalProgressBar";
 import EditButton from "../utils/buttons/EditButton";
 import ActiveLink from "../layout/ActiveLink";
 import { connect } from "react-redux";

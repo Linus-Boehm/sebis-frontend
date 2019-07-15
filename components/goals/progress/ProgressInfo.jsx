@@ -7,6 +7,8 @@ import Link from 'next/link'
 import UserAvatar from "../../utils/user/UserAvatar";
 import AgreementTitle from "../../agreements/common/AgreementTitle";
 import moment from "moment";
+import {mdiChevronLeft} from "@mdi/js";
+import Icon from "@mdi/react";
 
 class ProgressInfo extends React.Component {
 
