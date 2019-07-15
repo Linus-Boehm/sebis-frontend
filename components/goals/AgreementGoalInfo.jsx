@@ -29,7 +29,6 @@ class AgreementGoalInfo extends React.Component {
   };
 
   onSelectGoal = id => {
-    this.props.dispatch(CommentActions.fetchComments(id));
     return this.props.dispatch(
       GoalActions.assignSelectedGoal(this.props.allGoals[id])
     );

@@ -6,14 +6,11 @@ import ConfirmModal from "../utils/modal/ConfirmModal";
 import GoalItem from "./list/GoalItem";
 import GoalAvatar from "../utils/user/GoalAvatar";
 import SubGoalList from "./list/SubGoalList";
-import * as CommentActions from "../../store/actions/comments";
-import * as GoalActions from "../../store/actions/goals";
 import GoalProgressBar from "../utils/progress/GoalProgressBar";
 import EditButton from "../utils/buttons/EditButton";
 import ActiveLink from "../layout/ActiveLink";
 import {GOAL_TYPE} from "../../store/types/goal";
 import AgreementItem from "../agreements/list/AgreementItem";
-import * as AgreementActions from "../../store/actions/agreements";
 
 
 class GoalInfo extends React.Component {
@@ -33,10 +30,7 @@ class GoalInfo extends React.Component {
   };
 
   onSelectGoal = id => {
-    this.props.dispatch(CommentActions.fetchComments(id));
-    return this.props.dispatch(
-      GoalActions.assignSelectedGoal(this.props.allGoals[id])
-    );
+    this.props.onSelectGoal(id)
   };
 
   setDeleteModalVisibility = (isDeleteModalVisible = false) => {
@@ -52,23 +46,7 @@ class GoalInfo extends React.Component {
     await this.props.onChangeInput(changes);
   };
 
-  componentDidMount() {
-    if(_.isEmpty(this.props.agreements)) {
-      this.fetchMyAgreements()
-    }
-  }
-
-  fetchMyAgreements = async () => {
-    try {
-      await this.props.dispatch(AgreementActions.fetchMyAgreements())
-      console.log(this.props)
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
   getAgreementById(agreement) {
-    console.log(this.props)
     if(this.props.agreements[agreement] != null) {
       return this.props.agreements[agreement]
     }
@@ -80,7 +58,7 @@ class GoalInfo extends React.Component {
 
     const { title, description } = selectedGoal;
 
-    const agreement = this.getAgreementById(selectedGoal.related_to)
+    const agreement = selectedGoal.related_model === "ObjectiveAgreement" && this.getAgreementById(selectedGoal.related_to);
 
     return (
       <div className="w-full h-full goal-info">

@@ -3,6 +3,10 @@ import DatePicker from "react-datepicker";
 import { FaAlignLeft, FaCalendarAlt } from "react-icons/fa"
 import BaseButton from "../../utils/buttons/BaseButton";
 import GoalAvatar from "../../utils/user/GoalAvatar";
+import * as AgreementActions from "../../../store/actions/agreements";
+import UserAvatar from "../../utils/user/UserAvatar";
+import AgreementTitle from "../../agreements/common/AgreementTitle";
+import moment from "moment";
 
 class ProgressInfo extends React.Component {
 
@@ -28,10 +32,19 @@ class ProgressInfo extends React.Component {
     })
   }
 
+  getAgreementById(agreement) {
+    if(this.props.agreements[agreement] != null) {
+      return this.props.agreements[agreement]
+    }
+    return null
+  }
+
   render() {
     const { selectedGoal, onClose, editModeEnabled } = this.props;
 
     const { title, description } = selectedGoal;
+
+    const agreement = selectedGoal.related_model === "ObjectiveAgreement" && this.getAgreementById(selectedGoal.related_to);
 
     return (
       <div>
@@ -49,7 +62,7 @@ class ProgressInfo extends React.Component {
 
           <div className={"flex h-full"}>
             {selectedGoal.assignee &&
-              <div className={"column field"}>
+              <div className={"flex-1 field"}>
                 <GoalAvatar className="m-1 float-left" selectedGoal={selectedGoal}/>
                 <h4 className={"field-info text-gray-400"}>Assigned to</h4>
                 <h4 className={"field-value"}>{selectedGoal.assignee.firstname} {selectedGoal.assignee.lastname}</h4>
@@ -57,28 +70,28 @@ class ProgressInfo extends React.Component {
               </div>
             }
 
-            {selectedGoal.related_model === "ObjectiveAgreement" &&
+            {agreement &&
               <div>
-                <div className={"column field"}>
+                <div className={"flex-1 field"}>
                   <FaCalendarAlt size={45} className={"float-left"} />
                   <h4 className={"field-info text-gray-400"}>End date</h4>
-                  <h4 className={"field-value"}>TODO</h4>
+                  <h4 className={"field-value"}>{moment(agreement.end_date).calendar()}</h4>
                   <div className={"clearfix"}/>
                 </div>
 
-                <div className={"column field"}>
+                <div className={"flex-1 field"}>
                   <h4 className={"field-info text-gray-400"}>Related to</h4>
-                  <h4 className={"field-value"}>TODO</h4>
+                  <h4 className={"field-value"}>
+                    <AgreementTitle agreement={agreement} assignee={agreement.assignee} />
+                  </h4>
                 </div>
-              </div>
-            }
 
-            {selectedGoal.assignee &&
-              <div className={"column field"}>
-                <GoalAvatar className="m-1 float-left" selectedGoal={selectedGoal}/>
-                <h4 className={"field-info text-gray-400"}>Reviewed by</h4>
-                <h4 className={"field-value"}>{selectedGoal.assignee.firstname} {selectedGoal.assignee.lastname}</h4>
-                <div className={"clearfix"}/>
+                <div className={"flex-1 field"}>
+                  <UserAvatar className="m-1 float-left" size={45} user={agreement.reviewer}/>
+                  <h4 className={"field-info text-gray-400"}>Reviewed by</h4>
+                  <h4 className={"field-value"}>{agreement.reviewer.firstname} {agreement.reviewer.lastname}</h4>
+                  <div className={"clearfix"}/>
+                </div>
               </div>
             }
           </div>

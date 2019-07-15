@@ -22,7 +22,6 @@ class ProgressInfoContainer extends React.Component {
 
     const goal = Object.values(pick(this.props.allGoals, selectedGoal._id))[ 0 ];
     await this.props.dispatch(GoalActions.assignSelectedGoal(goal))
-
   };
 
   render() {
@@ -43,8 +42,13 @@ function mapStateToProps(state) {
     goals
   } = state.goals;
 
+  const {
+    agreements
+  } = state.agreements;
+
   return {
     selectedGoal,
+    agreements,
     allGoals: goals
   };
 }
