@@ -55,11 +55,15 @@ class AgreementInfoContainer extends React.Component {
       this.fetchAndSelectAgreement();
     }
   }
+  isEditable() {
+    return true;
+  }
 
   render() {
     return (
       <AgreementInfo
         {...this.props}
+        isEditable={this.isEditable()}
         onChangeInput={this.onChangeInput}
         onUpdateAgreement={this.onUpdateAgreement}
       />
