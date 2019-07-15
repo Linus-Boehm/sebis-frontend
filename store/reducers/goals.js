@@ -8,6 +8,10 @@ import { keyBy, map } from 'lodash';
 const initialState = {
   selectedGoal: {},
 
+  selectedGoalProgress: {
+    date: new Date().toDateString()
+  },
+
   goals: {},
 
   fetches: {}

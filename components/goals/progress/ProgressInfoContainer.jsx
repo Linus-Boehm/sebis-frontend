@@ -39,7 +39,8 @@ class ProgressInfoContainer extends React.Component {
 function mapStateToProps(state) {
   const {
     selectedGoal,
-    goals
+    goals,
+    selectedGoalProgress
   } = state.goals;
 
   const {
@@ -52,6 +53,7 @@ function mapStateToProps(state) {
 
   return {
     selectedGoal,
+    selectedGoalProgress,
     agreements,
     userList,
     allGoals: goals

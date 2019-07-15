@@ -8,6 +8,7 @@ import AgreementTitle from "../../agreements/common/AgreementTitle";
 import moment from "moment";
 import GoalProgress from "./GoalProgress";
 import {getCurrentOverallProgress, getMaximumProgress} from "../../../services/Goal/GoalProgressService";
+import ProgressForm from "./ProgressForm";
 
 class ProgressInfo extends React.Component {
 
@@ -40,7 +41,8 @@ class ProgressInfo extends React.Component {
     const reviewer = agreement ? this.props.userList[agreement.reviewer] : null;
     const assignee = agreement ? this.props.userList[agreement.assignee] : null;
 
-    const maxBonus = agreement != null ? parseFloat(agreement.bonus) * parseFloat(selectedGoal.oa_weight) / 100 : 0;
+    const weight = selectedGoal.oa_weight ? parseFloat(selectedGoal.oa_weight) : 0;
+    const maxBonus = agreement != null ? parseFloat(agreement.bonus) * weight / 100 : 0;
     const all_progress = getCurrentOverallProgress(selectedGoal);
     const maximum_progress = getMaximumProgress(selectedGoal);
     const bonus = all_progress / maximum_progress * maxBonus;
@@ -116,6 +118,9 @@ class ProgressInfo extends React.Component {
               <div className={"clearfix"}/>
             </div>
           }
+
+          <ProgressForm progress={this.props.selectedGoalProgress}
+                        {...this.props} />
 
         </div>
       </div>
