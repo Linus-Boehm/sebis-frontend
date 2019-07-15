@@ -3,7 +3,7 @@ import DatePicker from "react-datepicker";
 import { FaAlignLeft, FaCalendarAlt } from "react-icons/fa"
 import BaseButton from "../../utils/buttons/BaseButton";
 import GoalAvatar from "../../utils/user/GoalAvatar";
-import * as AgreementActions from "../../../store/actions/agreements";
+import Link from 'next/link'
 import UserAvatar from "../../utils/user/UserAvatar";
 import AgreementTitle from "../../agreements/common/AgreementTitle";
 import moment from "moment";
@@ -84,7 +84,11 @@ class ProgressInfo extends React.Component {
                 <div className={"flex-1 field"}>
                   <h4 className={"field-info text-gray-400"}>Related to</h4>
                   <h4 className={"field-value"}>
-                    <AgreementTitle agreement={agreement} assignee={assignee} />
+                    <Link href={`/app/agreement-info?id=${agreement._id}`}>
+                      <a>
+                        <AgreementTitle agreement={agreement} assignee={assignee} />
+                      </a>
+                    </Link>
                   </h4>
                 </div>
 
