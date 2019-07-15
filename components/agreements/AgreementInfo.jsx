@@ -153,6 +153,7 @@ class AgreementInfo extends React.Component {
         </div>
         <div className="mt-3">
           <span className="is-size-4 font-bold">
+            Objective Agreement for
             <AgreementTitle agreement={selectedAgreement} assignee={assignee} />
           </span>
         </div>
