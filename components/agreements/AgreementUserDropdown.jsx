@@ -69,7 +69,7 @@ class AgreementUserDropdown extends React.Component {
   }
 
   getDropDownClass() {
-    return "team-member-dropdown z-50 absolute ";
+    return "team-member-dropdown z-5 absolute ";
   }
 
   onSearchInput = e => {
@@ -103,7 +103,7 @@ class AgreementUserDropdown extends React.Component {
         </div>
         <div className={this.getDropDownClass()}>
           <UserSearchSelect
-            className="w-64"
+            className="w-64 z-5"
             value={this.state.userSearchInput}
             onChange={this.onSearchInput}
             filteredUsers={this.state.filteredUsers}

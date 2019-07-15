@@ -42,6 +42,19 @@ class AgreementGoalInfo extends React.Component {
     await this.props.onChangeInput(changes);
   };
 
+  getWeightinDollars = () => {
+    if (
+      !!this.props.agreements.selectedAgreement.bonus //!== undefined ||
+      //this.props.agreements.selectedAgreement.bonus !== null
+    )
+      return Math.floor(
+        (this.props.goals.selectedGoal.oa_weight / 100) *
+          this.props.agreements.selectedAgreement.bonus
+      );
+
+    return "0";
+  };
+
   render() {
     console.log("PROPS");
     console.log(this.props);
@@ -156,11 +169,7 @@ class AgreementGoalInfo extends React.Component {
             </div>
             <div className="column is-1 is-goal-info-subheader">%</div>
             <div className="column is-3 is-offset-2 is-goal-info-subheader">
-              {Math.floor(
-                (oa_weight / 100) *
-                  this.props.agreements.selectedAgreement.bonus
-              )}
-              $
+               {this.getWeightinDollars()} $
             </div>
           </div>
 
