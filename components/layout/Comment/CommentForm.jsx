@@ -53,7 +53,7 @@ class CommentForm extends React.Component {
   render() {
     return (
       <form className={this.props.className} onSubmit={this.handleOnSubmit}>
-        <label htmlFor="comment-textarea" className="flex">
+        <label htmlFor={"comment-textarea-" + this.props.relatedTo} className="flex">
           <div className="pr-2">
             <UserAvatar
               user={this.props.auth.user}
@@ -68,7 +68,7 @@ class CommentForm extends React.Component {
               placeholder="Write a comment..."
               rows="2"
               ref={this.commentTextarea}
-              id="comment-textarea"
+              id={"comment-textarea-" + this.props.relatedTo}
               value={this.props.comments.comment.text}
               onChange={this.handleOnChange}
             />

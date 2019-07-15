@@ -74,7 +74,7 @@ class CommentBox extends Component {
         {commentItems}
         <div className="columns" />
         <h3 className="blue-title goal-info-subheader">
-          <label htmlFor="comment-textarea">Add a comment</label>
+          <label htmlFor={"comment-textarea-" + this.props.relatedTo}>Add a comment</label>
         </h3>
         <CommentForm className="pl-1 pr-1" relatedTo={this.props.relatedTo} />
       </div>
