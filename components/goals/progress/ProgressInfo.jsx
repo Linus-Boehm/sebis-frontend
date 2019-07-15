@@ -77,7 +77,7 @@ class ProgressInfo extends React.Component {
                 <div className={"flex-1 field"}>
                   <FaCalendarAlt size={45} className={"float-left"} />
                   <h4 className={"field-info text-gray-400"}>End date</h4>
-                  <h4 className={"field-value"}>{moment(agreement.end_date).calendar()}</h4>
+                  <h4 className={"field-value"}>{moment(agreement.end_date).format("YYYY-MM-DD")}</h4>
                   <div className={"clearfix"}/>
                 </div>
 
