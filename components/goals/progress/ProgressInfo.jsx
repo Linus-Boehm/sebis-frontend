@@ -9,6 +9,8 @@ import AgreementTitle from "../../agreements/common/AgreementTitle";
 import moment from "moment";
 import {mdiChevronLeft} from "@mdi/js";
 import Icon from "@mdi/react";
+import GoalProgress from "./GoalProgress";
+import {getCurrentOverallProgress, getMaximumProgress} from "../../../services/Goal/GoalProgressService";
 
 class ProgressInfo extends React.Component {
 
@@ -50,6 +52,11 @@ class ProgressInfo extends React.Component {
     const reviewer = agreement ? this.props.userList[agreement.reviewer] : null;
     const assignee = agreement ? this.props.userList[agreement.assignee] : null;
 
+    const maxBonus = agreement != null ? parseFloat(agreement.bonus) * parseFloat(selectedGoal.oa_weight) / 100 : 0;
+    const all_progress = getCurrentOverallProgress(selectedGoal);
+    const maximum_progress = getMaximumProgress(selectedGoal);
+    const bonus = all_progress / maximum_progress * maxBonus;
+
     return (
       <div>
         <div className={"ProgressHeader"}>
@@ -64,9 +71,9 @@ class ProgressInfo extends React.Component {
             </div>
           </div>
 
-          <div className={"flex h-full"}>
+          <div className={"flex flex-wrap h-full"}>
             {selectedGoal.assignee &&
-              <div className={"flex-1 field"}>
+              <div className={"flex-none w-2/6 field"}>
                 <GoalAvatar className="m-1 float-left" selectedGoal={selectedGoal}/>
                 <h4 className={"field-info text-gray-400"}>Assigned to</h4>
                 <h4 className={"field-value"}>{selectedGoal.assignee.firstname} {selectedGoal.assignee.lastname}</h4>
@@ -76,14 +83,14 @@ class ProgressInfo extends React.Component {
 
             {agreement &&
               <>
-                <div className={"flex-1 field"}>
+                <div className={"flex-none w-2/6 field"}>
                   <FaCalendarAlt size={45} className={"float-left"} />
                   <h4 className={"field-info text-gray-400"}>End date</h4>
                   <h4 className={"field-value"}>{moment(agreement.end_date).format("YYYY-MM-DD")}</h4>
                   <div className={"clearfix"}/>
                 </div>
 
-                <div className={"flex-1 field"}>
+                <div className={"flex-none w-2/6 field"}>
                   <h4 className={"field-info text-gray-400"}>Related to</h4>
                   <h4 className={"field-value"}>
                     <Link href={`/app/agreement-info?id=${agreement._id}`}>
@@ -94,14 +101,24 @@ class ProgressInfo extends React.Component {
                   </h4>
                 </div>
 
-                <div className={"flex-1 field"}>
+                <div className={"flex-none w-2/6 field"}>
                   <UserAvatar className="m-1 float-left" size={45} user={reviewer}/>
                   <h4 className={"field-info text-gray-400"}>Reviewed by</h4>
                   <h4 className={"field-value"}>{reviewer.firstname} {reviewer.lastname}</h4>
                   <div className={"clearfix"}/>
                 </div>
+
+                <div className={"flex-none w-2/6 field"}>
+                  <h4 className={"field-info text-gray-400"}>Bonus</h4>
+                  <h4 className="field-value">{bonus}$ / {maxBonus}$</h4>
+                </div>
               </>
             }
+
+            <div className={"flex-none w-2/6 field"}>
+              <h4 className={"field-info text-gray-400"}>Progress</h4>
+              <GoalProgress className="field-value" goal={selectedGoal}/>
+            </div>
           </div>
 
           {selectedGoal.description &&
@@ -111,8 +128,6 @@ class ProgressInfo extends React.Component {
               <div className={"clearfix"}/>
             </div>
           }
-          <DatePicker selected={this.state.startDate}
-                      onChange={this.handleChange.bind(this)} />
 
         </div>
       </div>
