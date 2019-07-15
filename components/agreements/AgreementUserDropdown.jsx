@@ -43,12 +43,9 @@ class AgreementUserDropdown extends React.Component {
     });
   };
 
-  onUserClick = async _id => {
-    let user = Object.values(this.props.users.userList).filter(
-      user => user._id === _id
-    )[0];
+  onUserClick = async id => {
     console.log(this.props);
-    await this.props.onChangeInput({ assignee: user });
+    await this.props.onChangeInput({ assignee: id });
     this.props.onUpdateAgreement();
   };
 

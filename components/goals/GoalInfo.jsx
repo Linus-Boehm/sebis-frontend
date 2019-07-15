@@ -8,7 +8,7 @@ import GoalAvatar from "../utils/user/GoalAvatar";
 import SubGoalList from "./list/SubGoalList";
 import EditButton from "../utils/buttons/EditButton";
 import ActiveLink from "../layout/ActiveLink";
-import {GOAL_TYPE} from "../../store/types/goal";
+import { GOAL_TYPE } from "../../store/types/goal";
 import AgreementItem from "../agreements/list/AgreementItem";
 import GoalProgress from "./progress/GoalProgress";
 
@@ -29,7 +29,7 @@ class GoalInfo extends React.Component {
   };
 
   onSelectGoal = id => {
-    this.props.onSelectGoal(id)
+    this.props.onSelectGoal(id);
   };
 
   setDeleteModalVisibility = (isDeleteModalVisible = false) => {
@@ -46,17 +46,17 @@ class GoalInfo extends React.Component {
   };
 
   getAgreementById(agreement) {
-    if(this.props.agreements[agreement] != null) {
-      return this.props.agreements[agreement]
+    if (this.props.agreements[agreement] != null) {
+      return this.props.agreements[agreement];
     }
-    return null
+    return null;
   }
 
   getWeightInDollars = () => {
     if (!!this.props.selectedAgreement.bonus) {
       return Math.floor(
         (this.props.selectedGoal.oa_weight / 100) *
-        this.props.selectedAgreement.bonus
+          this.props.selectedAgreement.bonus
       );
     }
 
@@ -64,11 +64,13 @@ class GoalInfo extends React.Component {
   };
 
   render() {
-    const { selectedGoal, onClose, editModeEnabled } = this.props;
+    const { selectedGoal, onClose, editModeDisabled } = this.props;
 
     const { title, description, oa_weight } = selectedGoal;
 
-    const agreement = selectedGoal.related_model === "ObjectiveAgreement" && this.getAgreementById(selectedGoal.related_to);
+    const agreement =
+      selectedGoal.related_model === "ObjectiveAgreement" &&
+      this.getAgreementById(selectedGoal.related_to);
 
     const agreement_mode = this.props.agreementMode === true;
 
@@ -84,6 +86,7 @@ class GoalInfo extends React.Component {
               <button
                 className="button is-danger ml-2"
                 title={"Delete Goal"}
+                disabled={editModeDisabled}
                 onClick={() => {
                   this.setDeleteModalVisibility(true);
                 }}
@@ -116,125 +119,138 @@ class GoalInfo extends React.Component {
             <div className="field">
               <p className="control">
                 <TextareaAutosize
-                  disabled={editModeEnabled}
+                  disabled={editModeDisabled}
                   className="input goal-title editable-input-and-show-value"
                   name="title"
                   placeholder="Enter a title"
                   value={title ? title : ""}
-                  onKeyDown={(e) => e.keyCode !== 13}
-                  onKeyUp={(e) => e.target.value = e.target.value.replace(/[\r\n\v]+/g, ' ')}
+                  onKeyDown={e => e.keyCode !== 13}
+                  onKeyUp={e =>
+                    (e.target.value = e.target.value.replace(/[\r\n\v]+/g, " "))
+                  }
                   onBlur={this.props.onUpdateGoal}
-                  onChange={(e) => this.onChange({ [ e.target.name ]: e.target.value })}
+                  onChange={e =>
+                    this.onChange({ [e.target.name]: e.target.value })
+                  }
                 />
               </p>
             </div>
           </div>
           <div className="pt-2">
             <TextareaAutosize
-              disabled={editModeEnabled}
+              disabled={editModeDisabled}
               rows={3}
               className="input editable-input-and-show-value"
               name="description"
               placeholder="Add description..."
               onBlur={this.props.onUpdateGoal}
-              onChange={(e) => this.onChange({ [ e.target.name ]: e.target.value })}
-              value={description ? description : ""}/>
+              onChange={e => this.onChange({ [e.target.name]: e.target.value })}
+              value={description ? description : ""}
+            />
           </div>
 
           <SubGoalList
             parentGoal={selectedGoal}
             {...this.props}/>
 
-          {agreement &&
-          <div>
-            <h3 className="goal-info-subheader">Linked to</h3>
-            <AgreementItem
-              size_class={""}
-              key={agreement._id}
-
-              agreement={agreement}
-              reviewer={agreement.reviewer}
-              assignee={agreement.assignee}
-
-            />
-          </div>
-          }
+          {agreement && (
+            <div>
+              <h3 className="goal-info-subheader">Linked to</h3>
+              <AgreementItem
+                size_class={""}
+                key={agreement._id}
+                agreement={agreement}
+                reviewer={agreement.reviewer}
+                assignee={agreement.assignee}
+              />
+            </div>
+          )}
 
           {agreement_mode &&
           <>
-            <h3 className="goal-info-subheader"><label htmlFor={"goal_weight_" + selectedGoal._id}>Weight of Total
-              Bonus</label></h3>
-            <div className="columns">
-              <div className="column is-3 is-offset-1">
+            <h3 className="goal-info-subheader">
+              <label htmlFor={"goal_weight_" + selectedGoal._id}>
+                Weight of Total Bonus
+              </label>
+            </h3>
+            <div className="flex">
+              <div className="flex-1 goal-weight-input control has-icons-right">
                 <input
                   id={"goal_weight_" + selectedGoal._id}
-                  className="input editable-input-and-show-value"
+                  className="input editable-input-and-show-value text-right"
+                  disabled={editModeDisabled}
                   type="number"
                   max="100"
                   min={0}
                   step="10"
                   name="oa_weight"
+                  placeholder={"Percentage"}
                   onBlur={this.props.onUpdateGoal}
                   onChange={e =>
-                    this.onChange({[e.target.name]: e.target.value > 100 ? 100 : e.target.value})
+                    this.onChange({
+                      [e.target.name]:
+                        e.target.value > 100 ? 100 : e.target.value
+                    })
                   }
                   value={oa_weight ? oa_weight : ""}
                 />
+                <span className="text-black icon is-middle is-right">
+                  %
+                </span>
               </div>
-              <div className="column is-1 is-goal-info-subheader">%</div>
-              <div className="column is-3 is-offset-2 is-goal-info-subheader">
-                {this.getWeightInDollars()} $
+              <div className="flex-1 goal-weight text-right font-bold">
+                = {this.getWeightInDollars()} $
               </div>
             </div>
           </>
           }
 
-          <>
-            {selectedGoal.parent_goal && (
-              <div>
-                <h3 className="goal-info-subheader">Contributing to</h3>
-                <GoalItem
-                  goal={this.props.allGoals[selectedGoal.parent_goal]}
-                  onSelect={this.onSelectGoal}
-                />
-              </div>
-            )}
+          {selectedGoal.parent_goal && (
+            <div>
+              <h3 className="goal-info-subheader">Contributing to</h3>
+              <GoalItem
+                goal={this.props.allGoals[selectedGoal.parent_goal]}
+                onSelect={this.onSelectGoal}
+              />
+            </div>
+          )}
 
-            <h3 className="goal-info-subheader">Progress</h3>
-            {selectedGoal.progress_type ? (
-              <div className="flex w-full justify-between px-1">
-                <GoalProgress className="mt-0" goal={selectedGoal} />
-                {!agreement_mode &&
-                <ActiveLink href={"/app/goals/progress?id=" + selectedGoal._id}>
-                  <EditButton className="is-small">
-                    <span className="pl-1">Edit Progress</span>
-                  </EditButton>
-                </ActiveLink>
-                }
+          <h3 className="goal-info-subheader">Progress</h3>
+          {selectedGoal.progress_type ? (
+            <div className="flex w-full justify-between px-1">
+              <GoalProgress className="mt-0" goal={selectedGoal} />
+              <ActiveLink
+                href={"/app/goals/progress?id=" + selectedGoal._id}
+              >
+                <EditButton className="is-small">
+                  <span className="pl-1">Edit Progress</span>
+                </EditButton>
+              </ActiveLink>
+            </div>
+          ) : (
+            <div>
+              <p>Define progress type to start.</p>
+              <div className="select">
+                <select
+                  name={"progress_type"}
+                  onChange={e =>
+                    this.onChangeAndSave({
+                      [e.target.name]: e.target.value
+                    })
+                  }
+                >
+                  <option value={""}>Please select</option>
+                  <option value={GOAL_TYPE.QUALITATIVE}>
+                    Qualitative Goal (Smileys)
+                  </option>
+                  <option value={GOAL_TYPE.COUNT}>Numeric Goal</option>
+                  <option value={GOAL_TYPE.BOOLEAN}>
+                    Goal to reach (Done or Not Done)
+                  </option>
+                </select>
               </div>
-            ) : (
-              <div>
-                <p>Define progress type to start.</p>
-                <div className="select">
-                  <select
-                    name={"progress_type"}
-                    onChange={e =>
-                      this.onChangeAndSave({ [e.target.name]: e.target.value })
-                    }
-                  >
-                    <option value={""}>Please select</option>
-                    <option value={GOAL_TYPE.QUALITATIVE}>
-                      Qualitative Goal (Smileys)
-                    </option>
-                    <option value={GOAL_TYPE.COUNT}>Numeric Goal</option>
-                    <option value={GOAL_TYPE.BOOLEAN}>
-                      Goal to reach (Reached or not reached)
-                    </option>
-                  </select>
-                </div>
-              </div>
-            )}
-          </>
+            </div>
+          )}
           <CommentBox relatedTo={selectedGoal._id} />
         </div>
       </div>

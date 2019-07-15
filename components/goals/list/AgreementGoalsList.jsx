@@ -1,20 +1,18 @@
-import React from 'react';
+import React from "react";
 import { connect } from "react-redux";
-import GoalList from "./GoalListContainer";
+import GoalListContainer from "./GoalListContainer";
 import * as GoalActions from "../../../store/actions/goals";
 
 class AgreementGoalsList extends React.Component {
-
-  fetchAgreementGoals = async (agreementId) => {
+  fetchAgreementGoals = async agreementId => {
     try {
-      await this.props.dispatch(GoalActions.fetchAgreementGoals(agreementId))
+      await this.props.dispatch(GoalActions.fetchAgreementGoals(agreementId));
     } catch (e) {
       console.log(e);
     }
   };
 
   render() {
-
     const {
       fetches,
 
@@ -22,37 +20,33 @@ class AgreementGoalsList extends React.Component {
     } = this.props;
 
     // Used to filter outdated/stale goals in store
-    const lastFetchTime = (fetches[ `agreement-${agreement._id}` ] || {}).assignedAt;
+    const lastFetchTime = (fetches[`agreement-${agreement._id}`] || {})
+      .assignedAt;
 
-    return (
-      agreement._id ?
-        <GoalList
-          title={"Goals"}
-
-          fetchItems={() => {
-            this.fetchAgreementGoals(agreement._id)
-          }}
-
-          filter={(goal) => (
-            goal.assignedAt >= lastFetchTime &&
-            goal.related_to && goal.related_to === agreement._id
-          )}
-
-          newGoalTemplate={{
-            related_model: 'ObjectiveAgreement',
-            related_to: agreement._id
-          }}
-
-          shouldRenderSubgoals
-        /> : null
-    )
+    return agreement._id ? (
+      <GoalListContainer
+        {...this.props}
+        title={"Goals"}
+        fetchItems={() => {
+          this.fetchAgreementGoals(agreement._id);
+        }}
+        shouldRenderSubgoals={false}
+        filter={goal =>
+          goal.assignedAt >= lastFetchTime &&
+          goal.related_to &&
+          goal.related_to === agreement._id
+        }
+        newGoalTemplate={{
+          related_model: "ObjectiveAgreement",
+          related_to: agreement._id
+        }}
+      />
+    ) : null;
   }
 }
 
 function mapStateToProps(state) {
-  const {
-    fetches
-  } = state.goals;
+  const { fetches } = state.goals;
 
   return {
     fetches

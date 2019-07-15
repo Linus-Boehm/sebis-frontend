@@ -8,4 +8,11 @@
   .editable-input-and-show-value {
     @apply p-1 break-all;
   }
+  .goal-weight {
+    line-height: 2rem;
+  }
+  .goal-weight-input .icon {
+    height: 2rem;
+    color: #555 !important;
+  }
 }

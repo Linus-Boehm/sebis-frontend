@@ -14,18 +14,7 @@ class Dashboard extends React.Component {
   render() {
     return (
       <DefaultLayout forceAuth={true}>
-        <div className="flex h-full">
-          <div className="column">
-            <div className="content">
-              <AgreementInfoContainer queryId={this.props.queryId} />
-            </div>
-          </div>
-          {this.props.selectedGoal._id && (
-            <div className="column is-one-third border-l-2 border-gray-200">
-              <GoalInfoContainer agreementMode={true} />
-            </div>
-          )}
-        </div>
+        <AgreementInfoContainer queryId={this.props.queryId} />
       </DefaultLayout>
     );
   }
