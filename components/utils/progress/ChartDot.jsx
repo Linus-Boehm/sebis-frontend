@@ -1,64 +1,101 @@
 import React from "react";
-import {CartesianGrid, ReferenceLine, Line, LineChart, XAxis, YAxis} from "recharts";
-import {take, map} from "lodash";
-import moment from "moment";
 
 
-class ProgressLineChart extends React.Component {
+class ChartDot extends React.Component {
 
-    calculateProgress() {
-        const progress = this.props.progress ? this.props.progress : [];
-        const cumulated = !!this.props.cumulated;
-        const maxPoints = this.props.maxPoints ? this.props.maxPoints : 8;
-        let values = take(progress, maxPoints)
 
-        let lastVal = 0;
-        return  map(values, (point) => {
-            let temp = parseFloat(point.value) + lastVal;
-            if (cumulated) {
-                lastVal = temp;
-            }
-            return {name: moment(point.date).format("DD.M.YY"), v: temp}
-        })
-
-    }
-    handleClick = (data, index) => {
-        this.setState({
-            activeIndex: index,
-        });
-        console.log("Click Chart ",index)
-        console.log(data);
-    }
-    render() {
-
-        const buttonClass = 'goal-progress-chart'
-            + ' '
-            + (this.props.className ? this.props.className : '')
+    renderSelected() {
+        const {
+            cx, cy,index, progress, selectedIndex
+        } = this.props;
         return (
-            <div className={buttonClass}>
-                <LineChart width={400} height={400} data={this.calculateProgress()}
-                           margin={{top: 5, right: 30, left: 20, bottom: 5,}}>
-                    <Line type="monotone" dataKey="v" stroke="#8884d8" dot={{ stroke: 'red', strokeWidth: 2 }} onClick={this.handleClick}/>
-                    <CartesianGrid strokeDasharray="3 3"/>
-                    {!!this.props.cumulated && this.props.maxProgress && (<ReferenceLine y={this.props.maxProgress} label="Max" stroke="red" strokeDasharray="3 3" />)}
+            <svg x={cx - 8} y={cy - 8} onClick={(e)=>{this.props.onClick(e,{index,cx,cy})}} width="16px" height="16px" viewBox="0 0 15 15" version="1.1"
+                 xmlns="http://www.w3.org/2000/svg">
+                <g id="Mockups" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
+                    <g id="Goal-Progress-Review" transform="translate(-632.000000, -560.000000)" stroke="#3A96FD">
+                        <g id="Big-Chart-Card" transform="translate(249.000000, 474.000000)">
+                            <g id="chart" transform="translate(34.000000, 56.000000)">
+                                <g id="figure" transform="translate(15.000000, 31.000000)">
+                                    <g id="Group-7" transform="translate(335.000000, 0.000000)">
+                                        <circle id="Oval-Copy" fill="#FFFFFF" cx="6.5" cy="6.5" r="6.5"></circle>
+                                        <circle id="Oval" fill="#3A96FD" cx="6.5" cy="6.5" r="2.5"></circle>
+                                    </g>
+                                </g>
+                            </g>
+                        </g>
+                    </g>
+                </g>
+            </svg>)
+    }
 
-                    <XAxis dataKey="name"/>
-                    <YAxis/>
 
-                </LineChart>
-
-                {/*language=CSS*/
-                }
-                <style jsx global>{`
-
-                `}</style>
-            </div>
+    renderUnreviewed() {
+        const {
+            cx, cy,index, progress, selectedIndex
+        } = this.props;
+        return (
+            <svg x={cx - 5} y={cy - 5} onClick={(e)=>{this.props.onClick(e,{index,cx,cy})}} width="10px" height="10px" viewBox="0 0 9 9" version="1.1"
+                 xmlns="http://www.w3.org/2000/svg">
 
 
-        )
+                    <g id="Mockups" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
+                        <g id="Goal-Progress-Review" transform="translate(-805.000000, -585.000000)" fill="#FFFFFF" stroke="#3794FC" strokeWidth="2">
+                            <g id="Big-Chart-Card" transform="translate(249.000000, 474.000000)">
+                                <g id="chart" transform="translate(34.000000, 56.000000)">
+                                    <g id="figure" transform="translate(15.000000, 31.000000)">
+                                        <ellipse id="Oval" cx="511.654147" cy="28.121643" rx="3.16634256" ry="3"></ellipse>
+                                    </g>
+                                </g>
+                            </g>
+                        </g>
+                    </g>
+            </svg>)
+    }
+    renderReviewed() {
+        const {
+            cx, cy,index, progress, selectedIndex
+        } = this.props;
+        return (
+            <svg onClick={(e)=>{this.props.onClick(e,{index,cx,cy})}} x={cx - 6} y={cy - 6} width="12px" height="12px" viewBox="0 0 11 11" version="1.1"
+                 xmlns="http://www.w3.org/2000/svg">
+
+                <g id="Mockups" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
+                    <g id="Goal-Progress-Review" transform="translate(-550.000000, -584.000000)" fill="#3794FC"
+                       stroke="#3794FC" strokeWidth="3">
+                        <g id="Big-Chart-Card" transform="translate(249.000000, 474.000000)">
+                            <g id="chart" transform="translate(34.000000, 56.000000)">
+                                <g id="figure" transform="translate(15.000000, 31.000000)">
+                                    <circle id="Oval" cx="257.5" cy="28.5" r="4"></circle>
+                                </g>
+                            </g>
+                        </g>
+                    </g>
+                </g>
+            </svg>)
+    }
+    renderPoint(){
+        const {
+            cx, cy,index, progress, selectedIndex
+        } = this.props;
+        if(index === selectedIndex){
+            return this.renderSelected()
+        }
+        if(progress[index].is_reviewed){
+            return this.renderReviewed()
+        }else{
+            return this.renderUnreviewed()
+        }
+    }
+
+    render() {
+        const {
+            cx, cy,index, progress, selectedIndex
+        } = this.props;
+        return this.renderPoint(cx, cy, progress, selectedIndex, index)
+
 
     }
 
 }
 
-export default ProgressLineChart;
+export default ChartDot;

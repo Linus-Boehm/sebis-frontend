@@ -3,6 +3,7 @@ import {CartesianGrid, ReferenceLine, Line, LineChart, XAxis, YAxis} from "recha
 import {take, map} from "lodash";
 import moment from "moment";
 import ProgressChartPopOver from "./ProgressChartPopOver";
+import ChartDot from "./ChartDot";
 
 
 class ProgressLineChart extends React.Component {
@@ -12,6 +13,7 @@ class ProgressLineChart extends React.Component {
             currentPopoverIndex: -1,
             cx: 0,
             cy: 0,
+            showPopover: false
         };
     }
     calculateProgress() {
@@ -33,20 +35,23 @@ class ProgressLineChart extends React.Component {
             if (cumulated) {
                 lastVal = temp;
             }
-            return {name: moment(point.date).format("DD.M.YY"), v: temp}
+            return {name: moment(point.date).format("DD.M.YY"), v: temp, vState: point.is_reviewed}
         })
     }
     closePopover = () => {
         this.setState({
             ...this.state,
-            currentPopoverIndex: -1,
+            showPopover: false,
         })
     }
-    handleClick = (data, e) => {
-
+    handleClick = (e, data, progress) => {
         let {cx,cy,index} = data
+        if(this.props.onSelect){
+            this.props.onSelect(e,progress[index])
+        }
         this.setState({
             ...this.state,
+            showPopover: true,
             currentPopoverIndex: index,
             cx,
             cy
@@ -62,15 +67,17 @@ class ProgressLineChart extends React.Component {
             <div className={buttonClass}>
                 <LineChart width={400} height={400} data={this.mapProgressToChartData(progress)}
                            margin={{top: 5, right: 30, left: 20, bottom: 5,}}>
-                    <Line type="monotone" dataKey="v" stroke="#3392FF" dot={{stroke: '#3392FF', strokeWidth: 3,onClick: this.handleClick}}/>
+
                     <CartesianGrid strokeDasharray="3 3"/>
                     {!!this.props.cumulated && this.props.maxProgress && (<ReferenceLine y={this.props.maxProgress} label="Max" stroke="red" strokeDasharray="3 3" />)}
 
                     <XAxis dataKey="name"/>
                     <YAxis/>
+                    <Line type="monotone" dataKey="v" stroke="#3392FF" dot={<ChartDot onClick={(e,index)=>{this.handleClick(e,index,progress)}} selectedIndex={this.state.currentPopoverIndex} progress={progress}/>}/>
 
                 </LineChart>
-                <ProgressChartPopOver style={{'top':this.state.cy, 'left':this.state.cx}} activeindex={this.state.currentPopoverIndex} progress={progress} onClose={this.closePopover}/>
+
+                {this.state.showPopover && <ProgressChartPopOver style={{'top':this.state.cy, 'left':this.state.cx}} activeindex={this.state.currentPopoverIndex} progress={progress} onClose={this.closePopover}/>}
 
                 {/*language=CSS*/
                 }
