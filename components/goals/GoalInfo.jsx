@@ -11,9 +11,13 @@ import * as GoalActions from "../../store/actions/goals";
 import GoalProgressBar from "../utils/progress/GoalProgressBar";
 import EditButton from "../utils/buttons/EditButton";
 import ActiveLink from "../layout/ActiveLink";
-import { GOAL_TYPE } from "../../store/types/goal";
+import {GOAL_TYPE} from "../../store/types/goal";
+import AgreementItem from "../agreements/list/AgreementItem";
+import * as AgreementActions from "../../store/actions/agreements";
+
 
 class GoalInfo extends React.Component {
+
   constructor(props) {
     super(props);
     this.state = {
@@ -48,10 +52,35 @@ class GoalInfo extends React.Component {
     await this.props.onChangeInput(changes);
   };
 
+  componentDidMount() {
+    if(_.isEmpty(this.props.agreements)) {
+      this.fetchMyAgreements()
+    }
+  }
+
+  fetchMyAgreements = async () => {
+    try {
+      await this.props.dispatch(AgreementActions.fetchMyAgreements())
+      console.log(this.props)
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  getAgreementById(agreement) {
+    console.log(this.props)
+    if(this.props.agreements[agreement] != null) {
+      return this.props.agreements[agreement]
+    }
+    return null
+  }
+
   render() {
     const { selectedGoal, onClose, editModeEnabled } = this.props;
 
     const { title, description } = selectedGoal;
+
+    const agreement = this.getAgreementById(selectedGoal.related_to)
 
     return (
       <div className="w-full h-full goal-info">
@@ -93,49 +122,53 @@ class GoalInfo extends React.Component {
             </div>
           </div>
 
-          <div className="pt-2">
-            <div className="field">
-              <p className="control">
-                <TextareaAutosize
-                  disabled={editModeEnabled}
-                  className="input goal-title editable-input-and-show-value"
-                  name="title"
-                  rows={1}
-                  placeholder="Enter a title"
-                  value={title ? title : ""}
-                  onKeyDown={e => e.keyCode !== 13}
-                  onKeyUp={e =>
-                    (e.target.value = e.target.value.replace(/[\r\n\v]+/g, " "))
-                  }
-                  onBlur={this.props.onUpdateGoal}
-                  onChange={e =>
-                    this.onChange({ [e.target.name]: e.target.value })
-                  }
-                />
-              </p>
-            </div>
+        <div className="pt-2">
+          <div className="field">
+            <p className="control">
+              <TextareaAutosize
+                disabled={editModeEnabled}
+                className="input goal-title editable-input-and-show-value"
+                name="title"
+                placeholder="Enter a title"
+                value={title ? title : ""}
+                onKeyDown={(e) => e.keyCode !== 13}
+                onKeyUp={(e) => e.target.value = e.target.value.replace(/[\r\n\v]+/g, ' ')}
+                onBlur={this.props.onUpdateGoal}
+                onChange={(e) => this.onChange({ [ e.target.name ]: e.target.value })}
+              />
+            </p>
           </div>
-          <div className="pt-2">
-            <TextareaAutosize
-              disabled={editModeEnabled}
-              rows={3}
-              className="input editable-input-and-show-value"
-              name="description"
-              placeholder="Add description..."
-              onBlur={this.props.onUpdateGoal}
-              onChange={e => this.onChange({ [e.target.name]: e.target.value })}
-              value={description ? description : ""}
-            />
-          </div>
+        </div>
+        <div className="pt-2">
+          <TextareaAutosize
+            disabled={editModeEnabled}
+            rows={3}
+            className="input editable-input-and-show-value"
+            name="description"
+            placeholder="Add description..."
+            onBlur={this.props.onUpdateGoal}
+            onChange={(e) => this.onChange({ [ e.target.name ]: e.target.value })}
+            value={description ? description : ""}/>
+        </div>
 
-          <SubGoalList parentGoal={selectedGoal} {...this.props} />
+        <SubGoalList
+          parentGoal={selectedGoal}
+          {...this.props}/>
 
-          {selectedGoal.related_to != null && (
-            <div>
-              <h3 className="goal-info-subheader">Linked to</h3>
-              TODO
-            </div>
-          )}
+        {agreement &&
+        <div>
+          <h3 className="goal-info-subheader">Linked to</h3>
+          <AgreementItem
+            size_class={""}
+            key={agreement._id}
+
+            agreement={agreement}
+            reviewer={agreement.reviewer}
+            assignee={agreement.assignee}
+
+          />
+        </div>
+        }
 
           {selectedGoal.parent_goal && (
             <div>

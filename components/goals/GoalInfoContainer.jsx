@@ -57,9 +57,14 @@ function mapStateToProps(state) {
     goals
   } = state.goals;
 
+  const {
+    agreements
+  } = state.agreements;
+
   return {
     selectedGoal,
-    allGoals: goals
+    allGoals: goals,
+    agreements: agreements
   };
 }
 

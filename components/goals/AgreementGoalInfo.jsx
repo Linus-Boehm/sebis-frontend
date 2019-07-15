@@ -12,6 +12,7 @@ import GoalProgressBar from "../utils/progress/GoalProgressBar";
 import EditButton from "../utils/buttons/EditButton";
 import ActiveLink from "../layout/ActiveLink";
 import { connect } from "react-redux";
+import * as AgreementActions from "../../store/actions/agreements";
 class AgreementGoalInfo extends React.Component {
   constructor(props) {
     super(props);
