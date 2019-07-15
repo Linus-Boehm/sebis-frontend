@@ -19,7 +19,7 @@ class AgreementItem extends React.Component {
           className={`flex items-center bg-gray-200 hover:bg-gray-300 mb-3 p-3 cursor-pointer`}
         >
           <div className="ml-1 flex-grow select-none">
-            <span className="is-size-5">
+            <span className={this.props.size_class !== undefined ? this.props.size_class : "is-size-5"}>
             <AgreementTitle
               agreement={agreement}
               assignee={assignee}

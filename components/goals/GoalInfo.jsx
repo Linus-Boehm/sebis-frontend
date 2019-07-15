@@ -12,6 +12,8 @@ import GoalProgressBar from "../utils/progress/GoalProgressBar";
 import EditButton from "../utils/buttons/EditButton";
 import ActiveLink from "../layout/ActiveLink";
 import {GOAL_TYPE} from "../../store/types/goal";
+import AgreementItem from "../agreements/list/AgreementItem";
+import * as AgreementActions from "../../store/actions/agreements";
 
 class GoalInfo extends React.Component {
 
@@ -47,10 +49,35 @@ class GoalInfo extends React.Component {
     await this.props.onChangeInput(changes);
   };
 
+  componentDidMount() {
+    if(_.isEmpty(this.props.agreements)) {
+      this.fetchMyAgreements()
+    }
+  }
+
+  fetchMyAgreements = async () => {
+    try {
+      await this.props.dispatch(AgreementActions.fetchMyAgreements())
+      console.log(this.props)
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  getAgreementById(agreement) {
+    console.log(this.props)
+    if(this.props.agreements[agreement] != null) {
+      return this.props.agreements[agreement]
+    }
+    return null
+  }
+
   render() {
     const { selectedGoal, onClose, editModeEnabled } = this.props;
 
     const { title, description } = selectedGoal;
+
+    const agreement = this.getAgreementById(selectedGoal.related_to)
 
     return (
       <div className="w-full h-full goal-info">
@@ -95,7 +122,6 @@ class GoalInfo extends React.Component {
                 disabled={editModeEnabled}
                 className="input goal-title editable-input-and-show-value"
                 name="title"
-                rows={1}
                 placeholder="Enter a title"
                 value={title ? title : ""}
                 onKeyDown={(e) => e.keyCode !== 13}
@@ -122,17 +148,25 @@ class GoalInfo extends React.Component {
           parentGoal={selectedGoal}
           {...this.props}/>
 
-        {selectedGoal.related_to != null &&
+        {agreement &&
         <div>
           <h3 className="goal-info-subheader">Linked to</h3>
-          TODO
+          <AgreementItem
+            size_class={""}
+            key={agreement._id}
+
+            agreement={agreement}
+            reviewer={agreement.reviewer}
+            assignee={agreement.assignee}
+
+          />
         </div>
         }
 
         {selectedGoal.parent_goal &&
         <div>
           <h3 className="goal-info-subheader">Contributing to</h3>
-          <GoalItem goal={this.props.allGoals[ selectedGoal.parent_goal ]} onSelect={this.onSelectGoal}/>
+          <GoalItem key={"parent_goal_" + selectedGoal.parent_goal} goal={this.props.allGoals[ selectedGoal.parent_goal ]} onSelect={this.onSelectGoal}/>
         </div>
         }
 

@@ -53,7 +53,7 @@ class CommentForm extends React.Component {
   render() {
     return (
       <form className={this.props.className} onSubmit={this.handleOnSubmit}>
-        <label for="comment-textarea" className="columns">
+        <label htmlFor="comment-textarea" className="columns">
           <div className="column is-2">
             <UserAvatar
               user={this.props.auth.user}
