@@ -12,6 +12,9 @@ import GoalProgressBar from "../utils/progress/GoalProgressBar";
 import EditButton from "../utils/buttons/EditButton";
 import ActiveLink from "../layout/ActiveLink";
 import {GOAL_TYPE} from "../../store/types/goal";
+import AgreementItem from "../agreements/list/AgreementItem";
+import * as AgreementActions from "../../store/actions/agreements";
+
 
 class GoalInfo extends React.Component {
 
