@@ -1,9 +1,9 @@
-import '../../assets/css/tailwind.css';
-import '../../assets/css/bulma.scss';
-import '../../assets/css/forms.scss';
-import '../../assets/css/goal-info.scss';
-import '../../assets/css/day-picker.scss';
-import '../../assets/css/progress-info.scss';
+import "../../assets/css/tailwind.css";
+import "../../assets/css/bulma.scss";
+import "../../assets/css/forms.scss";
+import "../../assets/css/goal-info.scss";
+import "../../assets/css/day-picker.scss";
+import "../../assets/css/progress-info.scss";
 import "react-datepicker/dist/react-datepicker.css";
 
 import ReactNotification from "react-notifications-component";
@@ -65,65 +65,90 @@ class DefaultLayout extends React.Component {
         role="navigation"
         aria-label="main navigation"
       >
-        <div className="navbar-brand" href={"/app/dashboard"}>
-          <a className="navbar-item">
-            <img src="/static/logo.png" width="35" />
-          </a>
-          <a className="navbar-item" href={"/app/dashboard"}>
-            <img
-              src="/static/logo_name.png"
-              width="80"
-              style={{ marginLeft: "-20px" }}
-            />
-          </a>
+        {!this.props.auth.isAuthenticated ? (
+          <div className="navbar-brand" href={"/"}>
+            <a className="navbar-item">
+              <img src="/static/logo.png" width="35" />
+            </a>
+            <a className="navbar-item" href={"/"}>
+              <img
+                src="/static/logo_name.png"
+                width="80"
+                style={{ marginLeft: "-20px" }}
+              />
+            </a>
 
-          <a
-            id="burger"
-            role="button"
-            className="navbar-burger burger"
-            aria-label="menu"
-            aria-expanded="false"
-            data-target="navbarmenu"
-          >
-            <span aria-hidden="true" />
-            <span aria-hidden="true" />
-            <span aria-hidden="true" />
-          </a>
-        </div>
+            <a
+              id="burger"
+              role="button"
+              className="navbar-burger burger"
+              aria-label="menu"
+              aria-expanded="false"
+              data-target="navbarmenu"
+            >
+              <span aria-hidden="true" />
+              <span aria-hidden="true" />
+              <span aria-hidden="true" />
+            </a>
+          </div>
+        ) : (
+          <div className="navbar-brand" href={"/app/dashboard"}>
+            <a className="navbar-item">
+              <img src="/static/logo.png" width="35" />
+            </a>
+            <a className="navbar-item" href={"/app/dashboard"}>
+              <img
+                src="/static/logo_name.png"
+                width="80"
+                style={{ marginLeft: "-20px" }}
+              />
+            </a>
+
+            <a
+              id="burger"
+              role="button"
+              className="navbar-burger burger"
+              aria-label="menu"
+              aria-expanded="false"
+              data-target="navbarmenu"
+            >
+              <span aria-hidden="true" />
+              <span aria-hidden="true" />
+              <span aria-hidden="true" />
+            </a>
+          </div>
+        )}
+
         <div
           id="navbarmenu"
           className="navbar-menu"
           style={{ marginLeft: "60px" }}
         >
-
-            {!this.props.auth.isAuthenticated ? (
-                <div className="navbar-start">
-                  <ActiveLink activeClassName="is-tab is-active" href={"/"}>
-                    <a className="navbar-item">Home</a>
-                  </ActiveLink>
-                </div>
-            ) : (
-                <div className="navbar-start">
-                  <ActiveLink
-                    activeClassName="is-tab is-active"
-                    href={"/app/dashboard"}
-                  >
-                    <a className="navbar-item">My Goals</a>
-                  </ActiveLink>
-                  <div className="ml-6 mt-2">
-                    <button
-                        className="button is-primary is-small "
-                        style={{ marginTop: "7%" }}
-                        onClick={this.onCreateAgreement}
-                    >
-                      <span className="pl-1"> Create Agreement</span>
-                    </button>
-                  </div>
-                </div>
-
-            )}
-
-
+          {!this.props.auth.isAuthenticated ? (
+            <div className="navbar-start">
+              <ActiveLink activeClassName="is-tab is-active" href={"/"}>
+                <a className="navbar-item">Home</a>
+              </ActiveLink>
+            </div>
+          ) : (
+            <div className="navbar-start">
+              <ActiveLink
+                activeClassName="is-tab is-active"
+                href={"/app/dashboard"}
+              >
+                <a className="navbar-item">My Goals</a>
+              </ActiveLink>
+              <div className="ml-6 mt-2">
+                <button
+                  className="button is-primary is-small "
+                  style={{ marginTop: "7%" }}
+                  onClick={this.onCreateAgreement}
+                >
+                  <span className="pl-1"> Create Agreement</span>
+                </button>
+              </div>
+            </div>
+          )}
 
           <div className="navbar-end pr-4">
             {!this.props.auth.isAuthenticated ? (
