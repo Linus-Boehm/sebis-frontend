@@ -28,7 +28,6 @@ class ProgressChartPopOver extends React.Component {
                         </div>
                         <span>Date: {moment(progress.date).format("DD.M.YY")}</span>
                         <span>Value: {progress.value}</span>
-                        <EditButton><span className="pl-1">Edit</span></EditButton>
                     </div>
                 </div>
 

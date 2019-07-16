@@ -24,6 +24,9 @@ class ProgressInfoContainer extends React.Component {
         const goal = Object.values(pick(this.props.allGoals, selectedGoal._id))[0];
         await this.props.dispatch(GoalActions.assignSelectedGoal(goal))
     };
+    onSelectProgress = async () => {
+
+    }
 
     render() {
         return (
@@ -34,7 +37,7 @@ class ProgressInfoContainer extends React.Component {
 
                     {...this.props}
                 />
-                <ProgressChartContainer/>
+                <ProgressChartContainer onSelect={this.onSelectProgress}/>
             </div>
         )
     }

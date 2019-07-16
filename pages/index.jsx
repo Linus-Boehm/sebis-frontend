@@ -10,8 +10,8 @@ class Home extends React.Component {
   render() {
     return (
       <div>
-        <DefaultLayout>
-          <img src="/static/homepage.png" className="imageCover" />
+        <DefaultLayout mainContentClasses='bg-image' hideSidebar>
+          {false && <img src="/static/homepage.png" className="imageCover" />}
         </DefaultLayout>
 
         <style jsx>
@@ -33,6 +33,8 @@ class Home extends React.Component {
               height: 150%;
               position: relative;
             }
+            
+            
           `}
         </style>
       </div>

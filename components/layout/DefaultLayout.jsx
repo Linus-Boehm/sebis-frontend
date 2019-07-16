@@ -199,7 +199,7 @@ class DefaultLayout extends React.Component {
     return (
       <div className="main-wrapper flex flex-col">
         {this.renderHeader()}
-        <section className="main-content columns flex-1">
+        <section className={"main-content columns flex-1 " + (this.props.mainContentClasses || '')}>
           {this.props.auth.isAuthenticated && !this.props.hideSidebar && (
             <MenuSidebar />
           )}
