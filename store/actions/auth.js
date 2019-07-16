@@ -15,7 +15,11 @@ export const register = userInfo => async dispatch => {
   } catch (e) {
     switch (e.response.status) {
       case 400:
-        throw new Error("User with Email exist already");
+        throw "User with Email exists already";
+      case 409:
+        throw "User with Email exists already";
+        break;
+
       case 422:
         //TODO proper output of invalid fields
         throw new Error(
@@ -52,6 +56,9 @@ export const login = ({ email, password }) => async dispatch => {
         break;
       case 401:
         throw "Unknown username or password";
+        break;
+      case 409:
+        throw "Passwords are not equal";
         break;
       case 500:
         throw "Unknown server error";

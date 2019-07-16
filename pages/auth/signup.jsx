@@ -14,7 +14,8 @@ class Signup extends React.Component {
         password: "",
         confirm_password: "",
         organization_name: ""
-      }
+      },
+      error: null
     };
     this.onChange = this.onChange.bind(this);
   }
@@ -24,8 +25,16 @@ class Signup extends React.Component {
   async handleSubmit(e) {
     e.preventDefault();
     try {
+      this.setState({
+        error: null
+      });
       await this.props.register(this.state.form, "register");
     } catch (e) {
+      if (typeof e == "string") {
+        this.setState({
+          error: e
+        });
+      }
       console.log(e);
       //TODO add notification
     }
@@ -47,6 +56,14 @@ class Signup extends React.Component {
           className="container"
           style={{ width: "540px" }}
         >
+          {this.state.error && (
+            <div className={"message is-danger"}>
+              <div className="message-header">
+                <p>Error</p>
+              </div>
+              <div className="message-body">{this.state.error}</div>
+            </div>
+          )}
           <div className="field">
             <div className="control">
               <input
