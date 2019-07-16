@@ -15,9 +15,9 @@ class GoalItem extends React.Component {
     console.log(JSON.stringify(matches) + ' ' + JSON.stringify(parts))
 
     return parts.map((part, i) => [
-      <span>{part}</span>,
+      <span key={"part1-"+i}>{part}</span>,
       matches && matches[ i ] && matches[ i ] !== ''
-        ? <span className="font-bold">{matches[ i ]}</span>
+        ? <span key={"part2-"+i} className="font-bold">{matches[ i ]}</span>
         : null
     ]);
   };

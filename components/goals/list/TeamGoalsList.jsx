@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from "react-redux";
-import GoalList from "./GoalListContainer";
+import GoalListContainer from "./GoalListContainer";
 import * as GoalActions from "../../../store/actions/goals";
 
 class TeamGoalsList extends React.Component {
@@ -28,7 +28,7 @@ class TeamGoalsList extends React.Component {
 
     return (
       team._id ?
-        <GoalList
+        <GoalListContainer
           title={"Team Goals - " + team.name}
 
           fetchItems={() => {
