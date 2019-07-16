@@ -96,9 +96,9 @@ class GoalList extends React.Component {
       }
 
       return (
-        <React.Fragment>
+        <React.Fragment key={"fragment-"+goal._id}>
           <GoalItem
-            key={goal._id}
+            key={"goallist-"+goal._id}
             goal={goal}
             onSelect={onSelectItem}
             searchFilter={searchFilter}
@@ -107,7 +107,7 @@ class GoalList extends React.Component {
           {
             shouldRenderSubgoals && subGoals.map((subGoal) => (
                 <GoalItem
-                  key={subGoal._id}
+                  key={"goallist-"+subGoal._id}
                   goal={subGoal}
                   onSelect={onSelectItem}
                   isSelected={selectedGoal && selectedGoal._id === subGoal._id}
@@ -132,7 +132,7 @@ class GoalList extends React.Component {
         </React.Fragment>
       )
     }).concat([
-      !disableGoalAdd && <AddGoalItem key='add' onCreateGoal={onCreateGoal}/>
+      !disableGoalAdd && <AddGoalItem key={"add-new"} onCreateGoal={onCreateGoal}/>
     ])
   };
 
