@@ -9,7 +9,8 @@ const initialState = {
   selectedGoal: {},
 
   selectedGoalProgress: {
-    date: new Date().toDateString()
+    date: new Date().toDateString(),
+    is_reviewed: false
   },
 
   goals: {},

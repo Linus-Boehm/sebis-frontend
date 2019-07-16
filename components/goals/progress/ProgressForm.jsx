@@ -18,10 +18,17 @@ class ProgressForm extends React.Component {
   };
 
   selectEmoji = async (key) => {
-    await this.onChange({
-      value: key
-    })
+    if(!this.isLocked()) {
+      await this.onChange({
+        value: key
+      })
+    }
   };
+
+  isLocked() {
+    const { progress } = this.props;
+    return progress.is_reviewed === true || progress.is_reviewed === "true";
+  }
 
   render() {
     const {
@@ -31,12 +38,17 @@ class ProgressForm extends React.Component {
 
     const icon_arr = Object.keys(GOAL_QUALITATIVE_ICONS).map(key => ({ key, value: GOAL_QUALITATIVE_ICONS[key] }));
 
+    const canSave = progress.value !== undefined;
+
+    const isLocked = this.isLocked();
+
     const classNames = require('classnames');
 
     return <div className={"progress-form flex flex-wrap h-full border-t border-b border-dashed border-gray-300 mt-4 pt-8 pb-8 mb-4"}>
       <div className={"flex-1 control mr-4"}>
         <h4 className={"field-info"}><label htmlFor="progress-form-date-picker">Date</label></h4>
         <DatePicker
+          disabled={isLocked}
           className={"input"}
           id={"progress-form-date-picker"}
           selected={new Date(progress.date)}
@@ -49,13 +61,13 @@ class ProgressForm extends React.Component {
       <div className={"flex-1 mr-4"}>
         <label><h4 className={"field-info"}>Progress</h4>
           {selectedGoal.progress_type === GOAL_TYPE.COUNT &&
-          <input className="input" name="value" type="number" placeholder="0" value={progress.value} onChange={e =>
+          <input disabled={isLocked} className="input" name="value" type="number" placeholder="0" value={progress.value} onChange={e =>
             this.onChange({ [e.target.name]: e.target.value })
           }/>
           }
 
           {selectedGoal.progress_type === GOAL_TYPE.BOOLEAN &&
-          <select name={"value"} value={progress.value} onChange={e =>
+          <select disabled={isLocked} name={"value"} value={progress.value} onChange={e =>
             this.onChange({ [e.target.name]: e.target.value })
           }>
             <option value={1}>Reached</option>
@@ -64,7 +76,7 @@ class ProgressForm extends React.Component {
           }
 
           {selectedGoal.progress_type === GOAL_TYPE.QUALITATIVE &&
-            <div className={"emoji-selector"}>
+            <div className={"emoji-selector " + (isLocked ? "locked" : "" )}>
               {
                 icon_arr.map((element) => {
                   return React.createElement(
@@ -96,11 +108,12 @@ class ProgressForm extends React.Component {
       </div>
 
       <div className={"p-8 flex-0 justify-end"}>
-        <BaseButton onClick={this.onSave}>Save</BaseButton>
+        <BaseButton disabled={!canSave} onClick={this.onSave}>Save</BaseButton>
       </div>
 
       <div className={"flex-0 w-full pt-2 pr-8"}>
         <TextareaAutosize
+          disabled={isLocked}
           className="input progress-comment"
           name="comment"
           placeholder="Comment the progress of this date"
