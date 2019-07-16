@@ -1,13 +1,9 @@
 import React from "react";
 import {connect} from "react-redux";
-import DefaultLayout from "~/components/layout/DefaultLayout";
 import {fetchUsers} from "~/store/actions/users";
-import {fetchGoalById} from "../../../../store/actions/goals";
-import {LineChart, Line, CartesianGrid, XAxis, YAxis} from 'recharts';
-import BaseButton from "../../../../components/utils/buttons/BaseButton";
-import AddButton from "../../../../components/utils/buttons/AddButton";
-import GoalProgressBar from "../../../../components/utils/progress/GoalProgressBar";
-import ProgressLineChart from "../../../../components/utils/progress/ProgressLineChart";
+import {fetchGoalById} from "../../../store/actions/goals";
+import ProgressLineChart from "../../utils/progress/ProgressLineChart";
+import AddButton from "../../utils/buttons/AddButton";
 
 const data = [{name: 'Day1', uv: 400}, {name: 'Day2', uv: 600}];
 
@@ -27,22 +23,17 @@ class ProgressChartContainer extends React.Component {
         })
     }
 
-    async componentDidMount() {
-        await this.props.dispatch(fetchUsers());
-        await this.props.dispatch(fetchGoalById(this.props.currentId));
-    }
-    //TODO parse as prop
-    static async getInitialProps({query}) {
-        return {currentId: query.id};
-    }
+
+
 
     render() {
+        const maxProgress = this.props.selectedGoal.maximum_progress?parseFloat(this.props.selectedGoal.maximum_progress):null
         return (
 
-            <div className="flex flex-col w-full pt-4 pr-4">
+            <div className="flex flex-col w-full mt-4 pt-4 pr-4">
                 {this.props.selectedGoal.progress && this.props.selectedGoal.progress.length > 0 ?
                     (
-                        <div className="w-full box">
+                        <div className="w-full">
                             <div className="flex -mx-2 w-full pl-16">
                                 <a className={"progress-chart-switch mx-2 " + (!this.state.cumulated ? ' is-active' : '')}
                                    onClick={() => {
@@ -53,7 +44,7 @@ class ProgressChartContainer extends React.Component {
                                        this.switchCommulative(true)
                                    }}>Commulative</a>
                             </div>
-                            <ProgressLineChart maxProgress={7} cumulated={this.state.cumulated}
+                            <ProgressLineChart maxProgress={maxProgress} cumulated={this.state.cumulated}
                                                progress={this.props.selectedGoal.progress}/>
                         </div>
                     ) :

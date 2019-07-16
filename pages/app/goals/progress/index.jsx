@@ -26,7 +26,7 @@ class ProgressIndex extends React.Component {
                 <div className="flex h-full">
                     <div className="column">
                         <div className="content">
-                            <ProgressInfoContainer />
+                            <ProgressInfoContainer/>
                         </div>
                     </div>
 

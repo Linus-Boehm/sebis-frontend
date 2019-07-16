@@ -69,10 +69,11 @@ class ProgressLineChart extends React.Component {
                            margin={{top: 5, right: 30, left: 20, bottom: 5,}}>
 
                     <CartesianGrid strokeDasharray="3 3"/>
-                    {!!this.props.cumulated && this.props.maxProgress && (<ReferenceLine y={this.props.maxProgress} label="Max" stroke="red" strokeDasharray="3 3" />)}
+
 
                     <XAxis dataKey="name"/>
                     <YAxis/>
+                    {!!this.props.cumulated && this.props.maxProgress && (<ReferenceLine y={this.props.maxProgress} label="Max" stroke="red" strokeDasharray="3 3" />)}
                     <Line type="monotone" dataKey="v" stroke="#3392FF" dot={<ChartDot onClick={(e,index)=>{this.handleClick(e,index,progress)}} selectedIndex={this.state.currentPopoverIndex} progress={progress}/>}/>
 
                 </LineChart>
