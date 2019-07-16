@@ -4,6 +4,7 @@ import * as GoalActions from '../../../store/actions/goals';
 import {pick} from "lodash";
 import ProgressInfo from "./ProgressInfo";
 import ProgressChartContainer from "./ProgressChartContainer";
+import { keyBy, map } from 'lodash';
 
 class ProgressInfoContainer extends React.Component {
 
@@ -22,6 +23,35 @@ class ProgressInfoContainer extends React.Component {
         await this.props.dispatch(GoalActions.assignSelectedProgress({
             ...selectedGoalProgress,
             ...changes
+        }))
+    };
+
+    onSaveProgress = async() => {
+        const {
+          selectedGoalProgress,
+          selectedGoal
+        } = this.props;
+
+        let progress = keyBy({
+            ...selectedGoal.progress
+        }, '_id');
+
+        progress[selectedGoalProgress._id] = selectedGoalProgress;
+
+        const goal = {
+            ...selectedGoal,
+            ...{
+                progress: Object.values(progress)
+            }
+        };
+
+        await this.props.dispatch(GoalActions.updateGoal(goal))
+        await this.props.dispatch(GoalActions.assignSelectedGoal(goal))
+    };
+
+    addNewProgress = async() => {
+        await this.props.dispatch(GoalActions.assignSelectedProgress({
+
         }))
     };
 
@@ -44,6 +74,8 @@ class ProgressInfoContainer extends React.Component {
                     onUpdateGoal={this.onUpdateGoal}
                     onChangeInput={this.onChangeInput}
                     onChangeProgressInput={this.onChangeProgressInput}
+                    onSaveProgress={this.onSaveProgress}
+                    addNewProgress={this.addNewProgress}
 
                     {...this.props}
                 />

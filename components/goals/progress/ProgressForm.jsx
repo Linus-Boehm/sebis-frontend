@@ -14,7 +14,11 @@ class ProgressForm extends React.Component {
   };
 
   onSave = async() => {
+    await this.props.onSaveProgress()
+  };
 
+  addNewProgress = async() => {
+    await this.props.addNewProgress()
   };
 
   selectEmoji = async (key) => {
@@ -109,6 +113,7 @@ class ProgressForm extends React.Component {
 
       <div className={"p-8 flex-0 justify-end"}>
         <BaseButton disabled={!canSave} onClick={this.onSave}>Save</BaseButton>
+        <BaseButton onClick={this.addNewProgress} className={"ml-2"}>Add new</BaseButton>
       </div>
 
       <div className={"flex-0 w-full pt-2 pr-8"}>

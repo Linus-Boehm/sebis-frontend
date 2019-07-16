@@ -21,9 +21,16 @@ class ProgressInfo extends React.Component {
     await this.props.onUpdateGoal()
   };
 
-
   onChangeProgress = async (changes) => {
     await this.props.onChangeProgressInput(changes);
+  };
+
+  onSaveProgress = async() => {
+    await this.props.onSaveProgress();
+  };
+
+  addNewProgress = async() => {
+    await this.props.addNewProgress();
   };
 
   onChange = async (changes) => {
@@ -127,6 +134,8 @@ class ProgressInfo extends React.Component {
           <ProgressForm
             progress={this.props.selectedGoalProgress}
             onChangeProgress={this.onChangeProgress}
+            onSaveProgress={this.onSaveProgress}
+            addNewProgress={this.addNewProgress}
             {...this.props} />
 
         </div>

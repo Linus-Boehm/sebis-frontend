@@ -4,13 +4,15 @@ import {
   RESET_SELECTED_GOAL
 } from '../types/goal'
 import { keyBy, map } from 'lodash';
+import uuidv4 from "uuid/v4";
 
 const initialState = {
   selectedGoal: {},
 
   selectedGoalProgress: {
     date: new Date().toDateString(),
-    is_reviewed: false
+    is_reviewed: false,
+    _id: uuidv4()
   },
 
   goals: {},
@@ -35,10 +37,15 @@ export default (state = initialState, { type, data, fetchKey }) => {
       };
 
     case ASSIGN_SELECTED_GOAL_PROGRESS:
+      const initialId = {"_id": uuidv4()};
+      const initial = {
+        ...initialState.selectedGoalProgress,
+        ...initialId
+      };
       return {
         ...state,
         selectedGoalProgress: {
-          ...initialState.selectedGoalProgress,
+          ...initial,
           ...data
         }
       };
