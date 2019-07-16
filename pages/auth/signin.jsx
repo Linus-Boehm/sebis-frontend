@@ -43,7 +43,7 @@ class Signup extends React.Component {
 
   render() {
     return (
-      <Layout title="Sign In" hideSidebar>
+      <Layout title="Sign In" mainContentClasses='bg-image' hideSidebar>
         <h3 className="title is-3">Sign In</h3>
         <form
           onSubmit={this.handleSubmit}

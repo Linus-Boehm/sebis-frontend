@@ -16,6 +16,15 @@ class ProgressInfoContainer extends React.Component {
         }))
     };
 
+    onChangeProgressInput = async (changes) => {
+        const {selectedGoalProgress} = this.props;
+
+        await this.props.dispatch(GoalActions.assignSelectedProgress({
+            ...selectedGoalProgress,
+            ...changes
+        }))
+    };
+
     onUpdateGoal = async () => {
         const {selectedGoal} = this.props;
 
@@ -34,6 +43,7 @@ class ProgressInfoContainer extends React.Component {
                 <ProgressInfo
                     onUpdateGoal={this.onUpdateGoal}
                     onChangeInput={this.onChangeInput}
+                    onChangeProgressInput={this.onChangeProgressInput}
 
                     {...this.props}
                 />

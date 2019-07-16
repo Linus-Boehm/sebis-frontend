@@ -20,7 +20,7 @@ class AgreementGoalsList extends React.Component {
     } = this.props;
 
     // Used to filter outdated/stale goals in store
-    const lastFetchTime = (fetches[`agreement-${agreement._id}`] || {})
+    const lastFetchTime = (fetches[ `agreement-${agreement._id}` ] || {})
       .assignedAt;
 
     return agreement._id ? (
@@ -32,7 +32,7 @@ class AgreementGoalsList extends React.Component {
         }}
         shouldRenderSubgoals={false}
         filter={goal =>
-          goal.assignedAt >= lastFetchTime &&
+          goal.assignedAt >= (lastFetchTime || 0) &&
           goal.related_to &&
           goal.related_to === agreement._id
         }

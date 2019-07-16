@@ -31,7 +31,7 @@ class MyGoalsList extends React.Component {
         fetchItems={this.fetchMyGoals}
 
         filter={(goal) => (
-          goal.assignedAt >= lastFetchTime &&
+          goal.assignedAt >= (lastFetchTime || 0) &&
           user &&  goal.assignee && goal.assignee._id === userId
           )}
 

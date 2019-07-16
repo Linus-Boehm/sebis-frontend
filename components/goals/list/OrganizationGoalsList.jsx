@@ -36,7 +36,7 @@ class OrganizationGoalsList extends React.Component {
         }}
 
         filter={(goal) => (
-          goal.assignedAt >= lastFetchTime &&
+          goal.assignedAt >= (lastFetchTime || 0) &&
           goal.related_to && goal.related_to === organizationId
         )}
 

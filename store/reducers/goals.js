@@ -1,6 +1,6 @@
 import {
   ASSIGN_GOALS,
-  ASSIGN_SELECTED_GOAL, DELETE_GOAL,
+  ASSIGN_SELECTED_GOAL, ASSIGN_SELECTED_GOAL_PROGRESS, DELETE_GOAL,
   RESET_SELECTED_GOAL
 } from '../types/goal'
 import { keyBy, map } from 'lodash';
@@ -9,7 +9,8 @@ const initialState = {
   selectedGoal: {},
 
   selectedGoalProgress: {
-    date: new Date().toDateString()
+    date: new Date().toDateString(),
+    is_reviewed: false
   },
 
   goals: {},
@@ -31,6 +32,15 @@ export default (state = initialState, { type, data, fetchKey }) => {
       return {
         ...state,
         selectedGoal: { ...initialState.selectedGoal, ...data }
+      };
+
+    case ASSIGN_SELECTED_GOAL_PROGRESS:
+      return {
+        ...state,
+        selectedGoalProgress: {
+          ...initialState.selectedGoalProgress,
+          ...data
+        }
       };
 
     case ASSIGN_GOALS:
