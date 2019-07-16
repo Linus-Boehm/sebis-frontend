@@ -13,3 +13,13 @@
 .ProgressHeader .field .field-info, .ProgressHeader .field .field-value {
   @apply ml-16 mb-2;
 }
+
+.emoji-selector {
+  @apply flex;
+}
+.emoji-selector .emoji {
+  @apply p-1 text-4xl;
+}
+.emoji-selector .emoji.disabled {
+  @apply text-gray-500;
+}

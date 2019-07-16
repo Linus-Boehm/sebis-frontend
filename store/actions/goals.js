@@ -1,4 +1,10 @@
-import { RESET_SELECTED_GOAL, ASSIGN_SELECTED_GOAL, ASSIGN_GOALS, DELETE_GOAL } from '../types/goal'
+import {
+  RESET_SELECTED_GOAL,
+  ASSIGN_SELECTED_GOAL,
+  ASSIGN_GOALS,
+  DELETE_GOAL,
+  ASSIGN_SELECTED_GOAL_PROGRESS
+} from '../types/goal'
 import api from '~/services/BackendApi';
 import * as CommentActions from "./comments";
 import * as AgreementActions from "./agreements";
@@ -20,6 +26,13 @@ export const assignSelectedGoal = (data) => async (dispatch) => {
   if(data.related_model === "ObjectiveAgreement") {
     dispatch(AgreementActions.fetchAgreementById(data.related_to))
   }
+};
+
+export const assignSelectedProgress = (data) => async (dispatch) => {
+  dispatch({
+    type: ASSIGN_SELECTED_GOAL_PROGRESS,
+    data
+  });
 };
 
 export const fetchGoalById = (id, useCache = true) => async (dispatch, getState) => {
