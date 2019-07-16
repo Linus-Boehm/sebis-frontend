@@ -9,6 +9,6 @@ export function create(payload) {
   return Request.post(`${baseUrl()}`, payload);
 }
 
-export function fetchByRelatedToID(goalId) {
-  return Request.get(`${baseUrl()}/${goalId}`);
+export function fetchByRelatedToID(related_to) {
+  return Request.get(`${baseUrl()}/${related_to}`);
 }

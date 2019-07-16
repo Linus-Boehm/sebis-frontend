@@ -9,10 +9,10 @@ export const assignComment = comment => async dispatch => {
   return comment;
 };
 
-export const createComment = (comment, goalId) => async dispatch => {
+export const createComment = (comment, related_to) => async dispatch => {
   try {
     console.log("action:comment:create");
-    let { data, status } = await api.comments.create({ comment, goalId });
+    let { data, status } = await api.comments.create({ comment, related_to });
     if (status === 200) {
       dispatch({
         type: RESET_COMMENT,

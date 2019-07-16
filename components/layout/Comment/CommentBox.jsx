@@ -27,10 +27,13 @@ class CommentBox extends Component {
     return "Unknown User";
   }
 
-  filterCommentsByRelatedId() {
+  filterCommentsByRelatedId(commentTypes = []) {
+    if(!commentTypes || !Array.isArray(commentTypes) || commentTypes.length == 0){
+      commentTypes = ["comment",""]
+    }
     return orderBy(
       filter(this.props.comments.commentList, comment => {
-        return comment.related_to == this.props.relatedTo;
+        return comment.related_to == this.props.relatedTo && commentTypes.indexOf(comment.comment_type) >= 0;
       }),
       ["date"],
       ["desc"]
@@ -38,7 +41,7 @@ class CommentBox extends Component {
   }
 
   render() {
-    const commentItems = this.filterCommentsByRelatedId().map(comment => (
+    const commentItems = this.filterCommentsByRelatedId(this.props.commentTypes).map(comment => (
       <div key={comment._id}>
         <div className="flex">
           <div className="pr-2">
