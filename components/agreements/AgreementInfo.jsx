@@ -78,8 +78,8 @@ class AgreementInfo extends React.Component {
   };
   getMyConfirmState = () => {
     if (
-      this.props.auth.user &&
-      this.props.auth.user._id === this.props.selectedAgreement.reviewer
+      this.props.currentUser &&
+      this.props.currentUser._id === this.props.selectedAgreement.reviewer
     ) {
       return this.props.selectedAgreement.reviewer_confirmed;
     } else {
@@ -87,7 +87,7 @@ class AgreementInfo extends React.Component {
     }
   };
   updateConfirm = async () => {
-    if (this.props.auth.user._id === this.props.selectedAgreement.reviewer) {
+    if (this.props.currentUser._id === this.props.selectedAgreement.reviewer) {
       await this.onChange({
         reviewer_confirmed: !this.props.selectedAgreement.reviewer_confirmed
       });
@@ -159,7 +159,6 @@ class AgreementInfo extends React.Component {
         </div>
         <div className="columns p-0 pt-3">
           <div className="column">{this.getAssignee()}</div>
-
           <div className="column">
             <div>
               <span className="is-size-6 text-gray-400">Start date</span>
@@ -316,4 +315,4 @@ class AgreementInfo extends React.Component {
   }
 }
 
-export default connect(state => state)(AgreementInfo);
+export default AgreementInfo;

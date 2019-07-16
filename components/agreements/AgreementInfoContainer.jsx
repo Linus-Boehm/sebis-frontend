@@ -88,8 +88,8 @@ class AgreementInfoContainer extends React.Component {
 
   getMyConfirmState = () => {
     if (
-      this.props.current_user &&
-      this.props.current_user._id === this.props.selectedAgreement.reviewer
+      this.props.currentUser &&
+      this.props.currentUser._id === this.props.selectedAgreement.reviewer
     ) {
       return this.props.selectedAgreement.reviewer_confirmed;
     } else {
@@ -131,7 +131,7 @@ function mapStateToProps(state) {
 
   return {
     selectedGoal: selectedGoal,
-    current_user: state.auth.user,
+    currentUser: state.auth.user,
     agreements,
     selectedAgreement,
     userList
