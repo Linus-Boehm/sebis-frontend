@@ -1,52 +1,51 @@
-import React from 'react';
-import { connect } from 'react-redux';
+import React from "react";
+import { connect } from "react-redux";
 import Layout from "../../components/layout/DefaultLayout";
-import * as actions from '../../store/actions/auth';
+import * as actions from "../../store/actions/auth";
 
 class Signup extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       form: {
-        firstname: '',
-        lastname: '',
-        email: '',
-        password: '',
-        confirm_password: '',
-        organization_name: ''
+        firstname: "",
+        lastname: "",
+        email: "",
+        password: "",
+        confirm_password: "",
+        organization_name: ""
       }
     };
-    this.onChange = this.onChange.bind(this)
+    this.onChange = this.onChange.bind(this);
   }
 
-  static getInitialProps(ctx) {
-  }
+  static getInitialProps(ctx) {}
 
   async handleSubmit(e) {
     e.preventDefault();
-    try{
-      await this.props.register(this.state.form, 'register');
-    }catch (e) {
-      console.log(e)
+    try {
+      await this.props.register(this.state.form, "register");
+    } catch (e) {
+      console.log(e);
       //TODO add notification
     }
-
-
-
-
   }
   onChange(e) {
-    this.setState({ form:{...this.state.form, [ e.target.name ]: e.target.value }})
+    this.setState({
+      form: { ...this.state.form, [e.target.name]: e.target.value }
+    });
   }
 
   render() {
     return (
       <Layout title="Sign Up" hideSidebar>
-        <h3 className="title is-3">Sign Up</h3>
+        <h3 className="title-sign is-3">Sign Up</h3>
+        <br />
+        <br />
         <form
           onSubmit={this.handleSubmit.bind(this)}
           className="container"
-          style={{ width: '540px' }}
+          style={{ width: "540px" }}
         >
           <div className="field">
             <div className="control">
@@ -77,13 +76,13 @@ class Signup extends React.Component {
           <div className="field">
             <div className="control">
               <input
-                  className="input"
-                  type="email"
-                  placeholder="Email"
-                  name="email"
-                  required
-                  value={this.state.form.email}
-                  onChange={this.onChange}
+                className="input"
+                type="email"
+                placeholder="Email"
+                name="email"
+                required
+                value={this.state.form.email}
+                onChange={this.onChange}
               />
             </div>
           </div>
@@ -134,6 +133,16 @@ class Signup extends React.Component {
             </div>
           </div>
         </form>
+        <style jsx>
+          {`
+            .title-sign {
+              font-size: 50px;
+              font-weight: bold;
+              text-align: center;
+              color: #465775;
+            }
+          `}
+        </style>
       </Layout>
     );
   }

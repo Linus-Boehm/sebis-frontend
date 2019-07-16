@@ -28,10 +28,10 @@ class Signup extends React.Component {
         password: this.state.password
       });
     } catch (e) {
-      if(typeof e == "string") {
+      if (typeof e == "string") {
         this.setState({
           error: e
-        })
+        });
       }
       console.error(e);
     }
@@ -43,23 +43,23 @@ class Signup extends React.Component {
 
   render() {
     return (
-      <Layout title="Sign In" mainContentClasses='bg-image' hideSidebar>
-        <h3 className="title is-3">Sign In</h3>
+      <Layout title="Sign In" hideSidebar>
+        <h3 className="title-sign is-3">Sign In</h3>
+        <br />
+        <br />
         <form
           onSubmit={this.handleSubmit}
           className="container"
           style={{ width: "540px" }}
         >
-          { this.state.error && <div className={"message is-danger"}>
-            <div className="message-header">
-              <p>Error</p>
+          {this.state.error && (
+            <div className={"message is-danger"}>
+              <div className="message-header">
+                <p>Error</p>
+              </div>
+              <div className="message-body">{this.state.error}</div>
             </div>
-            <div className="message-body">
-              {this.state.error}
-            </div>
-
-          </div>
-          }
+          )}
           <div className="field">
             <p className="control">
               <input
@@ -95,6 +95,16 @@ class Signup extends React.Component {
             </p>
           </div>
         </form>
+        <style jsx>
+          {`
+            .title-sign {
+              font-size: 50px;
+              font-weight: bold;
+              text-align: center;
+              color: #465775;
+            }
+          `}
+        </style>
       </Layout>
     );
   }
