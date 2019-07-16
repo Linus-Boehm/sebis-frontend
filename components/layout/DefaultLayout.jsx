@@ -95,27 +95,36 @@ class DefaultLayout extends React.Component {
           className="navbar-menu"
           style={{ marginLeft: "60px" }}
         >
-          <div className="navbar-start">
+
             {!this.props.auth.isAuthenticated ? (
-              <ActiveLink activeClassName="is-tab is-active" href={"/"}>
-                <a className="navbar-item">Home</a>
-              </ActiveLink>
+                <div className="navbar-start">
+                  <ActiveLink activeClassName="is-tab is-active" href={"/"}>
+                    <a className="navbar-item">Home</a>
+                  </ActiveLink>
+                </div>
             ) : (
-              <ActiveLink
-                activeClassName="is-tab is-active"
-                href={"/app/dashboard"}
-              >
-                <a className="navbar-item">My Goals</a>
-              </ActiveLink>
+                <div className="navbar-start">
+                  <ActiveLink
+                    activeClassName="is-tab is-active"
+                    href={"/app/dashboard"}
+                  >
+                    <a className="navbar-item">My Goals</a>
+                  </ActiveLink>
+                  <div className="ml-6 mt-2">
+                    <button
+                        className="button is-primary is-small "
+                        style={{ marginTop: "7%" }}
+                        onClick={this.onCreateAgreement}
+                    >
+                      <span className="pl-1"> Create Agreement</span>
+                    </button>
+                  </div>
+                </div>
+
             )}
-            <button
-              className="button is-primary is-small"
-              style={{ marginTop: "7%" }}
-              onClick={this.onCreateAgreement}
-            >
-              <span className="pl-1"> Create Agreement</span>
-            </button>
-          </div>
+
+
+
           <div className="navbar-end pr-4">
             {!this.props.auth.isAuthenticated ? (
               <div className="navbar-item">
