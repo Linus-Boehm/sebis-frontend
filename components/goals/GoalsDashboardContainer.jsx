@@ -2,13 +2,18 @@ import React from 'react';
 import { connect } from 'react-redux';
 import GoalsDashboard from './GoalsDashboard';
 import { fetchTeams } from "../../store/actions/teams";
+import { fetchUsers } from '../../store/actions/users'
+import { fetchMyAgreements } from '../../store/actions/agreements'
 
 class GoalsDashboardContainer extends React.Component {
 
   async componentDidMount() {
     try {
 
+      this.props.dispatch(fetchUsers())
       this.props.dispatch(fetchTeams())
+      this.props.dispatch(fetchMyAgreements())
+
 
     } catch (e) {
       console.log(e);
