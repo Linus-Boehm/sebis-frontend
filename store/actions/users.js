@@ -46,7 +46,7 @@ export const createUser = user => async (dispatch, getState) => {
 export const updateUser = (id, user) => async dispatch => {
   try {
     console.log("action:user:update");
-    console.log(user);
+    //console.log(user);
     let { data, status } = await api.users.update(id, user);
     if (status === 200) {
       dispatch({
@@ -77,7 +77,7 @@ export const fetchUsers = () => async dispatch => {
     console.log("FetchUsers...");
     let { data, status } = await api.users.fetchAll();
 
-    console.log(status);
+    //console.log(status);
     if (status === 200) {
       dispatch({
         type: ASSIGN_USERS,

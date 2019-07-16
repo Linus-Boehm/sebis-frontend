@@ -57,7 +57,6 @@ export const removeTeamMember = (team_id, user_id) => async dispatch => {
 export const createTeam = team => async dispatch => {
   try {
     console.log("action:team:create");
-    console.log(team);
     let { data, status } = await api.teams.create(team);
     if (status === 200) {
       dispatch({
@@ -78,7 +77,6 @@ export const createTeam = team => async dispatch => {
 export const updateTeam = (id, team) => async dispatch => {
   try {
     console.log("action:team:update");
-    console.log(team);
     let { data, status } = await api.teams.update(id, team);
     if (status === 200) {
       dispatch({
@@ -119,7 +117,7 @@ export const fetchTeams = () => async dispatch => {
     console.log("FetchTeams...");
     let { data, status } = await api.teams.fetchAll();
 
-    console.log(status);
+
     if (status === 200) {
       dispatch({
         type: ASSIGN_TEAMS,

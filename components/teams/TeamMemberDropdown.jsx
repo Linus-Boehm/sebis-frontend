@@ -107,7 +107,7 @@ class TeamMemberDropdown extends React.Component {
       let teamUsers = team.team_roles.map(user => {
         return this.props.users.userList[user.user_id];
       });
-      console.log(teamUsers);
+      //console.log(teamUsers);
       teamMemberList =
         teamUsers && teamUsers.length > 0 ? (
           teamUsers.map(user => (

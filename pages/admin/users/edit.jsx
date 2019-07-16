@@ -21,12 +21,12 @@ class EditUser extends React.Component {
     console.log("Init Users");
     await this.props.dispatch(resetUser());
     await this.props.dispatch(fetchUserById(this.props.currentId));
-    console.log(this.props);
+    //console.log(this.props);
   }
   handleOnSubmit = async e => {
     e.preventDefault();
     try {
-      console.log(this.props);
+      //console.log(this.props);
       await this.props.dispatch(
         updateUser(this.props.currentId, this.props.users.user)
       );

@@ -25,8 +25,6 @@ export default (state = initialState, action) => {
 const autheticate = (state, action) => {
     let token = action.payload.token;
     let user = action.payload.user;
-    console.log('here');
-    console.log(user);
     setToken(token);
     return {...state, user, token, isAuthenticated: true}
 }

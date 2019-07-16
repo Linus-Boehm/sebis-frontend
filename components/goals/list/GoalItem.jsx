@@ -12,7 +12,7 @@ class GoalItem extends React.Component {
     const parts = text.split(regex);
     const matches = text.match(regex);
 
-    console.log(JSON.stringify(matches) + ' ' + JSON.stringify(parts))
+    //console.log(JSON.stringify(matches) + ' ' + JSON.stringify(parts))
 
     return parts.map((part, i) => [
       <span key={"part1-"+i}>{part}</span>,

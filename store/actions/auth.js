@@ -72,7 +72,6 @@ export const reauthenticate = async (dispatch) => {
             let {status, data} = await api.users.me();
             console.log(status)
             if(status === 200){
-                console.log(data)
                 dispatch({type: ASSIGN_TEAMS, data: data.teams});
                 dispatch({type: AUTHENTICATE, payload: {token: token, user: data.user}});
                 return true
