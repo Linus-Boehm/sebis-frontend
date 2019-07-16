@@ -125,11 +125,7 @@ class DefaultLayout extends React.Component {
           style={{ marginLeft: "60px" }}
         >
           {!this.props.auth.isAuthenticated ? (
-            <div className="navbar-start">
-              <ActiveLink activeClassName="is-tab is-active" href={"/"}>
-                <a className="navbar-item">Home</a>
-              </ActiveLink>
-            </div>
+            <div className="navbar-start" />
           ) : (
             <div className="navbar-start">
               <ActiveLink
@@ -199,7 +195,12 @@ class DefaultLayout extends React.Component {
     return (
       <div className="main-wrapper flex flex-col">
         {this.renderHeader()}
-        <section className={"main-content columns flex-1 " + (this.props.mainContentClasses || '')}>
+        <section
+          className={
+            "main-content columns flex-1 " +
+            (this.props.mainContentClasses || "")
+          }
+        >
           {this.props.auth.isAuthenticated && !this.props.hideSidebar && (
             <MenuSidebar />
           )}
@@ -209,10 +210,7 @@ class DefaultLayout extends React.Component {
         </section>
         <footer className="footer">
           <div className="content has-text-centered">
-            <span> I'm the footer</span>
-            <button onClick={this.addNotification} className="btn btn-primary">
-              Add Awesome Notification
-            </button>
+            <span> © 2019 Goalify i. G.</span>
           </div>
         </footer>
         <ReactNotification ref={this.notificationDOMRef} />

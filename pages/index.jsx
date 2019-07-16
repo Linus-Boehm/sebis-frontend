@@ -10,33 +10,9 @@ class Home extends React.Component {
   render() {
     return (
       <div>
-        <DefaultLayout mainContentClasses='bg-image' hideSidebar>
+        <DefaultLayout mainContentClasses="bg-image" hideSidebar>
           {false && <img src="/static/homepage.png" className="imageCover" />}
         </DefaultLayout>
-
-        <style jsx>
-          {`
-          .imageCover {
-            margin-top: -8%;
-            margin-bottom: 20%;
-            z-index:50000
-            margin-left: 30%
-      
-          }
-
-          
-            .backgroundImage {
-             background-image: url("/static/homepage.png");
-              z-index:1
-              background-size:cover;
-              width:100px
-              height: 150%;
-              position: relative;
-            }
-            
-            
-          `}
-        </style>
       </div>
     );
   }
