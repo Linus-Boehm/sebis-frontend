@@ -47,8 +47,8 @@ class GoalInfo extends React.Component {
   };
 
   getAgreementById(agreement) {
-    if (this.props.agreements[agreement] != null) {
-      return this.props.agreements[agreement];
+    if (this.props.agreements[ agreement ] != null) {
+      return this.props.agreements[ agreement ];
     }
     return null;
   }
@@ -60,7 +60,7 @@ class GoalInfo extends React.Component {
     ) {
       return Math.floor(
         (this.props.selectedGoal.oa_weight / 100) *
-          this.props.selectedAgreement.bonus
+        this.props.selectedAgreement.bonus
       );
     }
 
@@ -83,7 +83,7 @@ class GoalInfo extends React.Component {
         <div className="content">
           <div className="goal-detail-header flex">
             <div className="people justify-start flex-1">
-              <GoalAvatar className="m-1" selectedGoal={selectedGoal} />
+              <GoalAvatar className="m-1" selectedGoal={selectedGoal}/>
             </div>
 
             <div className="justify-end actions">
@@ -95,7 +95,7 @@ class GoalInfo extends React.Component {
                   this.setDeleteModalVisibility(true);
                 }}
               >
-                <FaTrashAlt />
+                <FaTrashAlt/>
               </button>
               <ConfirmModal
                 title="Confirm Delete"
@@ -114,7 +114,7 @@ class GoalInfo extends React.Component {
                 className="ml-3 text-gray-600 is-size-12 cursor-pointer p-2"
                 onClick={onClose}
               >
-                <FaTimes size={24} />
+                <FaTimes size={24}/>
               </button>
             </div>
           </div>
@@ -134,7 +134,7 @@ class GoalInfo extends React.Component {
                   }
                   onBlur={this.props.onUpdateGoal}
                   onChange={e =>
-                    this.onChange({ [e.target.name]: e.target.value })
+                    this.onChange({ [ e.target.name ]: e.target.value })
                   }
                 />
               </p>
@@ -148,7 +148,7 @@ class GoalInfo extends React.Component {
               name="description"
               placeholder="Add description..."
               onBlur={this.props.onUpdateGoal}
-              onChange={e => this.onChange({ [e.target.name]: e.target.value })}
+              onChange={e => this.onChange({ [ e.target.name ]: e.target.value })}
               value={description ? description : ""}
             />
           </div>
@@ -190,7 +190,7 @@ class GoalInfo extends React.Component {
                     onBlur={this.props.onUpdateGoal}
                     onChange={e =>
                       this.onChange({
-                        [e.target.name]:
+                        [ e.target.name ]:
                           e.target.value > 100 ? 100 : e.target.value
                       })
                     }
@@ -209,7 +209,7 @@ class GoalInfo extends React.Component {
             <div>
               <h3 className="goal-info-subheader">Contributing to</h3>
               <GoalItem
-                goal={this.props.allGoals[selectedGoal.parent_goal]}
+                goal={this.props.allGoals[ selectedGoal.parent_goal ]}
                 onSelect={this.onSelectGoal}
               />
             </div>
@@ -219,7 +219,7 @@ class GoalInfo extends React.Component {
           {selectedGoal.progress_type &&
           getMaximumProgress(selectedGoal) !== 0 ? (
             <div className="flex w-full justify-between px-1">
-              <GoalProgress className="mt-0" goal={selectedGoal} />
+              <GoalProgress className="mt-0" goal={selectedGoal}/>
               <ActiveLink href={"/app/goals/progress?id=" + selectedGoal._id}>
                 <EditButton className="is-small">
                   <span className="pl-1">Edit Progress</span>
@@ -234,7 +234,7 @@ class GoalInfo extends React.Component {
                   name={"progress_type"}
                   onChange={e =>
                     this.onChangeAndSave({
-                      [e.target.name]: e.target.value
+                      [ e.target.name ]: e.target.value
                     })
                   }
                 >
@@ -259,7 +259,7 @@ class GoalInfo extends React.Component {
                       placeholder="Maximum Progress"
                       onBlur={e =>
                         this.onChangeAndSave({
-                          [e.target.name]: e.target.value
+                          [ e.target.name ]: e.target.value
                         })
                       }
                     />
@@ -268,7 +268,7 @@ class GoalInfo extends React.Component {
               </div>
             </div>
           )}
-          <CommentBox relatedTo={selectedGoal._id} />
+          <CommentBox relatedTo={selectedGoal._id}/>
         </div>
       </div>
     );
@@ -276,9 +276,11 @@ class GoalInfo extends React.Component {
 }
 
 function mapStateToProps(state) {
-  let { reviewer, assignee } = state.agreements.selectedAgreement;
-  reviewer = state.users.userList[reviewer];
-  assignee = state.users.userList[assignee];
+  const { related_to } = state.goals.selectedGoal;
+
+  let { reviewer, assignee } = state.agreements.agreements[ related_to ] || {};
+  reviewer = state.users.userList[ reviewer ];
+  assignee = state.users.userList[ assignee ];
   return {
     assignee,
     reviewer

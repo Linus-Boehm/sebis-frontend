@@ -3,8 +3,6 @@ import { connect } from 'react-redux';
 import * as GoalActions from '../../store/actions/goals';
 import GoalInfo from './GoalInfo';
 import { pick } from "lodash";
-import * as AgreementActions from "../../store/actions/agreements";
-import * as CommentActions from "../../store/actions/comments";
 
 class GoalInfoContainer extends React.Component {
 
