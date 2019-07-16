@@ -66,7 +66,7 @@ class CommentForm extends React.Component {
               className="textarea"
               type="text"
               placeholder="Write a comment..."
-              rows="2"
+              rows={2}
               ref={this.commentTextarea}
               id={"comment-textarea-" + this.props.relatedTo}
               value={this.props.comments.comment.text}
