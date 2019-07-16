@@ -44,18 +44,14 @@ class ProgressChartContainer extends React.Component {
                                        this.switchCommulative(true)
                                    }}>Commulative</a>
                             </div>
-                            <ProgressLineChart maxProgress={maxProgress} cumulated={this.state.cumulated}
+                            <ProgressLineChart {...this.props} maxProgress={maxProgress} cumulated={this.state.cumulated}
                                                progress={this.props.selectedGoal.progress}/>
                         </div>
                     ) :
                     (<div className="w-full box h-64">
                         <p className="text-center pt-16">No progress yet</p>
                     </div>)}
-                <div className="flex">
-                    <div className="ml-auto">
-                        <AddButton><span className="pl-1">Add Progress</span></AddButton>
-                    </div>
-                </div>
+
 
         {/*language=CSS*/
         }
