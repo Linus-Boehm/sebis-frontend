@@ -62,7 +62,7 @@ class CommentBox extends Component {
             Add a comment
           </label>
         </h3>
-        <CommentForm commentType={commentTypes[0]} className="pl-1 pr-1" relatedTo={this.props.relatedTo} />
+        <CommentForm commentType={commentTypes[0]} className="px-1" relatedTo={this.props.relatedTo} />
       </div>
     );
   } // end render
