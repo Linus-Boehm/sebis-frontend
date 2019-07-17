@@ -9,9 +9,11 @@ import ProgressInfoContainer from "../../../../components/goals/progress/Progres
 
 class ProgressIndex extends React.Component {
     async componentDidMount() {
-        await this.props.dispatch(fetchUsers());
-        await this.props.dispatch(fetchGoalById(this.props.currentId));
-        await this.props.dispatch(fetchComments(this.props.currentId));
+        await Promise.all([
+            this.props.dispatch(fetchUsers()),
+            this.props.dispatch(fetchGoalById(this.props.currentId)),
+            this.props.dispatch(fetchComments(this.props.currentId))
+        ])
     }
 
     static async getInitialProps({query}) {
