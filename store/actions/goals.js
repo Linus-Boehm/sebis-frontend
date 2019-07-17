@@ -3,7 +3,7 @@ import {
   ASSIGN_SELECTED_GOAL,
   ASSIGN_GOALS,
   DELETE_GOAL,
-  ASSIGN_SELECTED_GOAL_PROGRESS
+  ASSIGN_SELECTED_GOAL_PROGRESS, RESET_SELECTED_GOAL_PROGRESS
 } from '../types/goal'
 import api from '~/services/BackendApi';
 import * as CommentActions from "./comments";
@@ -12,6 +12,11 @@ import * as AgreementActions from "./agreements";
 export const resetSelectedGoal = () => async (dispatch) => {
   dispatch({
     type: RESET_SELECTED_GOAL
+  });
+};
+export const resetSelectedGoalProgress = () => async (dispatch) => {
+  dispatch({
+    type: RESET_SELECTED_GOAL_PROGRESS
   });
 };
 
@@ -33,6 +38,7 @@ export const assignSelectedProgress = (data) => async (dispatch) => {
     type: ASSIGN_SELECTED_GOAL_PROGRESS,
     data
   });
+  return data
 };
 
 export const fetchGoalById = (id, useCache = true) => async (dispatch, getState) => {
@@ -162,11 +168,16 @@ export const updateGoal = (goal) => async (dispatch) => {
     let { data, status } = await api.goals.updateGoal(goal)
 
     if (status === 200) {
-      return dispatch({
+      await dispatch({
+        type: ASSIGN_SELECTED_GOAL,
+        data: data,
+      });
+      await dispatch({
         type: ASSIGN_GOALS,
         data: [ data ],
         fetchKey: 'lastUpdated'
       });
+      return data
     }
 
   } catch (e) {

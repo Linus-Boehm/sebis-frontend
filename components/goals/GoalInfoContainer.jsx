@@ -20,8 +20,9 @@ class GoalInfoContainer extends React.Component {
 
     await this.props.dispatch(GoalActions.updateGoal(selectedGoal))
 
-    const goal = Object.values(pick(this.props.allGoals, selectedGoal._id))[ 0 ];
-    await this.props.dispatch(GoalActions.assignSelectedGoal(goal))
+    //UpdateGoal should now update the selectedGoal state
+    //const goal = Object.values(pick(this.props.allGoals, selectedGoal._id))[ 0 ];
+    //await this.props.dispatch(GoalActions.assignSelectedGoal(goal))
   };
 
   onSelectGoal = id => {

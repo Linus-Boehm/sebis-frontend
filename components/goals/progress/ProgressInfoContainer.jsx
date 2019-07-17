@@ -1,18 +1,15 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import * as GoalActions from '../../../store/actions/goals';
+import * as CommentActions from '../../../store/actions/comments';
 import {pick} from "lodash";
 import ProgressInfo from "./ProgressInfo";
 import ProgressChartContainer from "./ProgressChartContainer";
 import { keyBy, map } from 'lodash';
+import CommentBox from "../../utils/comment/CommentBox";
 
 class ProgressInfoContainer extends React.Component {
-    constructor(props){
-        super(props)
-        this.state = {
-            selectedProgressIndex: -1
-        }
-    }
+
     onChangeInput = (changes) => {
         const {selectedGoal} = this.props;
 
@@ -23,41 +20,31 @@ class ProgressInfoContainer extends React.Component {
     };
 
     onChangeProgressInput = async (changes) => {
-        const {selectedGoalProgress} = this.props;
+        const {selectedGoalProgress,selectedProgressIndex} = this.props;
 
-        await this.props.dispatch(GoalActions.assignSelectedProgress({
+        await this.props.dispatch(GoalActions.assignSelectedProgress({progress:{
             ...selectedGoalProgress,
             ...changes
-        }))
+        }, index: selectedProgressIndex}))
     };
 
-    onSaveProgress = async() => {
-        const {
-          selectedGoalProgress,
-          selectedGoal
-        } = this.props;
+    onResetProgress = async () =>{
+        await this.props.dispatch(GoalActions.resetSelectedGoalProgress())
+    }
 
-        let progress = keyBy({
-            ...selectedGoal.progress
-        }, '_id');
-
-        progress[selectedGoalProgress._id] = selectedGoalProgress;
-
-        const goal = {
-            ...selectedGoal,
-            ...{
-                progress: Object.values(progress)
-            }
-        };
-
-        await this.props.dispatch(GoalActions.updateGoal(goal))
-        await this.props.dispatch(GoalActions.assignSelectedGoal(goal))
-    };
-
-    addNewProgress = async() => {
-        await this.props.dispatch(GoalActions.assignSelectedProgress({
-
-        }))
+    onUpdateProgress = async() => {
+        //Add Progress to selectedGoal & Update goal
+        let goalCopy = {...this.props.selectedGoal};
+        const index = this.props.selectedProgressIndex;
+        const progress = this.props.selectedGoalProgress;
+        if(index>=0){
+            //Update entry
+            goalCopy.progress[index] =  progress
+        }else{
+            //Append new entry
+            goalCopy.progress.push(progress)
+        }
+        await this.props.dispatch(GoalActions.updateGoal(goalCopy))
     };
 
     onUpdateGoal = async () => {
@@ -65,31 +52,32 @@ class ProgressInfoContainer extends React.Component {
 
         await this.props.dispatch(GoalActions.updateGoal(selectedGoal))
 
-        const goal = Object.values(pick(this.props.allGoals, selectedGoal._id))[0];
-        await this.props.dispatch(GoalActions.assignSelectedGoal(goal))
+        //const goal = Object.values(pick(this.props.allGoals, selectedGoal._id))[0];
+        //await this.props.dispatch(GoalActions.assignSelectedGoal(goal))
     };
 
     onSelectProgress = async (e, data) => {
-        const {progress, index} = data;
-        this.setState({
-            ...this.state,
-            selectedProgressIndex: index
-        })
-        await this.onChangeProgressInput(progress);
+        await Promise.all([
+            this.props.dispatch(GoalActions.assignSelectedProgress(data)),
+            this.props.dispatch(CommentActions.fetchComments(data.progress._id)),
+        ])
+
     };
 
     render() {
         return (
             <div className="flex flex-col">
                 <ProgressInfo
+                    onResetProgress={this.onResetProgress}
                     onUpdateGoal={this.onUpdateGoal}
                     onChangeInput={this.onChangeInput}
                     onChangeProgressInput={this.onChangeProgressInput}
-                    onSaveProgress={this.onSaveProgress}
-                    addNewProgress={this.addNewProgress}
-                    selectedProgressIndex={this.state.selectedProgressIndex}
+                    onUpdateProgress={this.onUpdateProgress}
+                    selectedProgressIndex={this.props.selectedProgressIndex}
                     {...this.props}
                 />
+                {this.props.selectedProgressIndex >= 0 && <CommentBox feedTitle="Progress Feed" relatedTo={this.props.selectedGoalProgress._id}/>}
+
                 <ProgressChartContainer onSelect={this.onSelectProgress}/>
             </div>
         )
@@ -100,7 +88,8 @@ function mapStateToProps(state) {
     const {
         selectedGoal,
         goals,
-        selectedGoalProgress
+        selectedGoalProgress,
+        selectedProgressIndex
     } = state.goals;
 
     const {
@@ -112,6 +101,7 @@ function mapStateToProps(state) {
     } = state.users;
 
     return {
+        selectedProgressIndex,
         selectedGoal,
         selectedGoalProgress,
         agreements,

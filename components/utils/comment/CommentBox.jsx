@@ -48,9 +48,9 @@ class CommentBox extends Component {
 
     return (
       <div className="comment-box">
-        {this.filterCommentsByRelatedId().length > 0 && (
+        {commentItems.length > 0 && (
           <h3 className="blue-title goal-info-subheader">
-            <label htmlFor="comment-textarea">Feed</label>
+            <label htmlFor="comment-textarea">{this.props.feedTitle?this.props.feedTitle:"Feed"}</label>
           </h3>
         )}
         <div className="flex flex-col my-4">

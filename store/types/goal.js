@@ -2,6 +2,7 @@
 import {FaFrown, FaGrinAlt, FaGrinBeam, FaMeh, FaSmile} from "react-icons/fa";
 
 export const RESET_SELECTED_GOAL = 'RESET__SELECTED_GOAL';
+export const RESET_SELECTED_GOAL_PROGRESS = 'RESET_SELECTED_GOAL_PROGRESS';
 export const ASSIGN_SELECTED_GOAL = 'ASSIGN_SELECTED_GOAL';
 export const ASSIGN_SELECTED_GOAL_PROGRESS = 'ASSIGN_SELECTED_GOAL_PROGRESS';
 export const ASSIGN_GOALS = 'ASSIGN_GOALS';

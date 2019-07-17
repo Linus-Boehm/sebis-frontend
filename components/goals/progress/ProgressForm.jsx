@@ -14,13 +14,6 @@ class ProgressForm extends React.Component {
         await this.props.onChangeProgress(changes);
     };
 
-    onSave = async () => {
-        await this.props.onSaveProgress()
-    };
-
-    addNewProgress = async () => {
-        await this.props.addNewProgress()
-    };
 
     selectEmoji = async (key) => {
         if (!this.isLocked()) {
@@ -114,26 +107,27 @@ class ProgressForm extends React.Component {
                 </label>
             </div>
 
-            <div className={"ml-auto mt-8 flex-0 justify-end"}>
+            <div className={"ml-auto mt-8 flex-0"}>
+
+
                 {this.props.selectedProgressIndex > 0 ? (
-                    <BaseButton disabled={!canSubmit} onClick={this.props.onUpdateProgress}>Save</BaseButton>
+                    <div className="flex -mx-1">
+                        <BaseButton className="mx-1" onClick={this.props.onResetProgress}
+                                    type="is-warning">Cancel</BaseButton>
+                        <BaseButton className="mx-1" disabled={!canSubmit}
+                                    onClick={this.props.onUpdateProgress}>Save</BaseButton>
+                    </div>
                 ) : (
-                    <AddButton disabled={!canSubmit} onClick={this.props.onUpdateProgress} className={"ml-2"}>Add Progress</AddButton>
+                    <div className="flex -mx-1">
+                        <BaseButton className="mx-1" type="is-light"
+                                    onClick={this.props.onResetProgress}>Reset</BaseButton>
+                        <AddButton disabled={!canSubmit} onClick={this.props.onUpdateProgress} className={"mx-1"}>Add
+                            Progress</AddButton>
+                    </div>
                 )}
+
             </div>
 
-            <div className={"flex-0 w-full pt-2"}>
-                <TextareaAutosize
-                    disabled={isLocked}
-                    className="input progress-comment"
-                    name="comment"
-                    placeholder="Comment the progress of this date"
-                    value={progress.comment}
-                    onChange={e =>
-                        this.onChange({[e.target.name]: e.target.value})
-                    }
-                />
-            </div>
         </div>
     }
 }

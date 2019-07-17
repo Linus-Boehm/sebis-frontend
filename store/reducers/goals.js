@@ -1,7 +1,7 @@
 import {
   ASSIGN_GOALS,
   ASSIGN_SELECTED_GOAL, ASSIGN_SELECTED_GOAL_PROGRESS, DELETE_GOAL,
-  RESET_SELECTED_GOAL
+  RESET_SELECTED_GOAL, RESET_SELECTED_GOAL_PROGRESS
 } from '../types/goal'
 import { keyBy, map } from 'lodash';
 import uuidv4 from "uuid/v4";
@@ -14,6 +14,7 @@ const initialState = {
     is_reviewed: false,
     _id: uuidv4()
   },
+  selectedProgressIndex: -1,
 
   goals: {},
 
@@ -27,8 +28,17 @@ export default (state = initialState, { type, data, fetchKey }) => {
     case RESET_SELECTED_GOAL:
       return {
         ...state,
-        selectedGoal: initialState.selectedGoal
+        selectedGoal: initialState.selectedGoal,
+        selectedProgressIndex: -1,
+        selectedGoalProgress: {...initialState.selectedGoalProgress}
       };
+    case RESET_SELECTED_GOAL_PROGRESS:
+      return {
+        ...state,
+        selectedProgressIndex: -1,
+        selectedGoalProgress: {...initialState.selectedGoalProgress}
+      };
+
 
     case ASSIGN_SELECTED_GOAL:
       return {
@@ -37,6 +47,7 @@ export default (state = initialState, { type, data, fetchKey }) => {
       };
 
     case ASSIGN_SELECTED_GOAL_PROGRESS:
+      const {progress,index} = data;
       const initialId = {"_id": uuidv4()};
       const initial = {
         ...initialState.selectedGoalProgress,
@@ -46,8 +57,9 @@ export default (state = initialState, { type, data, fetchKey }) => {
         ...state,
         selectedGoalProgress: {
           ...initial,
-          ...data
-        }
+          ...progress
+        },
+        selectedProgressIndex: index
       };
 
     case ASSIGN_GOALS:

@@ -34,6 +34,7 @@ class ProgressIndex extends React.Component {
 
                     <div className="goal-info column is-full is-full-mobile is-one-quarter-fullhd xl:border-l-2 border-gray-200 section">
                         <CommentBox
+                            feedTitle="Goal Feed"
                             relatedTo={selectedGoal._id}
                             {...this.props}
                         />

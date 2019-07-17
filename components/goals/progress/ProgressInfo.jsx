@@ -15,7 +15,7 @@ class ProgressInfo extends React.Component {
   constructor(props) {
     super(props);
   }
-
+  //TODO Do we need this?
   onChangeAndSave = async (changes) => {
     await this.onChange(changes);
     await this.props.onUpdateGoal()
@@ -32,7 +32,7 @@ class ProgressInfo extends React.Component {
   addNewProgress = async() => {
     await this.props.addNewProgress();
   };
-
+  //TODO Do we need this?
   onChange = async (changes) => {
     await this.props.onChangeInput(changes);
   };
@@ -134,8 +134,6 @@ class ProgressInfo extends React.Component {
           <ProgressForm
             progress={this.props.selectedGoalProgress}
             onChangeProgress={this.onChangeProgress}
-            onSaveProgress={this.onSaveProgress}
-            addNewProgress={this.addNewProgress}
             {...this.props} />
 
         </div>
