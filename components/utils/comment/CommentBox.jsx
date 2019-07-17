@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import CommentForm from "./CommentForm";
-import UserAvatar from "../../utils/user/UserAvatar";
+import UserAvatar from "../user/UserAvatar";
 
 import { connect } from "react-redux";
 import { filter, orderBy } from "lodash";
@@ -28,9 +28,7 @@ class CommentBox extends Component {
   }
 
   filterCommentsByRelatedId(commentTypes = []) {
-    if(!commentTypes || !Array.isArray(commentTypes) || commentTypes.length == 0){
-      commentTypes = ["comment",""]
-    }
+
     return orderBy(
       filter(this.props.comments.commentList, comment => {
         return comment.related_to == this.props.relatedTo && commentTypes.indexOf(comment.comment_type) >= 0;
@@ -41,7 +39,11 @@ class CommentBox extends Component {
   }
 
   render() {
-    const commentItems = this.filterCommentsByRelatedId(this.props.commentTypes).map(comment => (
+    let commentTypes =  this.props.commentTypes
+    if(!commentTypes || !Array.isArray(commentTypes) || commentTypes.length == 0){
+      commentTypes = ["comment",""] //to avoid breaking change
+    }
+    const commentItems = this.filterCommentsByRelatedId(commentTypes).map(comment => (
       <div key={comment._id}>
         <div className="flex">
           <div className="pr-2">
@@ -81,7 +83,7 @@ class CommentBox extends Component {
             Add a comment
           </label>
         </h3>
-        <CommentForm className="pl-1 pr-1" relatedTo={this.props.relatedTo} />
+        <CommentForm commentType={commentTypes[0]} className="pl-1 pr-1" relatedTo={this.props.relatedTo} />
       </div>
     );
   } // end render

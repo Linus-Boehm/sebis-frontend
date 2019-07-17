@@ -1,5 +1,5 @@
 import React from "react";
-import CommentBox from "../layout/Comment/CommentBox";
+import CommentBox from "../utils/comment/CommentBox";
 import { FaTrashAlt, FaTimes } from "react-icons/fa";
 import TextareaAutosize from "react-autosize-textarea";
 import ConfirmModal from "../utils/modal/ConfirmModal";

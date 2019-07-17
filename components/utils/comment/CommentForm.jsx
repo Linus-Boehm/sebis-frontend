@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import _JSXStyle from "styled-jsx/style";
-import UserAvatar from "../../utils/user/UserAvatar";
+import UserAvatar from "../user/UserAvatar";
 import * as CommentActions from "../../../store/actions/comments";
 import { connect } from "react-redux";
 import TextareaAutosize from "react-autosize-textarea";

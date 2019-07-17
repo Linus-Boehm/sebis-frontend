@@ -6,7 +6,7 @@ import DayPickerInput from "react-day-picker/DayPickerInput";
 import AgreementGoalsList from "../goals/list/AgreementGoalsList";
 import TextareaAutosize from "react-autosize-textarea";
 import { updateAgreement } from "../../store/actions/agreements";
-import CommentBox from "../layout/Comment/CommentBox";
+import CommentBox from "../utils/comment/CommentBox";
 import CurrencyInput from "react-currency-input";
 import { isNull } from "util";
 import { FaTrashAlt, FaTimes } from "react-icons/fa";

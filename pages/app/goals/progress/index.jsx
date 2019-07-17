@@ -4,7 +4,7 @@ import DefaultLayout from "~/components/layout/DefaultLayout";
 import { fetchUsers } from "~/store/actions/users";
 import {fetchGoalById} from "../../../../store/actions/goals";
 import {fetchComments} from "../../../../store/actions/comments";
-import CommentBox from "../../../../components/layout/Comment/CommentBox";
+import CommentBox from "../../../../components/utils/comment/CommentBox";
 import ProgressInfoContainer from "../../../../components/goals/progress/ProgressInfoContainer";
 
 class ProgressIndex extends React.Component {
