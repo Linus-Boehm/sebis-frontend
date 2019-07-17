@@ -13,11 +13,7 @@ class CommentBox extends Component {
     super(props);
   }
 
-  static async getInitialProps({ store }) {
-    console.log("Init Comment");
-    //await store.dispatch(resetComment());
-    return {};
-  }
+
 
   displayUser(user_id) {
     let user = this.props.users.userList[user_id];
@@ -39,7 +35,7 @@ class CommentBox extends Component {
   }
 
   render() {
-    let commentTypes =  this.props.commentTypes
+    let commentTypes =  this.props.comment_types
     if(!commentTypes || !Array.isArray(commentTypes) || commentTypes.length == 0){
       commentTypes = ["comment",""] //to avoid breaking change
     }

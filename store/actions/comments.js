@@ -1,29 +1,25 @@
 import {ASSIGN_COMMENT, ASSIGN_COMMENTS, RESET_COMMENT} from "../types/comment";
 import api from "~/services/BackendApi";
 
-export const assignComment = comment => async dispatch => {
-  dispatch({
-    type: ASSIGN_COMMENT,
-    data: comment
-  });
-  return comment;
-};
+
 
 export const createComment = (comment, related_to) => async dispatch => {
   try {
     console.log("action:comment:create");
+    console.log(comment);
+    console.log(related_to);
     let { data, status } = await api.comments.create({ comment, related_to });
     if (status === 200) {
       dispatch({
-        type: RESET_COMMENT,
-        data: {}
-      });
-      dispatch({
         type: ASSIGN_COMMENTS,
-        data: data
+        data: [data]
       });
+      return data
     }
-  } catch (e) {}
+  } catch (e) {
+    console.error(e)
+  }
+  throw new Error("error on creating comment");
 };
 
 export const fetchComments = relatedToID => async dispatch => {
