@@ -5,6 +5,7 @@ import UserAvatar from "../user/UserAvatar";
 import { connect } from "react-redux";
 import { filter, orderBy } from "lodash";
 import moment from "moment";
+import CommentItem from "./CommentItem";
 
 //var moment = require("moment");
 
@@ -40,29 +41,9 @@ class CommentBox extends Component {
       commentTypes = ["comment",""] //to avoid breaking change
     }
     const commentItems = this.filterCommentsByRelatedId(commentTypes).map(comment => (
-      <div key={comment._id}>
-        <div className="flex">
-          <div className="pr-2">
-            <UserAvatar
-              user={this.props.users.userList[comment.created_by]}
-              className="cursor-pointer is-s"
-            />
-          </div>
-          <div className="flex-1 ">
-            <div style={{ fontWeight: "bold" }}>
-              {this.displayUser(comment.created_by)}
-            </div>
+      <CommentItem key={comment._id} user={this.props.users.userList[comment.created_by]} comment={comment} className="my-2"/>
 
-            <div className="break-all"> {comment.text}</div>
-          </div>
-          <div
-            className="flex"
-            style={{ fontSize: 12, color: "#C5C5C5", fontWeight: "bold" }}
-          >
-            <p>{moment(comment.date).fromNow()}</p>
-          </div>
-        </div>
-      </div>
+
     ));
 
     return (
@@ -72,7 +53,9 @@ class CommentBox extends Component {
             <label htmlFor="comment-textarea">Feed</label>
           </h3>
         )}
-        {commentItems}
+        <div className="flex flex-col my-4">
+          {commentItems}
+        </div>
         <div className="columns" />
         <h3 className="blue-title goal-info-subheader">
           <label htmlFor={"comment-textarea-" + this.props.relatedTo}>

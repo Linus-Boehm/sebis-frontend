@@ -193,18 +193,18 @@ class DefaultLayout extends React.Component {
 
   render() {
     return (
-      <div className="main-wrapper flex flex-col">
+      <div className="main-wrapper w-full">
         {this.renderHeader()}
         <section
           className={
-            "main-content columns flex-1 " +
+            "main-content columns" +
             (this.props.mainContentClasses || "")
           }
         >
           {this.props.auth.isAuthenticated && !this.props.hideSidebar && (
             <MenuSidebar />
           )}
-          <div className="column section overflow-hidden w-full">
+          <div className="column">
             {this.props.children}
           </div>
         </section>

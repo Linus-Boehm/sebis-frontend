@@ -3,133 +3,139 @@ import DatePicker from "react-datepicker";
 import {GOAL_QUALITATIVE_ICONS, GOAL_QUALITATIVE_ICONS_CLASS_NAMES, GOAL_TYPE} from "../../../store/types/goal";
 import BaseButton from "../../utils/buttons/BaseButton";
 import TextareaAutosize from "react-autosize-textarea";
+import AddButton from "../../utils/buttons/AddButton";
 
 class ProgressForm extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
-  onChange = async changes => {
-    await this.props.onChangeProgress(changes);
-  };
-
-  onSave = async() => {
-    await this.props.onSaveProgress()
-  };
-
-  addNewProgress = async() => {
-    await this.props.addNewProgress()
-  };
-
-  selectEmoji = async (key) => {
-    if(!this.isLocked()) {
-      await this.onChange({
-        value: key
-      })
+    constructor(props) {
+        super(props);
     }
-  };
 
-  isLocked() {
-    const { progress } = this.props;
-    return progress.is_reviewed === true || progress.is_reviewed === "true";
-  }
+    onChange = async changes => {
+        await this.props.onChangeProgress(changes);
+    };
 
-  render() {
-    const {
-      progress,
-      selectedGoal
-    } = this.props;
+    onSave = async () => {
+        await this.props.onSaveProgress()
+    };
 
-    const icon_arr = Object.keys(GOAL_QUALITATIVE_ICONS).map(key => ({ key, value: GOAL_QUALITATIVE_ICONS[key] }));
+    addNewProgress = async () => {
+        await this.props.addNewProgress()
+    };
 
-    const canSave = progress.value !== undefined;
+    selectEmoji = async (key) => {
+        if (!this.isLocked()) {
+            await this.onChange({
+                value: key
+            })
+        }
+    };
 
-    const isLocked = this.isLocked();
+    isLocked() {
+        const {progress} = this.props;
+        return progress.is_reviewed === true || progress.is_reviewed === "true";
+    }
 
-    const classNames = require('classnames');
+    render() {
+        const {
+            progress,
+            selectedGoal
+        } = this.props;
 
-    return <div className={"progress-form flex flex-wrap h-full border-t border-b border-dashed border-gray-300 mt-4 pt-8 pb-8 mb-4"}>
-      <div className={"flex-1 control mr-4"}>
-        <h4 className={"field-info"}><label htmlFor="progress-form-date-picker">Date</label></h4>
-        <DatePicker
-          disabled={isLocked}
-          className={"input"}
-          id={"progress-form-date-picker"}
-          selected={new Date(progress.date)}
-          onChange={ (date) =>
-            this.onChange({ "date": date.toDateString() })
-          }
-        />
-      </div>
+        const icon_arr = Object.keys(GOAL_QUALITATIVE_ICONS).map(key => ({key, value: GOAL_QUALITATIVE_ICONS[key]}));
 
-      <div className={"flex-1 mr-4"}>
-        <label><h4 className={"field-info"}>Progress</h4>
-          {selectedGoal.progress_type === GOAL_TYPE.COUNT &&
-          <input disabled={isLocked} className="input" name="value" type="number" placeholder="0" value={progress.value} onChange={e =>
-            this.onChange({ [e.target.name]: e.target.value })
-          }/>
-          }
+        const canSubmit = progress.value !== undefined;
 
-          {selectedGoal.progress_type === GOAL_TYPE.BOOLEAN &&
-          <select disabled={isLocked} name={"value"} value={progress.value} onChange={e =>
-            this.onChange({ [e.target.name]: e.target.value })
-          }>
-            <option value={1}>Reached</option>
-            <option value={0}>Not reached, yet</option>
-          </select>
-          }
+        const isLocked = this.isLocked();
 
-          {selectedGoal.progress_type === GOAL_TYPE.QUALITATIVE &&
-            <div className={"emoji-selector " + (isLocked ? "locked" : "" )}>
-              {
-                icon_arr.map((element) => {
-                  return React.createElement(
-                    element.value,
-                    {
-                      className: classNames(GOAL_QUALITATIVE_ICONS_CLASS_NAMES[element.key], element.key === progress.value ? "emoji active" : "emoji disabled"),
-                      onClick: this.selectEmoji.bind(this, element.key)
-                    },
-                    []
-                  )
-                })
-              }
+        const classNames = require('classnames');
+
+        return <div
+            className={"progress-form flex flex-wrap h-full border-t border-b border-dashed border-gray-300 mt-4 pt-8 pb-8  mb-4"}>
+            <div className={"flex-1 control "}>
+                <h4 className={"field-info"}><label htmlFor="progress-form-date-picker">Date</label></h4>
+                <DatePicker
+                    disabled={isLocked}
+                    className={"input"}
+                    id={"progress-form-date-picker"}
+                    selected={new Date(progress.date)}
+                    onChange={(date) =>
+                        this.onChange({"date": date.toDateString()})
+                    }
+                />
             </div>
-          }
-        </label>
-      </div>
 
-      <div className={"flex-1 mr-4"}>
-        <label><h4 className={"field-info"}>Status</h4>
-          <div className="select">
-            <select name={"is_reviewed"} value={progress.is_reviewed} onChange={e =>
-              this.onChange({ [e.target.name]: e.target.value })
-            }>
-              <option value={true}>Reviewed</option>
-              <option value={false}>Unreviewed</option>
-            </select>
-          </div>
-        </label>
-      </div>
+            <div className={"flex-1"}>
+                <label><h4 className={"field-info"}>Progress</h4>
+                    {selectedGoal.progress_type === GOAL_TYPE.COUNT &&
+                    <input disabled={isLocked} className="input" name="value" type="number" placeholder="0"
+                           value={progress.value} onChange={e =>
+                        this.onChange({[e.target.name]: e.target.value})
+                    }/>
+                    }
 
-      <div className={"p-8 flex-0 justify-end"}>
-        <BaseButton disabled={!canSave} onClick={this.onSave}>Save</BaseButton>
-        <BaseButton onClick={this.addNewProgress} className={"ml-2"}>Add new</BaseButton>
-      </div>
+                    {selectedGoal.progress_type === GOAL_TYPE.BOOLEAN &&
+                    <select disabled={isLocked} name={"value"} value={progress.value} onChange={e =>
+                        this.onChange({[e.target.name]: e.target.value})
+                    }>
+                        <option value={1}>Reached</option>
+                        <option value={0}>Not reached, yet</option>
+                    </select>
+                    }
 
-      <div className={"flex-0 w-full pt-2 pr-8"}>
-        <TextareaAutosize
-          disabled={isLocked}
-          className="input progress-comment"
-          name="comment"
-          placeholder="Comment the progress of this date"
-          value={progress.comment}
-          onChange={e =>
-            this.onChange({ [e.target.name]: e.target.value })
-          }
-        />
-      </div>
-    </div>
-  }
+                    {selectedGoal.progress_type === GOAL_TYPE.QUALITATIVE &&
+                    <div className={"emoji-selector " + (isLocked ? "locked" : "")}>
+                        {
+                            icon_arr.map((element) => {
+                                return React.createElement(
+                                    element.value,
+                                    {
+                                        className: classNames(GOAL_QUALITATIVE_ICONS_CLASS_NAMES[element.key], element.key === progress.value ? "emoji active" : "emoji disabled"),
+                                        onClick: this.selectEmoji.bind(this, element.key)
+                                    },
+                                    []
+                                )
+                            })
+                        }
+                    </div>
+                    }
+                </label>
+            </div>
+
+            <div className={"flex-1"}>
+                <label><h4 className={"field-info"}>Status</h4>
+                    <div className="select">
+                        <select name={"is_reviewed"} value={progress.is_reviewed} onChange={e =>
+                            this.onChange({[e.target.name]: e.target.value})
+                        }>
+                            <option value={true}>Reviewed</option>
+                            <option value={false}>Unreviewed</option>
+                        </select>
+                    </div>
+                </label>
+            </div>
+
+            <div className={"ml-auto mt-8 flex-0 justify-end"}>
+                {this.props.selectedProgressIndex > 0 ? (
+                    <BaseButton disabled={!canSubmit} onClick={this.props.onUpdateProgress}>Save</BaseButton>
+                ) : (
+                    <AddButton disabled={!canSubmit} onClick={this.props.onUpdateProgress} className={"ml-2"}>Add Progress</AddButton>
+                )}
+            </div>
+
+            <div className={"flex-0 w-full pt-2"}>
+                <TextareaAutosize
+                    disabled={isLocked}
+                    className="input progress-comment"
+                    name="comment"
+                    placeholder="Comment the progress of this date"
+                    value={progress.comment}
+                    onChange={e =>
+                        this.onChange({[e.target.name]: e.target.value})
+                    }
+                />
+            </div>
+        </div>
+    }
 }
 
 export default ProgressForm

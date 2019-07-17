@@ -48,7 +48,7 @@ class ProgressLineChart extends React.Component {
     handleClick = (e, data, progress) => {
         let {cx, cy, index} = data
         if (this.props.onSelect) {
-            this.props.onSelect(e, progress[index])
+            this.props.onSelect(e, {progress: progress[index], index})
         }
         this.setState({
             ...this.state,
@@ -67,7 +67,7 @@ class ProgressLineChart extends React.Component {
         let progress = this.calculateProgress()
         return (
             <div className={cClass}>
-                <ResponsiveContainer>
+                <ResponsiveContainer width="99%">
                     <AreaChart data={this.mapProgressToChartData(progress)}
                                margin={{top: 5, right: 30, left: 20, bottom: 5,}}>
                         <defs>

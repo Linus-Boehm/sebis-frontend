@@ -62,14 +62,14 @@ class ProgressInfo extends React.Component {
     return (
       <div>
         <div className={"ProgressHeader"}>
-          <div className="flex h-full">
-            <h2 className="has-text-grey-darker column title">
+          <div className="flex w-full pb-4 -mx-1">
+            <h2 className="has-text-grey-darker flex-1 title mt-3 mx-1">
               {title}
             </h2>
 
-            <div className="actions column justify-end text-right actions">
-              <BaseButton className={"mr-2"}>Confirm Progress</BaseButton>
-              <BaseButton type={"is-dark"}>End Review</BaseButton>
+            <div className="ml-auto text-right">
+              <BaseButton className={"mx-1"}>Confirm Progress</BaseButton>
+              <BaseButton className={"mx-1"} type={"is-dark"}>End Review</BaseButton>
             </div>
           </div>
 

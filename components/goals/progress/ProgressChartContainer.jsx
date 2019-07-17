@@ -30,7 +30,7 @@ class ProgressChartContainer extends React.Component {
         const maxProgress = this.props.selectedGoal.maximum_progress?parseFloat(this.props.selectedGoal.maximum_progress):null
         return (
 
-            <div className="flex flex-col w-full mt-4 pt-4 pr-4">
+            <div className="flex flex-col w-full mt-4 pt-4">
                 {this.props.selectedGoal.progress && this.props.selectedGoal.progress.length > 0 ?
                     (
                         <div className="w-full">
@@ -48,7 +48,7 @@ class ProgressChartContainer extends React.Component {
                                                progress={this.props.selectedGoal.progress}/>
                         </div>
                     ) :
-                    (<div className="w-full box h-64">
+                    (<div className="w-full h-64">
                         <p className="text-center pt-16">No progress yet</p>
                     </div>)}
 

@@ -7,7 +7,12 @@ import ProgressChartContainer from "./ProgressChartContainer";
 import { keyBy, map } from 'lodash';
 
 class ProgressInfoContainer extends React.Component {
-
+    constructor(props){
+        super(props)
+        this.state = {
+            selectedProgressIndex: -1
+        }
+    }
     onChangeInput = (changes) => {
         const {selectedGoal} = this.props;
 
@@ -64,7 +69,12 @@ class ProgressInfoContainer extends React.Component {
         await this.props.dispatch(GoalActions.assignSelectedGoal(goal))
     };
 
-    onSelectProgress = async (e, progress) => {
+    onSelectProgress = async (e, data) => {
+        const {progress, index} = data;
+        this.setState({
+            ...this.state,
+            selectedProgressIndex: index
+        })
         await this.onChangeProgressInput(progress);
     };
 
@@ -77,7 +87,7 @@ class ProgressInfoContainer extends React.Component {
                     onChangeProgressInput={this.onChangeProgressInput}
                     onSaveProgress={this.onSaveProgress}
                     addNewProgress={this.addNewProgress}
-
+                    selectedProgressIndex={this.state.selectedProgressIndex}
                     {...this.props}
                 />
                 <ProgressChartContainer onSelect={this.onSelectProgress}/>

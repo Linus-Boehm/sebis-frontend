@@ -39,7 +39,7 @@ class MenuSidebar extends React.Component {
 
 
     return (
-      <div className="column is-2 is-narrow-mobile is-fullheight is-hidden-mobile border-r-2 border-gray-200">
+      <div className="column is-2 is-narrow-touch is-fullheight is-hidden-touch border-r-2 border-gray-200">
         <div className="section flex flex-col">
           <div>
             <p className="menu-label">Goals</p>
