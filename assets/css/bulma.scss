@@ -7,7 +7,8 @@ $primary-invert: findColorInvert($primary);
 $link: #4099ff;
 $link-invert: findColorInvert($link);
 $danger: #ac1718;
-$warning: #cecece;
+//Please use is-light instead of removing warning color
+//$warning: #cecece;
 
 // Setup $colors to use as bulma classes (e.g. 'is-twitter')
 $colors: (
