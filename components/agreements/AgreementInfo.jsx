@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import Link from "next/link";
 import AgreementTitle from "./common/AgreementTitle";
 import UserAvatar from "../utils/user/UserAvatar";
@@ -297,49 +297,36 @@ class AgreementInfo extends React.Component {
             />
           </div>
         </div>
-        <div>
-          <AgreementGoalsList
-            disableGoalAdd={!this.props.isEditable}
-            agreement={selectedAgreement}
-          />
-        </div>
-        <br />
-        <div className="flex w-full ">
-          <button
-            disabled={
-              selectedAgreement.assignee_confirmed &&
-              selectedAgreement.reviewer_confirmed
-            }
-            className={
-              "button ml-auto " +
-              (this.getMyConfirmState() ? "is-light" : "is-primary")
-            }
-            onClick={e => {
-              this.setConfirmModalVisibility(true);
-            }}
-          >
-            {this.getMyConfirmState()
-              ? "Cancel Confirmation"
-              : "Confirm Agreement"}
-          </button>
-        </div>
-        <ConfirmModal
-          title="Confirm Proceeding"
-          active={this.state.isConfirmModalVisible}
-          confirmButtonType="is-primary"
-          confirmButtonText="Proceed"
-          onCloseModal={() => {
-            this.setConfirmModalVisibility(false);
-          }}
-          onConfirm={e => {
-            this.setConfirmModalVisibility(false);
-            this.updateConfirm();
-          }}
-        >
-          {" "}
-          Are you sure you want to proceed?
-        </ConfirmModal>
-
+        {assignee && (
+          <Fragment>
+            <div>
+              <AgreementGoalsList
+                disableGoalAdd={!this.props.isEditable}
+                agreement={selectedAgreement}
+              />
+            </div>
+            <br />
+            <div className="flex w-full ">
+              <button
+                disabled={
+                  selectedAgreement.assignee_confirmed &&
+                  selectedAgreement.reviewer_confirmed
+                }
+                className={
+                  "button ml-auto " +
+                  (this.getMyConfirmState() ? "is-light" : "is-primary")
+                }
+                onClick={e => {
+                  this.updateConfirm();
+                }}
+              >
+                {this.getMyConfirmState()
+                  ? "Cancel Confirmation"
+                  : "Confirm Agreement"}
+              </button>
+            </div>
+          </Fragment>
+        )}
         <CommentBox relatedTo={selectedAgreement._id} />
       </div>
     );
