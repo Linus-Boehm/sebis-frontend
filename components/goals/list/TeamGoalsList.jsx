@@ -47,6 +47,9 @@ class TeamGoalsList extends React.Component {
 
           hideHeader={hideHeader}
 
+          fetchInterval={5000}
+
+          {...this.props}
 
         /> : null
     )

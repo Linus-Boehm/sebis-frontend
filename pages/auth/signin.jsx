@@ -2,26 +2,29 @@ import React from "react";
 import { connect } from "react-redux";
 import Layout from "../../components/layout/DefaultLayout";
 import * as actions from "../../store/actions/auth";
+import LoginButton from '../../components/utils/buttons/LoginButton'
 
-class Signup extends React.Component {
+class Signin extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       email: "",
       password: "",
-      error: null
+      error: null,
+      isLoading: false
     };
-    this.onChange = this.onChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  static async getInitialProps({ store, req }) {}
+  static async getInitialProps({ store, req }) {
+  }
 
-  async handleSubmit(e) {
+  handleSubmit = async (e) => {
     e.preventDefault();
     try {
+
       this.setState({
-        error: null
+        error: null,
+        isLoading: true
       });
       await this.props.login({
         email: this.state.email,
@@ -35,66 +38,72 @@ class Signup extends React.Component {
       }
       console.error(e);
     }
+
+    this.setState({
+      isLoading: false
+    })
   }
 
-  onChange(e) {
-    this.setState({ [e.target.name]: e.target.value });
+  onChange = (e) => {
+    this.setState({ [ e.target.name ]: e.target.value });
   }
 
   render() {
     return (
       <Layout title="Sign In" hideSidebar>
-        <h3 className="title-sign is-3">Sign In</h3>
-        <br />
-        <br />
-        <form
-          onSubmit={this.handleSubmit}
-          className="container"
-          style={{ width: "540px" }}
-        >
-          {this.state.error && (
-            <div className={"message is-danger"}>
-              <div className="message-header">
-                <p>Error</p>
+        <div className="p-1 pt-5 pb-5">
+          <h3 className="title-sign is-3">Sign In</h3>
+        </div>
+        <div className="p-1 pt-5">
+          <form
+            onSubmit={this.handleSubmit}
+            className="container"
+            style={{ width: "540px" }}
+          >
+            {this.state.error && (
+              <div className={"message is-danger"}>
+                <div className="message-header">
+                  <p>Error</p>
+                </div>
+                <div className="message-body">{this.state.error}</div>
               </div>
-              <div className="message-body">{this.state.error}</div>
+            )}
+            <div className="field">
+              <p className="control">
+                <input
+                  className="input"
+                  type="email"
+                  name="email"
+                  placeholder="Email"
+                  required
+                  value={this.state.email}
+                  onChange={this.onChange}
+                />
+              </p>
             </div>
-          )}
-          <div className="field">
-            <p className="control">
-              <input
-                className="input"
-                type="email"
-                name="email"
-                placeholder="Email"
-                required
-                value={this.state.email}
-                onChange={this.onChange}
-              />
-            </p>
-          </div>
-          <div className="field">
-            <p className="control">
-              <input
-                className="input"
-                name="password"
-                type="password"
-                placeholder="Password"
-                required
-                value={this.state.password}
-                onChange={this.onChange}
-              />
-            </p>
-          </div>
+            <div className="field">
+              <p className="control">
+                <input
+                  className="input"
+                  name="password"
+                  type="password"
+                  placeholder="Password"
+                  required
+                  value={this.state.password}
+                  onChange={this.onChange}
+                />
+              </p>
+            </div>
 
-          <div className="field">
-            <p className="control has-text-centered">
-              <button type="submit" className="button is-success">
-                Login
-              </button>
-            </p>
-          </div>
-        </form>
+            <div className="field pt-2">
+              <p className="control has-text-centered">
+                <LoginButton type="submit" loading={this.state.isLoading}>
+                  Login
+                </LoginButton>
+              </p>
+            </div>
+          </form>
+        </div>
         <style jsx>
           {`
             .title-sign {
@@ -113,4 +122,4 @@ class Signup extends React.Component {
 export default connect(
   state => state,
   actions
-)(Signup);
+)(Signin);

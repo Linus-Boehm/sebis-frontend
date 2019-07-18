@@ -31,16 +31,23 @@ class AgreementGoalsList extends React.Component {
           this.fetchAgreementGoals(agreement._id);
         }}
         shouldRenderSubgoals={false}
+
         filter={goal =>
           goal.assignedAt >= (lastFetchTime || 0) &&
           goal.related_to &&
           goal.related_to === agreement._id
         }
+
         newGoalTemplate={{
           related_model: "ObjectiveAgreement",
           related_to: agreement._id,
           assignee: agreement.assignee
         }}
+
+        fetchInterval={5000}
+
+
+        {...this.props}
       />
     ) : null;
   }

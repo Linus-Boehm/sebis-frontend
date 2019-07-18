@@ -221,6 +221,12 @@ class DefaultLayout extends React.Component {
           .main-wrapper {
             min-height: 100vh;
           }
+          
+          .main-content {
+            min-height: 80vh;
+          }
+          
+          
         `}</style>
       </div>
     );

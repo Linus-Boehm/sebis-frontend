@@ -15,20 +15,19 @@ export const register = userInfo => async dispatch => {
   } catch (e) {
     switch (e.response.status) {
       case 400:
-        throw "User with Email exists already";
+        throw "Invalid request";
       case 409:
-        throw "User with Email exists already";
-        break;
+        throw "User with Email already exists";
+      case 422: {
+        const { errors } = e.response.data
+        throw errors[ 0 ] ? errors[ 0 ].msg : 'Invalid input';
+      }
 
-      case 422:
-        //TODO proper output of invalid fields
-        throw new Error(
-          "invalid input, check password strength and email format"
-        );
+      default:
+        throw "Oops... an error occurred!";
     }
-    console.error(e);
   }
-  throw new Error("error on Sigup");
+  throw new Error("Error on Sigup");
 };
 
 // gets token from the api and stores it in the redux store and in cookie
@@ -49,23 +48,20 @@ export const login = ({ email, password }) => async dispatch => {
     //TODO throw specific error messages for frontend
     switch (e.response.status) {
       case 422:
-        break;
+        throw "Email is invalid";
       case 403:
+        throw "User is blocked";
       case 404:
         throw "Unknown username or password";
-        break;
       case 401:
         throw "Unknown username or password";
-        break;
       case 409:
         throw "Passwords are not equal";
-        break;
       case 500:
         throw "Unknown server error";
-        break;
 
       default:
-        break;
+        throw "Oops... an error occurred!";
     }
   }
 

@@ -2,6 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import Layout from "../../components/layout/DefaultLayout";
 import * as actions from "../../store/actions/auth";
+import SingupButton from "../../components/utils/buttons/SingupButton";
 
 class Signup extends React.Component {
   constructor(props) {
@@ -17,16 +18,23 @@ class Signup extends React.Component {
       },
       error: null
     };
-    this.onChange = this.onChange.bind(this);
   }
 
-  static getInitialProps(ctx) {}
+  static getInitialProps(ctx) {
+  }
 
   async handleSubmit(e) {
     e.preventDefault();
     try {
+      if (this.state.form.password !== this.state.form.confirm_password) {
+        throw 'Passwords do not match'
+      }
+
+      console.log(this.state);
+
       this.setState({
-        error: null
+        error: null,
+        isLoading: true
       });
       await this.props.register(this.state.form, "register");
     } catch (e) {
@@ -38,118 +46,125 @@ class Signup extends React.Component {
       console.log(e);
       //TODO add notification
     }
-  }
-  onChange(e) {
+
     this.setState({
-      form: { ...this.state.form, [e.target.name]: e.target.value }
+      isLoading: false
+    });
+  }
+
+  onChange = (e) => {
+    this.setState({
+      form: { ...this.state.form, [ e.target.name ]: e.target.value }
     });
   }
 
   render() {
     return (
       <Layout title="Sign Up" hideSidebar>
-        <h3 className="title-sign is-3">Sign Up</h3>
-        <br />
-        <br />
-        <form
-          onSubmit={this.handleSubmit.bind(this)}
-          className="container"
-          style={{ width: "540px" }}
-        >
-          {this.state.error && (
-            <div className={"message is-danger"}>
-              <div className="message-header">
-                <p>Error</p>
+        <div className="p-1 pt-5 pb-5">
+          <h3 className="title-sign is-3">Sign Up</h3>
+        </div>
+        <div className="p-1 pt-5">
+          <form
+            onSubmit={this.handleSubmit.bind(this)}
+            className="container"
+            style={{ width: "540px" }}
+          >
+            {this.state.error && (
+              <div className={"message is-danger"}>
+                <div className="message-header">
+                  <p>Error</p>
+                </div>
+                <div className="message-body">{this.state.error}</div>
               </div>
-              <div className="message-body">{this.state.error}</div>
+            )}
+            <div className="field">
+              <div className="control">
+                <input
+                  className="input"
+                  type="text"
+                  name="firstname"
+                  placeholder="Firstname"
+                  required
+                  value={this.state.form.firstname}
+                  onChange={this.onChange}
+                />
+              </div>
             </div>
-          )}
-          <div className="field">
-            <div className="control">
-              <input
-                className="input"
-                type="text"
-                name="firstname"
-                placeholder="Firstname"
-                required
-                value={this.state.form.firstname}
-                onChange={this.onChange}
-              />
+            <div className="field">
+              <div className="control">
+                <input
+                  className="input"
+                  type="text"
+                  placeholder="LastName"
+                  required
+                  name="lastname"
+                  value={this.state.form.lastname}
+                  onChange={this.onChange}
+                />
+              </div>
             </div>
-          </div>
-          <div className="field">
-            <div className="control">
-              <input
-                className="input"
-                type="text"
-                placeholder="LastName"
-                required
-                name="lastname"
-                value={this.state.form.lastname}
-                onChange={this.onChange}
-              />
+            <div className="field">
+              <div className="control">
+                <input
+                  className="input"
+                  type="email"
+                  placeholder="Email"
+                  name="email"
+                  required
+                  value={this.state.form.email}
+                  onChange={this.onChange}
+                />
+              </div>
             </div>
-          </div>
-          <div className="field">
-            <div className="control">
-              <input
-                className="input"
-                type="email"
-                placeholder="Email"
-                name="email"
-                required
-                value={this.state.form.email}
-                onChange={this.onChange}
-              />
+            <div className="field">
+              <div className="control">
+                <input
+                  className="input"
+                  type="text"
+                  placeholder="Organization Name"
+                  name="organization_name"
+                  required
+                  value={this.state.form.organization_name}
+                  onChange={this.onChange}
+                />
+              </div>
             </div>
-          </div>
-          <div className="field">
-            <div className="control">
-              <input
-                className="input"
-                type="text"
-                placeholder="Organization Name"
-                name="organization_name"
-                required
-                value={this.state.form.organization_name}
-                onChange={this.onChange}
-              />
+            <div className="field">
+              <div className="control">
+                <input
+                  className="input"
+                  type="password"
+                  placeholder="Password"
+                  required
+                  name="password"
+                  value={this.state.form.password}
+                  onChange={this.onChange}
+                />
+              </div>
             </div>
-          </div>
-          <div className="field">
-            <div className="control">
-              <input
-                className="input"
-                type="password"
-                placeholder="Password"
-                required
-                name="password"
-                value={this.state.form.password}
-                onChange={this.onChange}
-              />
+            <div className="field">
+              <div className="control">
+                <input
+                  className="input"
+                  type="password"
+                  placeholder="Confirm Password"
+                  required
+                  name="confirm_password"
+                  value={this.state.form.confirm_password}
+                  onChange={this.onChange}
+                />
+              </div>
             </div>
-          </div>
-          <div className="field">
-            <div className="control">
-              <input
-                className="input"
-                type="password"
-                placeholder="Password"
-                required
-                name="confirm_password"
-                value={this.state.form.confirm_password}
-                onChange={this.onChange}
-              />
+            <div className="field pt-2">
+              <div className="control has-text-centered">
+                <SingupButton type="submit" loading={this.state.isLoading}>
+                  Register
+                </SingupButton>
+              </div>
             </div>
-          </div>
-          <div className="field">
-            <div className="control has-text-centered">
-              <button type="submit" className="button is-success">
-                Register
-              </button>
-            </div>
-          </div>
-        </form>
+          </form>
+        </div>
         <style jsx>
           {`
             .title-sign {

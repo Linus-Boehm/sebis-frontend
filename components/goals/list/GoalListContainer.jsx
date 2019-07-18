@@ -18,9 +18,15 @@ class GoalListContainer extends React.Component {
     this.props.fetchItems();
 
     if (this.props.fetchInterval) {
-      setInterval(() => {
+      this.interval = setInterval(() => {
         this.props.fetchItems();
       }, this.props.fetchInterval);
+    }
+  }
+
+  componentWillUnmount() {
+    if (this.interval) {
+      clearInterval(this.interval)
     }
   }
 

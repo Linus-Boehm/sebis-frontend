@@ -40,6 +40,8 @@ class MyGoalsList extends React.Component {
           is_private: true
         }}
 
+        fetchInterval={5000}
+
         shouldRenderSubgoals
 
         {...this.props}
