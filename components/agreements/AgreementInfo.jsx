@@ -317,7 +317,7 @@ class AgreementInfo extends React.Component {
                   (this.getMyConfirmState() ? "is-light" : "is-primary")
                 }
                 onClick={e => {
-                  this.updateConfirm();
+                  this.setConfirmModalVisibility(true);
                 }}
               >
                 {this.getMyConfirmState()
@@ -325,6 +325,21 @@ class AgreementInfo extends React.Component {
                   : "Confirm Agreement"}
               </button>
             </div>
+            <ConfirmModal
+              title="Confirm Proceeding"
+              active={this.state.isConfirmModalVisible}
+              confirmButtonType="is-primary"
+              confirmButtonText="Proceed"
+              onCloseModal={() => {
+                this.setConfirmModalVisibility(false);
+              }}
+              onConfirm={e => {
+                this.setConfirmModalVisibility(false);
+                this.updateConfirm();
+              }}
+            >
+              Are you sure you want to proceed?
+            </ConfirmModal>
           </Fragment>
         )}
         <CommentBox relatedTo={selectedAgreement._id} />
