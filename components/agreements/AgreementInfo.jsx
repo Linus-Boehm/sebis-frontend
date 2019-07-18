@@ -22,7 +22,7 @@ const AvatarWithName = ({ user, title }) =>
   user && user._id ? (
     <div className="flex items-center">
       <div>
-        <UserAvatar user={user} />
+        <UserAvatar user={user}/>
       </div>
       <div className="flex flex-col justify-center ml-2">
         <div style={{ lineHeight: "1.5rem" }}>
@@ -59,9 +59,9 @@ class AgreementInfo extends React.Component {
   getAssignee() {
     const { selectedAgreement = {}, userList = {} } = this.props;
 
-    const assignee = userList[selectedAgreement.assignee];
+    const assignee = userList[ selectedAgreement.assignee ];
     if (assignee !== undefined && assignee !== null) {
-      return <AvatarWithName user={assignee} title="Employee" />;
+      return <AvatarWithName user={assignee} title="Employee"/>;
     } else {
       return (
         <div className="pl-4">
@@ -73,6 +73,7 @@ class AgreementInfo extends React.Component {
       );
     }
   }
+
   setDeleteModalVisibility = (isDeleteModalVisible = false) => {
     this.setState({ isDeleteModalVisible });
   };
@@ -111,8 +112,8 @@ class AgreementInfo extends React.Component {
       max_bonus
     } = selectedAgreement;
 
-    const assignee = userList[selectedAgreement.assignee];
-    const reviewer = userList[selectedAgreement.reviewer];
+    const assignee = userList[ selectedAgreement.assignee ];
+    const reviewer = userList[ selectedAgreement.reviewer ];
 
     const startDate = start_date ? new Date(start_date) : null;
     const endDate = end_date ? new Date(end_date) : null;
@@ -123,7 +124,7 @@ class AgreementInfo extends React.Component {
           <Link href="/app/agreements">
             <div className="cursor-pointer hover:text-blue-300 flex">
               <span className="pt-1">
-                <Icon size="1em" path={mdiChevronLeft} />
+                <Icon size="1em" path={mdiChevronLeft}/>
               </span>
               <span className=""> Back to List</span>
             </div>
@@ -136,7 +137,7 @@ class AgreementInfo extends React.Component {
               this.setDeleteModalVisibility(true);
             }}
           >
-            <FaTrashAlt />
+            <FaTrashAlt/>
           </button>
           <ConfirmModal
             title="Confirm Delete"
@@ -154,7 +155,7 @@ class AgreementInfo extends React.Component {
         <div className="mt-3">
           <span className="is-size-4 font-bold">
             Objective Agreement for
-            <AgreementTitle agreement={selectedAgreement} assignee={assignee} />
+            <AgreementTitle agreement={selectedAgreement} assignee={assignee}/>
           </span>
         </div>
         <div className="columns p-0 pt-3">
@@ -170,7 +171,7 @@ class AgreementInfo extends React.Component {
                 value={startDate}
                 style={{ fontWeight: "bold" }}
                 dayPickerProps={{
-                  selectedDays: [startDate, { from: startDate, to: endDate }],
+                  selectedDays: [ startDate, { from: startDate, to: endDate } ],
                   disabledDays: { after: endDate },
                   toMonth: endDate,
 
@@ -196,7 +197,7 @@ class AgreementInfo extends React.Component {
                 value={endDate}
                 inputProps={{ disabled: !this.props.isEditable }}
                 dayPickerProps={{
-                  selectedDays: [endDate, { from: startDate, to: endDate }],
+                  selectedDays: [ endDate, { from: startDate, to: endDate } ],
                   disabledDays: { before: startDate },
 
                   modifiers: { start: startDate, end: endDate },
@@ -214,7 +215,7 @@ class AgreementInfo extends React.Component {
             </div>
           </div>
           <div className="column">
-            <AvatarWithName user={reviewer} title="Manager" />
+            <AvatarWithName user={reviewer} title="Manager"/>
           </div>
         </div>
 
@@ -236,7 +237,7 @@ class AgreementInfo extends React.Component {
             name="description"
             placeholder="Additonal details..."
             onBlur={this.props.onUpdateAgreement}
-            onChange={e => this.onChange({ [e.target.name]: e.target.value })}
+            onChange={e => this.onChange({ [ e.target.name ]: e.target.value })}
             value={description ? description : ""}
           />
         </div>
@@ -255,9 +256,12 @@ class AgreementInfo extends React.Component {
               name="bonus"
               className="input editable-input-and-show-value"
               onBlur={this.props.onUpdateAgreement}
-              onChangeEvent={(e, maskedvalue, floatvalue) =>
-                this.onChange({ bonus: floatvalue })
-              }
+              onChangeEvent={(e, maskedvalue, floatvalue) => {
+                const changes = { bonus: floatvalue }
+                if (floatvalue > max_bonus || 0)
+                  changes[ 'max_bonus' ] = floatvalue
+                this.onChange(changes)
+              }}
               value={bonus ? bonus : ""}
             />
           </div>
@@ -274,10 +278,15 @@ class AgreementInfo extends React.Component {
               className="input editable-input-and-show-value"
               style={{ fontWeight: "bold" }}
               name="max_bonus"
-              onBlur={this.props.onUpdateAgreement}
-              onChangeEvent={(e, maskedvalue, floatvalue) =>
+              onBlur={async () => {
+                if (max_bonus < bonus || 0)
+                  await this.onChange({ max_bonus: bonus })
+
+                this.props.onUpdateAgreement()
+              }}
+              onChangeEvent={(e, maskedvalue, floatvalue) => {
                 this.onChange({ max_bonus: floatvalue })
-              }
+              }}
               value={max_bonus ? max_bonus : ""}
             />
           </div>
@@ -288,7 +297,7 @@ class AgreementInfo extends React.Component {
             agreement={selectedAgreement}
           />
         </div>
-        <br />
+        <br/>
         <div className="flex w-full ">
           <button
             disabled={
@@ -309,7 +318,7 @@ class AgreementInfo extends React.Component {
           </button>
         </div>
 
-        <CommentBox relatedTo={selectedAgreement._id} />
+        <CommentBox relatedTo={selectedAgreement._id}/>
       </div>
     );
   }

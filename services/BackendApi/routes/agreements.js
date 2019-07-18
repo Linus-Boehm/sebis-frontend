@@ -20,3 +20,7 @@ export function create(payload) {
 export function update(payload) {
   return Request.put(`${baseUrl()}/${payload._id}`, payload);
 }
+
+export function deleteAgreement(payload) {
+  return Request.delete(`${baseUrl()}/${payload._id}`);
+}

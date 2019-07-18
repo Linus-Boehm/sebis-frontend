@@ -90,7 +90,8 @@ class GoalInfo extends React.Component {
               <button
                 className="button is-danger ml-2"
                 title={"Delete Goal"}
-                disabled={editModeDisabled}
+                disabled={editModeDisabled ||
+                (agreement && agreement.assignee_confirmed && agreement.reviewer_confirmed)}
                 onClick={() => {
                   this.setDeleteModalVisibility(true);
                 }}

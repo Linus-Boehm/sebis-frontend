@@ -101,9 +101,8 @@ export const updateAgreement = agreement => async dispatch => {
 
 export const deleteAgreement = agreement => async dispatch => {
   try {
-    let { data, status } = await api.agreements.update({
-      _id: agreement._id,
-      deleted_at: new Date()
+    let { data, status } = await api.agreements.deleteAgreement({
+      _id: agreement._id
     });
 
     if (status === 200) {
