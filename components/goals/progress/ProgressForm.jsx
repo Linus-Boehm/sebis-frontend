@@ -82,7 +82,7 @@ class ProgressForm extends React.Component {
                                 return React.createElement(
                                     element.value,
                                     {
-                                        className: classNames(GOAL_QUALITATIVE_ICONS_CLASS_NAMES[element.key], element.key === progress.value ? "emoji active" : "emoji disabled"),
+                                        className: classNames(GOAL_QUALITATIVE_ICONS_CLASS_NAMES[element.key], element.key === progress.value ? "emoji active" : "emoji disabled", 'cursor-pointer'),
                                         onClick: this.selectEmoji.bind(this, element.key)
                                     },
                                     []

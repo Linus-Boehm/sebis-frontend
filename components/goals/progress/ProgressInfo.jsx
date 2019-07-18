@@ -61,9 +61,9 @@ class ProgressInfo extends React.Component {
 
     return (
       <div>
-        <div className={"ProgressHeader"}>
+        <div className={"ProgressHeader cursor-default"}>
           <div className="flex w-full pb-4 -mx-1">
-            <h2 className="has-text-grey-darker flex-1 title mt-3 mx-1">
+            <h2 className="has-text-grey-darker flex-1 title mt-3 mx-1 ">
               {title}
             </h2>
 

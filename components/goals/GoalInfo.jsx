@@ -79,14 +79,14 @@ class GoalInfo extends React.Component {
     const agreement_mode = this.props.agreementMode === true;
 
     return (
-      <div className="w-full h-full goal-info">
+      <div className="w-full h-full goal-info p-2">
         <div className="content">
           <div className="goal-detail-header flex">
             <div className="people justify-start flex-1">
               <GoalAvatar className="m-1" selectedGoal={selectedGoal}/>
             </div>
 
-            <div className="justify-end actions">
+            <div className="justify-end actions flex items-center">
               <button
                 className="button is-danger ml-2"
                 title={"Delete Goal"}
