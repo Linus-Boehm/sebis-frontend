@@ -70,7 +70,7 @@ class GoalInfo extends React.Component {
   render() {
     const { selectedGoal, onClose, editModeDisabled } = this.props;
 
-    const { title, description, oa_weight } = selectedGoal;
+    const { title, description, oa_weight, parent_goal } = selectedGoal;
 
     const agreement =
       selectedGoal.related_model === "ObjectiveAgreement" &&
@@ -91,7 +91,7 @@ class GoalInfo extends React.Component {
                 className="button is-danger ml-2"
                 title={"Delete Goal"}
                 disabled={editModeDisabled ||
-                (agreement && agreement.assignee_confirmed && agreement.reviewer_confirmed)}
+                (!parent_goal && agreement && agreement.assignee_confirmed && agreement.reviewer_confirmed)}
                 onClick={() => {
                   this.setDeleteModalVisibility(true);
                 }}
