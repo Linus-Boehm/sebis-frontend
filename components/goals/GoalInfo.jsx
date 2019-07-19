@@ -184,7 +184,7 @@ class GoalInfo extends React.Component {
                     disabled={editModeDisabled}
                     type="number"
                     max="100"
-                    min={0}
+                    min="0"
                     step="10"
                     name="oa_weight"
                     placeholder={"Percentage"}
@@ -195,7 +195,7 @@ class GoalInfo extends React.Component {
                           e.target.value > 100 ? 100 : e.target.value
                       })
                     }
-                    value={oa_weight ? oa_weight : ""}
+                    value={(oa_weight || oa_weight === 0 ? oa_weight : "")}
                   />
                   <span className="text-black icon is-middle is-right">%</span>
                 </div>

@@ -341,23 +341,24 @@ class AgreementInfo extends React.Component {
                 disableGoalAdd={!this.props.isEditable}
                 agreement={selectedAgreement}
               />
-              <p className="text-gray-400"> Total: {}</p>
+              <p className="text-gray-400 pr-2 flex  mr-16 justify-end pt-0 pb-2">
+                {" "}
+                Total: {this.props.goalWeightsSum} %
+              </p>
             </div>
-            <br/>
-            {this.props.goalWeightsSum !== 100 &&
-            <div className="flex w-full justify-end pt-2 pb-2">
-              <span
-                style={{ color: "#A81416" }}>
-                The goal weights must sum up to 100 % (Currently: {this.props.goalWeightsSum} %)
-              </span>
-            </div>
-            }
-            <br/>
-            <div className="flex w-full ">
+            {this.props.goalWeightsSum !== 100 && (
+              <div className="flex w-full justify-end pt-2 pb-2">
+                <span style={{ color: "#A81416" }}>
+                  The goal weights must sum up to 100 %
+                </span>
+              </div>
+            )}
+            <div className="flex w-full pt-2">
               <button
                 disabled={
-                  selectedAgreement.assignee_confirmed &&
-                  selectedAgreement.reviewer_confirmed || (this.props.goalWeightsSum !== 100)
+                  (selectedAgreement.assignee_confirmed &&
+                    selectedAgreement.reviewer_confirmed) ||
+                  this.props.goalWeightsSum !== 100
                 }
                 className={
                   "button ml-auto " +

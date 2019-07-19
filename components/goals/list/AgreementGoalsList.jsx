@@ -41,7 +41,8 @@ class AgreementGoalsList extends React.Component {
         newGoalTemplate={{
           related_model: "ObjectiveAgreement",
           related_to: agreement._id,
-          assignee: agreement.assignee
+          assignee: agreement.assignee,
+          oa_weight: 0
         }}
 
         fetchInterval={5000}
