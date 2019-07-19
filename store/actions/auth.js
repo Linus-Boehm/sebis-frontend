@@ -7,6 +7,8 @@ import { ASSIGN_TEAMS } from "../types/team";
 // register user
 export const register = userInfo => async dispatch => {
   try {
+    //Clear existing old token
+    dispatch({ type: LOGOUT, payload: null });
     const { data, status } = await api.auth.register(userInfo);
     if (status === 200) {
       Router.push("/auth/signin");
@@ -50,7 +52,7 @@ export const login = ({ email, password }) => async dispatch => {
       case 422:
         throw "Email is invalid";
       case 403:
-        throw "User is blocked";
+        throw "User is not confirmed yet, pls check your emails";
       case 404:
         throw "Unknown username or password";
       case 401:
@@ -70,7 +72,7 @@ export const login = ({ email, password }) => async dispatch => {
 
 export const reauthenticate = async dispatch => {
   console.log("action:auth:reauthenticate");
-  if (process.browser && localStorage.getItem("access_token")) {
+  if (process.browser && !!localStorage.getItem("access_token")) {
     console.log("action:auth:reauthenticate:tokenfound");
     let token = localStorage.getItem("access_token");
     try {
@@ -86,7 +88,8 @@ export const reauthenticate = async dispatch => {
         return true;
       }
     } catch (e) {
-      console.error(e);
+      dispatch({ type: LOGOUT, payload: null });
+      //console.error(e);
     }
   }
   return false;

@@ -13,4 +13,8 @@ export function register(body) {
     return Request.post(`${baseUrl()}/register`, body);
 }
 
+export function confirm(body) {
+    return Request.post(`${baseUrl()}/confirm`, body);
+}
+
 
