@@ -26,6 +26,9 @@ class DefaultLayout extends React.Component {
   constructor(props) {
     super(props);
     this.notificationDOMRef = React.createRef();
+    this.state = {
+      sideBarToggeled: false
+    }
   }
 
   logOut = async e => {
@@ -35,8 +38,11 @@ class DefaultLayout extends React.Component {
   };
 
   fetchData = async () => {
-    this.props.dispatch(fetchTeams());
-    this.props.dispatch(fetchUsers());
+      //These should not cause a fail if there are network issues
+      try {
+        await this.props.dispatch(fetchUsers());
+        await this.props.dispatch(fetchTeams());
+      }catch (e) {}
   };
 
   async componentDidMount() {
@@ -62,6 +68,11 @@ class DefaultLayout extends React.Component {
       clearInterval(this.interval)
     }
   }
+  toggleSidebar = ()=> {
+    this.setState({
+      sideBarToggeled: !this.state.sideBarToggeled
+    })
+  }
 
   onCreateAgreement = async () => {
     const _id = uuidv4();
@@ -75,19 +86,20 @@ class DefaultLayout extends React.Component {
     Router.push(`/app/agreement-info?id=${_id}`);
   };
 
-  renderHeader = () => (
+  renderHeader = () => {
+    let logoUrl = !this.props.auth.isAuthenticated ?"/":"/app/dashboard"
+    return (
     <header>
       <nav
         className="navbar border-b-2 border-gray-200"
         role="navigation"
         aria-label="main navigation"
       >
-        {!this.props.auth.isAuthenticated ? (
-          <div className="navbar-brand" href={"/"}>
+          <div className="navbar-brand" >
             <a className="navbar-item">
               <img src="/static/logo.png" width="35"/>
             </a>
-            <a className="navbar-item" href={"/"}>
+            <a className="navbar-item" href={logoUrl}>
               <img
                 src="/static/logo_name.png"
                 width="80"
@@ -102,48 +114,20 @@ class DefaultLayout extends React.Component {
               aria-label="menu"
               aria-expanded="false"
               data-target="navbarmenu"
+              onClick={this.toggleSidebar}
             >
               <span aria-hidden="true"/>
               <span aria-hidden="true"/>
               <span aria-hidden="true"/>
             </a>
           </div>
-        ) : (
-          <div className="navbar-brand" href={"/app/dashboard"}>
-            <a className="navbar-item">
-              <img src="/static/logo.png" width="35"/>
-            </a>
-            <a className="navbar-item" href={"/app/dashboard"}>
-              <img
-                src="/static/logo_name.png"
-                width="80"
-                style={{ marginLeft: "-20px" }}
-              />
-            </a>
-
-            <a
-              id="burger"
-              role="button"
-              className="navbar-burger burger"
-              aria-label="menu"
-              aria-expanded="false"
-              data-target="navbarmenu"
-            >
-              <span aria-hidden="true"/>
-              <span aria-hidden="true"/>
-              <span aria-hidden="true"/>
-            </a>
-          </div>
-        )}
 
         <div
           id="navbarmenu"
           className="navbar-menu"
           style={{ marginLeft: "60px" }}
         >
-          {!this.props.auth.isAuthenticated ? (
-            <div className="navbar-start"/>
-          ) : (
+          {this.props.auth.isAuthenticated &&
             <div className="navbar-start">
               <ActiveLink
                 activeClassName="is-tab is-active"
@@ -161,7 +145,7 @@ class DefaultLayout extends React.Component {
                 </button>
               </div>
             </div>
-          )}
+          }
 
           <div className="navbar-end pr-4">
             {!this.props.auth.isAuthenticated ? (
@@ -206,7 +190,7 @@ class DefaultLayout extends React.Component {
         </div>
       </nav>
     </header>
-  );
+  )};
 
   render() {
     return (
@@ -214,12 +198,12 @@ class DefaultLayout extends React.Component {
         {this.renderHeader()}
         <section
           className={
-            "main-content columns" +
+            "main-content columns pt-2 relative" +
             (this.props.mainContentClasses || "")
           }
         >
           {this.props.auth.isAuthenticated && !this.props.hideSidebar && (
-            <MenuSidebar/>
+            <MenuSidebar sideBarToggeled={this.state.sideBarToggeled}/>
           )}
           <div className="column">
             {this.props.children}
