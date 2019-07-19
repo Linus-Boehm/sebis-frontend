@@ -14,9 +14,9 @@ class GoalItem extends React.Component {
 
     return parts.map((part, i) => [
       <span key={"part1-" + i}>{part}</span>,
-      matches && matches[i] && matches[i] !== "" ? (
+      matches && matches[ i ] && matches[ i ] !== "" ? (
         <span key={"part2-" + i} className="font-bold">
-          {matches[i]}
+          {matches[ i ]}
         </span>
       ) : null
     ]);
@@ -49,11 +49,11 @@ class GoalItem extends React.Component {
               fontWeight: "bold"
             }}
           >
-            Bonus: {goal.oa_weight}%
+            Bonus: {goal.oa_weight || 0}%
           </span>
         )}
         <div className="pr-2">
-          <GoalAvatar selectedGoal={goal} size={25} textSizeRatio={2} />
+          <GoalAvatar selectedGoal={goal} size={25} textSizeRatio={2}/>
         </div>
       </div>
     );
