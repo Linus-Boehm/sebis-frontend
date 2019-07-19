@@ -39,13 +39,6 @@ const AvatarWithName = ({ user, title }) =>
   ) : null;
 
 class AgreementInfo extends React.Component {
-  fetchAgreementGoals = async agreementId => {
-    try {
-      await this.props.dispatch(GoalActions.fetchAgreementGoals(agreementId));
-    } catch (e) {
-      console.log(e);
-    }
-  };
 
   constructor(props) {
     super(props);
@@ -203,7 +196,7 @@ class AgreementInfo extends React.Component {
               <DayPickerInput
                 placeholder="None"
                 inputProps={{ disabled: !this.props.isEditable }}
-                value={startDate}
+                value={startDate || ""}
                 style={{ fontWeight: "bold" }}
                 dayPickerProps={{
                   selectedDays: [ startDate, { from: startDate, to: endDate } ],
@@ -233,7 +226,7 @@ class AgreementInfo extends React.Component {
             <div className="day-picker-input">
               <DayPickerInput
                 placeholder="None"
-                value={endDate}
+                value={endDate || ""}
                 inputProps={{ disabled: !this.props.isEditable }}
                 dayPickerProps={{
                   selectedDays: [ endDate, { from: startDate, to: endDate } ],

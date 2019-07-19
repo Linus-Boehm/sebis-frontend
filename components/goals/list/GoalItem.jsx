@@ -27,6 +27,10 @@ class GoalItem extends React.Component {
 
     const { title } = goal || {};
 
+    let resizedTitle = (title || "").substring(0, 100)
+    if (title.length > 100)
+      resizedTitle += " ..."
+
     return (
       <div
         className={`flex items-center bg-gray-200 hover:bg-gray-300 mb-2 p-2 cursor-pointer 
@@ -38,7 +42,7 @@ class GoalItem extends React.Component {
         }}
       >
         <div className="flex-grow ml-3 max-w-full break-all select-none">
-          {this.highlightByFilter(title, searchFilter)}
+          {this.highlightByFilter(resizedTitle, searchFilter)}
         </div>
         {goal.related_model === "ObjectiveAgreement" && (
           <span

@@ -66,8 +66,19 @@ class AgreementInfoContainer extends React.Component {
 
   // ---
 
-  async componentDidMount() {
-    this.fetchAndSelectAgreement();
+  componentDidMount() {
+    this.fetchAndSelectAgreement()
+
+    this.interval = setInterval(() => {
+      const agreement = this.props.agreements[ this.props.queryId ];
+      this.fetchCommentsToAgreement(agreement._id);
+    }, 5000);
+  }
+
+  componentWillUnmount() {
+    if (this.interval) {
+      clearInterval(this.interval)
+    }
   }
 
   componentDidUpdate(prevProps, prevState) {

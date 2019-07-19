@@ -34,6 +34,11 @@ class DefaultLayout extends React.Component {
     //Router.push("/auth/signin")
   };
 
+  fetchData = async () => {
+    this.props.dispatch(fetchTeams());
+    this.props.dispatch(fetchUsers());
+  };
+
   async componentDidMount() {
     if (!(await this.props.dispatch(actions.isAutheticated()))) {
       if (this.props.forceAuth) {
@@ -41,11 +46,23 @@ class DefaultLayout extends React.Component {
       }
     } else {
       //Dispatch this store actions if user is logged in
-      //this.props.dispatch()
-      this.props.dispatch(fetchTeams());
-      this.props.dispatch(fetchUsers());
+
+      this.fetchData();
+      // fetch Teams and users every 5 seconds In order to get Updates
+      // - if someone was added/removed from team
+      // - User's name has changed
+      this.interval = setInterval(() => {
+        this.fetchData()
+      }, 5000);
     }
   }
+
+  componentWillUnmount() {
+    if (this.interval) {
+      clearInterval(this.interval)
+    }
+  }
+
   onCreateAgreement = async () => {
     const _id = uuidv4();
 
@@ -68,7 +85,7 @@ class DefaultLayout extends React.Component {
         {!this.props.auth.isAuthenticated ? (
           <div className="navbar-brand" href={"/"}>
             <a className="navbar-item">
-              <img src="/static/logo.png" width="35" />
+              <img src="/static/logo.png" width="35"/>
             </a>
             <a className="navbar-item" href={"/"}>
               <img
@@ -86,15 +103,15 @@ class DefaultLayout extends React.Component {
               aria-expanded="false"
               data-target="navbarmenu"
             >
-              <span aria-hidden="true" />
-              <span aria-hidden="true" />
-              <span aria-hidden="true" />
+              <span aria-hidden="true"/>
+              <span aria-hidden="true"/>
+              <span aria-hidden="true"/>
             </a>
           </div>
         ) : (
           <div className="navbar-brand" href={"/app/dashboard"}>
             <a className="navbar-item">
-              <img src="/static/logo.png" width="35" />
+              <img src="/static/logo.png" width="35"/>
             </a>
             <a className="navbar-item" href={"/app/dashboard"}>
               <img
@@ -112,9 +129,9 @@ class DefaultLayout extends React.Component {
               aria-expanded="false"
               data-target="navbarmenu"
             >
-              <span aria-hidden="true" />
-              <span aria-hidden="true" />
-              <span aria-hidden="true" />
+              <span aria-hidden="true"/>
+              <span aria-hidden="true"/>
+              <span aria-hidden="true"/>
             </a>
           </div>
         )}
@@ -125,7 +142,7 @@ class DefaultLayout extends React.Component {
           style={{ marginLeft: "60px" }}
         >
           {!this.props.auth.isAuthenticated ? (
-            <div className="navbar-start" />
+            <div className="navbar-start"/>
           ) : (
             <div className="navbar-start">
               <ActiveLink
@@ -173,9 +190,9 @@ class DefaultLayout extends React.Component {
                   <span className="navbar-item">
                     Hi {this.props.auth.user.firstname}
                   </span>
-                  <hr className="navbar-divider" />
+                  <hr className="navbar-divider"/>
                   <a className="navbar-item">My Account</a>
-                  <hr className="navbar-divider" />
+                  <hr className="navbar-divider"/>
                   <a
                     className="navbar-item has-text-danger"
                     onClick={this.logOut}
@@ -202,7 +219,7 @@ class DefaultLayout extends React.Component {
           }
         >
           {this.props.auth.isAuthenticated && !this.props.hideSidebar && (
-            <MenuSidebar />
+            <MenuSidebar/>
           )}
           <div className="column">
             {this.props.children}
@@ -213,7 +230,7 @@ class DefaultLayout extends React.Component {
             <span> © 2019 Goalify i. G.</span>
           </div>
         </footer>
-        <ReactNotification ref={this.notificationDOMRef} />
+        <ReactNotification ref={this.notificationDOMRef}/>
         <style jsx global>{`
           html,
           body,
