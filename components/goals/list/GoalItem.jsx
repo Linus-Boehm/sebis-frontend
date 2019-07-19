@@ -44,7 +44,7 @@ class GoalItem extends React.Component {
         <div className="flex-grow ml-3 max-w-full break-all select-none">
           {this.highlightByFilter(resizedTitle, searchFilter)}
         </div>
-        {goal.related_model === "ObjectiveAgreement" && (
+        {goal.related_model === "ObjectiveAgreement" && !isSubGoal && (
           <span
             className="tag w-32 mr-4"
             style={{
