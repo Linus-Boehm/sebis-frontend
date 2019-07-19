@@ -153,14 +153,14 @@ class AgreementInfo extends React.Component {
     const endDate = end_date ? new Date(end_date) : null;
 
     return (
-      <div>
+      <div className="p-3">
         <div className="flex">
           <Link href="/app/agreements">
             <div className="cursor-pointer hover:text-blue-300 flex">
               <span className="pt-1">
                 <Icon size="1em" path={mdiChevronLeft}/>
               </span>
-              <span className=""> Back to List</span>
+              <span className=""> My Agreements</span>
             </div>
           </Link>
           <button
