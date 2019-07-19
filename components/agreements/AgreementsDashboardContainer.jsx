@@ -28,7 +28,7 @@ function filterMyAgreements({ agreements, user, fetches }) {
   const userId = (user || {})._id;
 
   // Used to filter outdated/stale agreements in store
-  const lastFetchTime = (fetches["my"] || {}).assignedAt || new Date();
+  const lastFetchTime = (fetches[ "my" ] || {}).assignedAt || new Date();
 
   return orderBy(
     agreements.filter(
@@ -36,10 +36,11 @@ function filterMyAgreements({ agreements, user, fetches }) {
         agreement.assignedAt >= lastFetchTime &&
         (agreement.assignee === userId || agreement.reviewer === userId)
     ),
-    ["start_date"],
-    ["desc"]
+    [ "start_date" ],
+    [ "desc" ]
   );
 }
+
 
 function mapStateToProps(state) {
   const { agreements, fetches } = state.agreements;
@@ -48,15 +49,17 @@ function mapStateToProps(state) {
 
   const { userList } = state.users;
 
+
   const myAgreements = filterMyAgreements({
     agreements: Object.values(agreements),
     user,
     fetches
   });
 
+
   return {
     agreements: myAgreements,
-    userList
+    userList,
   };
 }
 

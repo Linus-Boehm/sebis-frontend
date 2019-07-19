@@ -5,6 +5,7 @@ import AgreementInfo from "./AgreementInfo";
 import GoalInfoContainer from "../goals/GoalInfoContainer";
 import * as AgreementActions from "../../store/actions/agreements";
 import * as CommentsActions from "../../store/actions/comments";
+
 class AgreementInfoContainer extends React.Component {
   fetchMyAgreements = async () => {
     try {
@@ -24,7 +25,7 @@ class AgreementInfoContainer extends React.Component {
   fetchAndSelectAgreement = async () => {
     await this.fetchMyAgreements();
 
-    const agreement = this.props.agreements[this.props.queryId];
+    const agreement = this.props.agreements[ this.props.queryId ];
 
     await this.fetchCommentsToAgreement(agreement._id);
 
@@ -74,6 +75,7 @@ class AgreementInfoContainer extends React.Component {
       this.fetchAndSelectAgreement();
     }
   }
+
   isEditable() {
     if (
       !this.props.selectedAgreement ||
@@ -123,18 +125,45 @@ class AgreementInfoContainer extends React.Component {
   }
 }
 
+
+function calcGoalWeightsSum(selectedAgreement, allGoals, fetches) {
+  if (!allGoals || allGoals.length === 0 || !selectedAgreement || !selectedAgreement._id || !fetches) {
+    return 0;
+  }
+
+  const lastFetchTime = (fetches[ `agreement-${selectedAgreement._id}` ] || {})
+    .assignedAt;
+
+  const agreementGoals = allGoals.filter((el) =>
+    el.related_to &&
+    el.related_to === selectedAgreement._id &&
+    el.assignedAt >= (lastFetchTime || 0)
+  );
+
+  return agreementGoals.reduce((prev, current) => {
+    console.log(current);
+    return prev + (current.oa_weight || 0)
+  }, 0)
+}
+
 function mapStateToProps(state) {
   const { selectedAgreement, agreements } = state.agreements;
 
   const { userList } = state.users;
   const { selectedGoal } = state.goals;
 
+  const { goals, fetches } = state.goals;
+  const goalWeightsSum = calcGoalWeightsSum(selectedAgreement, Object.values(goals), fetches);
+  console.log(goalWeightsSum);
+
   return {
     selectedGoal: selectedGoal,
     currentUser: state.auth.user,
     agreements,
     selectedAgreement,
-    userList
+    userList,
+
+    goalWeightsSum
   };
 }
 
