@@ -61,7 +61,7 @@ class EditTeam extends React.Component {
         //TODO debounce Requests
         e.preventDefault()
         let val = e.target.value
-        let rgxp = new RegExp(val, "g")
+        let rgxp = new RegExp(val, "gi")
         let team = this.props.teams.teamList[this.props.teamId] || this.props.teams.team;
         let userIds = team.team_roles.map(user => {
             return user.user_id
