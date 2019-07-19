@@ -42,7 +42,7 @@ class GoalItem extends React.Component {
         </div>
         {goal.related_model === "ObjectiveAgreement" && (
           <span
-            className="tag w-32 pr-2"
+            className="tag w-32 mr-4"
             style={{
               backgroundColor: "#4990F4",
               color: "#ffff",
