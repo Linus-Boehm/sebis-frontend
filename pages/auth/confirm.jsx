@@ -17,7 +17,7 @@ class Confirm extends React.Component {
 
     static getInitialProps({query}) {
         if (!query.token) {
-            Router.push("/admin/users");
+            Router.push("/auth/signin");
         }
 
         return {token: query.token}
