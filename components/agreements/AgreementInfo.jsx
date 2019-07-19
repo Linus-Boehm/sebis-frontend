@@ -17,6 +17,7 @@ import { connect } from "react-redux";
 import AgreementUserDropdown from "./AgreementUserDropdown";
 import * as AgreementActions from "../../store/actions/agreements";
 import Router from "next/router";
+import * as GoalActions from "../../store/actions/goals";
 
 const AvatarWithName = ({ user, title }) =>
   user && user._id ? (
@@ -38,11 +39,20 @@ const AvatarWithName = ({ user, title }) =>
   ) : null;
 
 class AgreementInfo extends React.Component {
+  fetchAgreementGoals = async agreementId => {
+    try {
+      await this.props.dispatch(GoalActions.fetchAgreementGoals(agreementId));
+    } catch (e) {
+      console.log(e);
+    }
+  };
   constructor(props) {
     super(props);
     this.state = {
       isDeleteModalVisible: false,
-      isConfirmModalVisible: false
+      isConfirmModalVisible: false,
+      startDateMissing: false,
+      endDateMissing: false
     };
   }
 
@@ -90,6 +100,23 @@ class AgreementInfo extends React.Component {
       return this.props.selectedAgreement.reviewer_confirmed;
     } else {
       return this.props.selectedAgreement.assignee_confirmed;
+    }
+  };
+
+  updateControlConfirm = () => {
+    if (
+      this.props.selectedAgreement.start_date == null &&
+      this.props.selectedAgreement.end_date == null
+    ) {
+      this.setState({ startDateMissing: true });
+      this.setState({ endDateMissing: true });
+    }
+    if (this.props.selectedAgreement.start_date == null) {
+      this.setState({ startDateMissing: true });
+    } else if (this.props.selectedAgreement.end_date == null) {
+      this.setState({ endDateMissing: true });
+    } else {
+      this.setConfirmModalVisibility(true);
     }
   };
   updateConfirm = async () => {
@@ -164,6 +191,7 @@ class AgreementInfo extends React.Component {
             <AgreementTitle agreement={selectedAgreement} assignee={assignee} />
           </span>
         </div>
+        <br />
         <div className="columns p-0 pt-3">
           <div className="column">{this.getAssignee()}</div>
           <div className="column">
@@ -187,10 +215,14 @@ class AgreementInfo extends React.Component {
                 }}
                 hideOnDayClick={false}
                 onDayChange={async date => {
+                  this.setState({ startDateMissing: false });
                   await this.onChange({ start_date: date });
                   this.props.onUpdateAgreement();
                 }}
               />
+              {this.state.startDateMissing && (
+                <p style={{ color: "#A81416" }}>This field is requiered</p>
+              )}
             </div>
           </div>
           <div className="column">
@@ -212,12 +244,16 @@ class AgreementInfo extends React.Component {
                   month: startDate
                 }}
                 onDayChange={async date => {
+                  this.setState({ endDateMissing: false });
                   await this.onChange({ end_date: date });
                   this.props.onUpdateAgreement();
                 }}
                 hideOnDayClick={false}
                 ref={el => (this.endDatePicker = el)}
               />
+              {this.state.endDateMissing && (
+                <p style={{ color: "#A81416" }}>This field is requiered</p>
+              )}
             </div>
           </div>
           <div className="column">
@@ -304,8 +340,10 @@ class AgreementInfo extends React.Component {
                 disableGoalAdd={!this.props.isEditable}
                 agreement={selectedAgreement}
               />
+              <p className="text-gray-400"> Total: {}</p>
             </div>
             <br />
+
             <div className="flex w-full ">
               <button
                 disabled={
@@ -317,7 +355,7 @@ class AgreementInfo extends React.Component {
                   (this.getMyConfirmState() ? "is-light" : "is-primary")
                 }
                 onClick={e => {
-                  this.setConfirmModalVisibility(true);
+                  this.updateControlConfirm();
                 }}
               >
                 {this.getMyConfirmState()
@@ -326,7 +364,7 @@ class AgreementInfo extends React.Component {
               </button>
             </div>
             <ConfirmModal
-              title="Confirm Proceeding"
+              title="Confirm before proceeding"
               active={this.state.isConfirmModalVisible}
               confirmButtonType="is-primary"
               confirmButtonText="Proceed"
@@ -348,4 +386,4 @@ class AgreementInfo extends React.Component {
   }
 }
 
-export default AgreementInfo;
+export default (state => state)(AgreementInfo);
