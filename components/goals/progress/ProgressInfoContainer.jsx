@@ -71,6 +71,7 @@ class ProgressInfoContainer extends React.Component {
     };
 
     onSelectProgress = async (e, data) => {
+        data.progress.isEditMode = true;
         await Promise.all([
             this.props.dispatch(GoalActions.assignSelectedProgress(data)),
             this.props.dispatch(CommentActions.fetchComments(data.progress._id)),

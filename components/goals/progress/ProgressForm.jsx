@@ -38,6 +38,8 @@ class ProgressForm extends React.Component {
         const canSubmit = progress.value !== undefined;
         const isLocked = this.isLocked();
 
+        console.log(progress)
+
         const classNames = require('classnames');
 
         return <div
@@ -45,7 +47,7 @@ class ProgressForm extends React.Component {
             <div className={"flex-1 control "}>
                 <h4 className={"field-info"}><label htmlFor="progress-form-date-picker">Date</label></h4>
                 <DatePicker
-                    disabled={isLocked}
+                    disabled={isLocked || progress.isEditMode}
                     className={"input"}
                     id={"progress-form-date-picker"}
                     selected={new Date(progress.date)}
@@ -59,14 +61,14 @@ class ProgressForm extends React.Component {
                 <label><h4 className={"field-info"}>Progress</h4>
                     {selectedGoal.progress_type === GOAL_TYPE.COUNT &&
                     <input disabled={isLocked} className="input" name="value" type="number" placeholder="0"
-                           value={progress.value} onChange={e =>
+                           value={progress.value === undefined ? "" : progress.value} onChange={e =>
                         this.onChange({[e.target.name]: e.target.value})
                     }/>
                     }
 
                     {selectedGoal.progress_type === GOAL_TYPE.BOOLEAN &&
                       <div className={"select"}>
-                        <select disabled={isLocked} name={"value"} value={progress.value} onChange={e =>
+                        <select disabled={isLocked} name={"value"} value={progress.value === undefined ? "" : progress.value} onChange={e =>
                             this.onChange({[e.target.name]: e.target.value})
                         }>
                             <option value="" hidden disabled selected>Please select</option>

@@ -11,8 +11,10 @@ const initialState = {
 
   selectedGoalProgress: {
     date: new Date().toDateString(),
+    value: undefined,
     is_reviewed: false,
-    _id: uuidv4()
+    _id: uuidv4(),
+    isEditMode: false
   },
   selectedProgressIndex: -1,
 
