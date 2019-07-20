@@ -4,6 +4,7 @@ import {fetchUsers} from "~/store/actions/users";
 import {fetchGoalById} from "../../../store/actions/goals";
 import ProgressLineChart from "../../utils/progress/ProgressLineChart";
 import AddButton from "../../utils/buttons/AddButton";
+import {getProgressPoints} from "../../../services/Goal/GoalProgressService";
 
 const data = [{name: 'Day1', uv: 400}, {name: 'Day2', uv: 600}];
 
@@ -45,7 +46,7 @@ class ProgressChartContainer extends React.Component {
                                    }}>Commulative</a>
                             </div>
                             <ProgressLineChart {...this.props} maxProgress={maxProgress} cumulated={this.state.cumulated}
-                                               progress={this.props.selectedGoal.progress}/>
+                                               progress={getProgressPoints(this.props.selectedGoal)}/>
                         </div>
                     ) :
                     (<div className="w-full h-64">

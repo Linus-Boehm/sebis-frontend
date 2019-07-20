@@ -8,7 +8,7 @@ import ChartDot from "./ChartDot";
 
 class ProgressLineChart extends React.Component {
     constructor(props) {
-        super(props)
+        super(props);
         this.state = {
             currentPopoverIndex: -1,
             cx: 0,
@@ -23,8 +23,6 @@ class ProgressLineChart extends React.Component {
 
         const maxPoints = this.props.maxPoints ? this.props.maxPoints : 8;
         return take(progress, maxPoints)
-
-
     }
 
     mapProgressToChartData(progress) {
@@ -44,7 +42,8 @@ class ProgressLineChart extends React.Component {
             ...this.state,
             showPopover: false,
         })
-    }
+    };
+
     handleClick = (e, data, progress) => {
         let {cx, cy, index} = data
         if (this.props.onSelect) {
@@ -57,7 +56,7 @@ class ProgressLineChart extends React.Component {
             cx,
             cy
         });
-    }
+    };
 
     render() {
 

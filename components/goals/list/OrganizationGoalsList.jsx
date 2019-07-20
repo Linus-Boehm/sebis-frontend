@@ -45,7 +45,7 @@ class OrganizationGoalsList extends React.Component {
           related_to: organizationId
         }}
 
-        fetchInterval={5000}
+        fetchInterval={10000}
 
         {...this.props}
       />

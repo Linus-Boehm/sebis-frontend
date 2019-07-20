@@ -45,7 +45,7 @@ class AgreementGoalsList extends React.Component {
           oa_weight: 0
         }}
 
-        fetchInterval={5000}
+        fetchInterval={10000}
 
 
         {...this.props}

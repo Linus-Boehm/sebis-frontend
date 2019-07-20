@@ -23,6 +23,7 @@ import { logout } from "../../store/actions/auth";
 import ActiveLink from "./ActiveLink";
 import uuidv4 from "uuid/v4";
 import * as AgreementActions from "../../store/actions/agreements";
+import LoadingIcon from "mdi-react/LoadingIcon";
 
 class DefaultLayout extends React.Component {
   constructor(props) {
@@ -61,7 +62,7 @@ class DefaultLayout extends React.Component {
       // - User's name has changed
       this.interval = setInterval(() => {
         this.fetchData();
-      }, 5000);
+      }, 10000);
     }
   }
 
@@ -208,7 +209,7 @@ class DefaultLayout extends React.Component {
             }
           >
             {this.props.auth.isAuthenticated && !this.props.hideSidebar && (
-              <MenuSidebar sideBarToggeled={this.state.sideBarToggled} />
+              <MenuSidebar sideBarToggled={this.state.sideBarToggled} />
             )}
             <div className="column">{this.props.children}</div>
           </section>
@@ -220,7 +221,10 @@ class DefaultLayout extends React.Component {
                 <p>Loading...</p>
               </div>
               <div className="message-body">
-                <p>The application is loading...</p>
+                <p>
+                  <LoadingIcon className="spinner float-left" size="1em" /> The
+                  application is loading...
+                </p>
               </div>
             </div>
           </div>
