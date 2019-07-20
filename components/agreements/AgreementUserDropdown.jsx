@@ -28,21 +28,6 @@ class AgreementUserDropdown extends React.Component {
     });
   };
 
-  onSearchInput = e => {
-    //TODO debounce Requests
-    e.preventDefault();
-    let val = e.target.value;
-    let rgxp = new RegExp(val, "g");
-    let res = filter(Object.values(this.props.users.userList), user => {
-      return user.firstname.match(rgxp) || user.lastname.match(rgxp);
-    });
-    this.setState({
-      ...this.state,
-      userSearchInput: val,
-      filteredUsers: res
-    });
-  };
-
   onUserClick = async id => {
     //console.log(this.props);
     await this.props.onChangeInput({ assignee: id });
@@ -75,7 +60,7 @@ class AgreementUserDropdown extends React.Component {
 
     let currentUser = this.props.auth.user;
     let val = e.target.value;
-    let rgxp = new RegExp(val, "g");
+    let rgxp = new RegExp(val, "gi");
 
     let res = filter(Object.values(this.props.users.userList), user => {
       return (

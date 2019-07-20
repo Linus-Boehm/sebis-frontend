@@ -279,7 +279,10 @@ class AgreementInfo extends React.Component {
           <TextareaAutosize
             rows={4}
             disabled={!this.props.isEditable}
-            style={{ marginLeft: "55px", width: "80%" }}
+            style={{
+              marginLeft: "55px",
+              width: "80%"
+            }}
             className="input editable-input-and-show-value"
             name="description"
             placeholder="Additonal details..."
@@ -294,7 +297,7 @@ class AgreementInfo extends React.Component {
               Bonus at 100% fulfillment
             </span>
           </div>
-          <div className="column is-2" style={{ marginLeft: "35px" }}>
+          <div className="column is-3">
             <CurrencyInput
               disabled={!this.props.isEditable}
               precision="0"
@@ -313,11 +316,11 @@ class AgreementInfo extends React.Component {
             />
           </div>
 
-          <div className="column is-2 is-offset-1 ">
+          <div className="column is-2 ">
             <span className="s-size-6 text-gray-400 ">Maximum Bonus</span>
           </div>
 
-          <div className="column is-2 is-offset-1">
+          <div className="column is-3 mr-2">
             <CurrencyInput
               disabled={!this.props.isEditable}
               precision="0"
