@@ -9,7 +9,7 @@ import { updateAgreement } from "../../store/actions/agreements";
 import CommentBox from "../utils/comment/CommentBox";
 import CurrencyInput from "react-currency-input";
 import { isNull } from "util";
-import { FaTrashAlt, FaTimes } from "react-icons/fa";
+import { FaTrashAlt, FaTimes, FaPrint } from "react-icons/fa";
 import ConfirmModal from "../utils/modal/ConfirmModal";
 import Icon from "@mdi/react";
 import { mdiChevronLeft } from "@mdi/js";
@@ -23,7 +23,7 @@ const AvatarWithName = ({ user, title }) =>
   user && user._id ? (
     <div className="flex items-center">
       <div>
-        <UserAvatar user={user}/>
+        <UserAvatar user={user} />
       </div>
       <div className="flex flex-col justify-center ml-2">
         <div style={{ lineHeight: "1.5rem" }}>
@@ -39,7 +39,6 @@ const AvatarWithName = ({ user, title }) =>
   ) : null;
 
 class AgreementInfo extends React.Component {
-
   constructor(props) {
     super(props);
     this.state = {
@@ -64,9 +63,9 @@ class AgreementInfo extends React.Component {
   getAssignee() {
     const { selectedAgreement = {}, userList = {} } = this.props;
 
-    const assignee = userList[ selectedAgreement.assignee ];
+    const assignee = userList[selectedAgreement.assignee];
     if (assignee !== undefined && assignee !== null) {
-      return <AvatarWithName user={assignee} title="Employee"/>;
+      return <AvatarWithName user={assignee} title="Employee" />;
     } else {
       return (
         <div className="pl-4">
@@ -139,33 +138,44 @@ class AgreementInfo extends React.Component {
       max_bonus
     } = selectedAgreement;
 
-    const assignee = userList[ selectedAgreement.assignee ];
-    const reviewer = userList[ selectedAgreement.reviewer ];
+    const assignee = userList[selectedAgreement.assignee];
+    const reviewer = userList[selectedAgreement.reviewer];
 
     const startDate = start_date ? new Date(start_date) : null;
     const endDate = end_date ? new Date(end_date) : null;
 
     return (
       <div className="p-3">
-        <div className="flex">
+        <div className="flex hide-print">
           <Link href="/app/agreements">
             <div className="cursor-pointer hover:text-blue-300 flex">
               <span className="pt-1">
-                <Icon size="1em" path={mdiChevronLeft}/>
+                <Icon size="1em" path={mdiChevronLeft} />
               </span>
               <span className=""> My Agreements</span>
             </div>
           </Link>
-          <button
-            className="button is-danger ml-auto"
-            title={"Delete Objective Agreement"}
-            disabled={!this.props.isEditable}
-            onClick={() => {
-              this.setDeleteModalVisibility(true);
-            }}
-          >
-            <FaTrashAlt/>
-          </button>
+          <div className="justify-end flex ml-auto">
+            <button
+              className="button is-light mr-2"
+              title={"Print Objective Agreement"}
+              onClick={() => {
+                window.print();
+              }}
+            >
+              <FaPrint />
+            </button>
+            <button
+              className="button is-danger "
+              title={"Delete Objective Agreement"}
+              disabled={!this.props.isEditable}
+              onClick={() => {
+                this.setDeleteModalVisibility(true);
+              }}
+            >
+              <FaTrashAlt />
+            </button>
+          </div>
           <ConfirmModal
             title="Confirm Delete"
             active={this.state.isDeleteModalVisible}
@@ -182,10 +192,10 @@ class AgreementInfo extends React.Component {
         <div className="mt-3">
           <span className="is-size-4 font-bold">
             Objective Agreement for
-            <AgreementTitle agreement={selectedAgreement} assignee={assignee}/>
+            <AgreementTitle agreement={selectedAgreement} assignee={assignee} />
           </span>
         </div>
-        <br/>
+        <br />
         <div className="columns p-0 pt-3">
           <div className="column">{this.getAssignee()}</div>
           <div className="column">
@@ -199,7 +209,7 @@ class AgreementInfo extends React.Component {
                 value={startDate || ""}
                 style={{ fontWeight: "bold" }}
                 dayPickerProps={{
-                  selectedDays: [ startDate, { from: startDate, to: endDate } ],
+                  selectedDays: [startDate, { from: startDate, to: endDate }],
                   disabledDays: { after: endDate },
                   toMonth: endDate,
 
@@ -225,11 +235,12 @@ class AgreementInfo extends React.Component {
             </div>
             <div className="day-picker-input">
               <DayPickerInput
+                className="input"
                 placeholder="None"
                 value={endDate || ""}
                 inputProps={{ disabled: !this.props.isEditable }}
                 dayPickerProps={{
-                  selectedDays: [ endDate, { from: startDate, to: endDate } ],
+                  selectedDays: [endDate, { from: startDate, to: endDate }],
                   disabledDays: { before: startDate },
 
                   modifiers: { start: startDate, end: endDate },
@@ -251,7 +262,7 @@ class AgreementInfo extends React.Component {
             </div>
           </div>
           <div className="column">
-            <AvatarWithName user={reviewer} title="Manager"/>
+            <AvatarWithName user={reviewer} title="Manager" />
           </div>
         </div>
 
@@ -268,12 +279,15 @@ class AgreementInfo extends React.Component {
           <TextareaAutosize
             rows={4}
             disabled={!this.props.isEditable}
-            style={{ marginLeft: "55px", width: "80%" }}
+            style={{
+              marginLeft: "55px",
+              width: "80%"
+            }}
             className="input editable-input-and-show-value"
             name="description"
             placeholder="Additonal details..."
             onBlur={this.props.onUpdateAgreement}
-            onChange={e => this.onChange({ [ e.target.name ]: e.target.value })}
+            onChange={e => this.onChange({ [e.target.name]: e.target.value })}
             value={description ? description : ""}
           />
         </div>
@@ -283,7 +297,7 @@ class AgreementInfo extends React.Component {
               Bonus at 100% fulfillment
             </span>
           </div>
-          <div className="column is-2" style={{ marginLeft: "35px" }}>
+          <div className="column is-3">
             <CurrencyInput
               disabled={!this.props.isEditable}
               precision="0"
@@ -295,18 +309,18 @@ class AgreementInfo extends React.Component {
               onChangeEvent={(e, maskedvalue, floatvalue) => {
                 const changes = { bonus: floatvalue };
                 if (floatvalue > max_bonus || 0)
-                  changes[ "max_bonus" ] = floatvalue;
+                  changes["max_bonus"] = floatvalue;
                 this.onChange(changes);
               }}
               value={bonus ? bonus : ""}
             />
           </div>
 
-          <div className="column is-2 is-offset-1 ">
+          <div className="column is-2 ">
             <span className="s-size-6 text-gray-400 ">Maximum Bonus</span>
           </div>
 
-          <div className="column is-2 is-offset-1">
+          <div className="column is-3 mr-2">
             <CurrencyInput
               disabled={!this.props.isEditable}
               precision="0"
@@ -346,7 +360,7 @@ class AgreementInfo extends React.Component {
                 </span>
               </div>
             )}
-            <div className="flex w-full pt-2">
+            <div className="flex w-full pt-2 ">
               <button
                 disabled={
                   (selectedAgreement.assignee_confirmed &&
@@ -354,7 +368,7 @@ class AgreementInfo extends React.Component {
                   this.props.goalWeightsSum !== 100
                 }
                 className={
-                  "button ml-auto " +
+                  "button ml-auto hide-print " +
                   (this.getMyConfirmState() ? "is-light" : "is-primary")
                 }
                 onClick={e => {
@@ -383,7 +397,17 @@ class AgreementInfo extends React.Component {
             </ConfirmModal>
           </Fragment>
         )}
-        <CommentBox relatedTo={selectedAgreement._id}/>
+        <div className="show-in-print columns pt-20 ">
+          <div className="  column is-4 ">
+            <div style={{ borderBottom: "0.5px solid black" }} />
+            <p style={{ textAlign: "center" }}> Place, date </p>
+          </div>
+          <div className=" column is-offset-2 is-4">
+            <div style={{ borderBottom: "0.5px solid black" }}> </div>
+            <p style={{ textAlign: "center" }}>Employee's Signature</p>
+          </div>
+        </div>
+        <CommentBox relatedTo={selectedAgreement._id} />
       </div>
     );
   }

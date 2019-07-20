@@ -14,9 +14,8 @@ class CommentBox extends Component {
     super(props);
   }
 
-
   displayUser(user_id) {
-    let user = this.props.users.userList[ user_id ];
+    let user = this.props.users.userList[user_id];
     if (!!user) {
       return user.firstname + " " + user.lastname;
     }
@@ -24,47 +23,61 @@ class CommentBox extends Component {
   }
 
   filterCommentsByRelatedId(commentTypes = []) {
-
     return orderBy(
       filter(this.props.comments.commentList, comment => {
-        return comment.related_to === this.props.relatedTo && commentTypes.indexOf(comment.comment_type) >= 0;
+        return (
+          comment.related_to === this.props.relatedTo &&
+          commentTypes.indexOf(comment.comment_type) >= 0
+        );
       }),
-      [ "date" ],
-      [ "desc" ]
+      ["date"],
+      ["desc"]
     );
   }
 
   render() {
-    let commentTypes = this.props.comment_types
-    if (!commentTypes || !Array.isArray(commentTypes) || commentTypes.length === 0) {
-      commentTypes = [ "comment", "" ] //to avoid breaking changes
+    let commentTypes = this.props.comment_types;
+    if (
+      !commentTypes ||
+      !Array.isArray(commentTypes) ||
+      commentTypes.length === 0
+    ) {
+      commentTypes = ["comment", ""]; //to avoid breaking changes
     }
-    const commentItems = this.filterCommentsByRelatedId(commentTypes).map(comment => (
-      <CommentItem key={comment._id} user={this.props.users.userList[ comment.created_by ]} comment={comment}
-                   className="my-2"/>
-
-
-    ));
+    const commentItems = this.filterCommentsByRelatedId(commentTypes).map(
+      comment => (
+        <CommentItem
+          key={comment._id}
+          user={this.props.users.userList[comment.created_by]}
+          comment={comment}
+          className="my-2"
+        />
+      )
+    );
 
     return (
       <div className="comment-box">
         {commentItems.length > 0 && (
           <h3 className="blue-title goal-info-subheader">
-            <label htmlFor="comment-textarea">{this.props.feedTitle ? this.props.feedTitle : "Feed"}</label>
+            <label htmlFor="comment-textarea">
+              {this.props.feedTitle ? this.props.feedTitle : "Feed"}
+            </label>
           </h3>
         )}
-        <div style={{ maxHeight: '300px' }} className="overflow-y-scroll">
-          <div className="flex flex-col my-4">
-            {commentItems}
-          </div>
+        <div style={{ maxHeight: "300px" }} className="overflow-y-scroll">
+          <div className="flex flex-col my-4">{commentItems}</div>
         </div>
-        <div className="columns"/>
-        <h3 className="blue-title goal-info-subheader">
+        <div className="columns" />
+        <h3 className="blue-title goal-info-subheader hide-print">
           <label htmlFor={"comment-textarea-" + this.props.relatedTo}>
             Add a comment
           </label>
         </h3>
-        <CommentForm commentType={commentTypes[ 0 ]} className="px-1" relatedTo={this.props.relatedTo}/>
+        <CommentForm
+          commentType={commentTypes[0]}
+          className="px-1 hide-print"
+          relatedTo={this.props.relatedTo}
+        />
       </div>
     );
   } // end render

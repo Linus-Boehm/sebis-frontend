@@ -1,0 +1,17 @@
+@media not print {
+  .show-in-print {
+    display: none !important;
+  }
+}
+
+@media print {
+  .sidemenu {
+    display: none;
+  }
+  .hide-print {
+    display: none;
+  }
+  .CommentBox {
+    display: none;
+  }
+}
