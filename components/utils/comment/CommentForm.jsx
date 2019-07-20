@@ -53,6 +53,9 @@ class CommentForm extends React.Component {
           this.props.relatedTo
         )
       );
+
+      await this.props.dispatch(CommentActions.fetchComments(this.props.relatedTo));
+
       this.setState({
         ...this.state,
         isLoading: false,
