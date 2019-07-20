@@ -215,12 +215,12 @@ class DefaultLayout extends React.Component {
         }
         {!this.props.auth.isAuthenticated && this.props.forceAuth &&
           <div>
-            <div className="message m-4 is-success">
+            <div className="message m-4 is-dark">
               <div className="message-header">
-                <p>Logged out</p>
+                <p>Loading...</p>
               </div>
               <div className="message-body">
-                You're redirected to the homepage...
+                <p>The application is loading...</p>
               </div>
             </div>
           </div>
