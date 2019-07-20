@@ -23,7 +23,7 @@ class GoalInfoContainer extends React.Component {
       if (selectedGoal && selectedGoal._id) {
         this.props.dispatch(CommentActions.fetchComments(selectedGoal._id));
       }
-    }, 5000);
+    }, 10000);
   }
 
   componentWillUnmount() {

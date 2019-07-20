@@ -72,7 +72,7 @@ class AgreementInfoContainer extends React.Component {
     this.interval = setInterval(() => {
       const agreement = this.props.agreements[ this.props.queryId ];
       this.fetchCommentsToAgreement(agreement._id);
-    }, 5000);
+    }, 10000);
   }
 
   componentWillUnmount() {
@@ -124,12 +124,10 @@ class AgreementInfoContainer extends React.Component {
           </div>
         </div>
         {this.props.selectedGoal._id && (
-          <div className="column is-one-third border-l-2 border-gray-200">
-            <GoalInfoContainer
-              agreementMode={true}
-              editModeDisabled={!this.isEditable()}
-            />
-          </div>
+          <GoalInfoContainer
+            agreementMode={true}
+            editModeDisabled={!this.isEditable()}
+          />
         )}
       </div>
     );

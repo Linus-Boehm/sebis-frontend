@@ -79,198 +79,235 @@ class GoalInfo extends React.Component {
     const agreement_mode = this.props.agreementMode === true;
 
     return (
-      <div className="w-full h-full goal-info p-2">
-        <div className="content">
-          <div className="goal-detail-header flex">
-            <div className="people justify-start flex-1">
-              <GoalAvatar className="m-1" selectedGoal={selectedGoal}/>
+      <div className="w-1/3 border-l-2 border-gray-200 flex goalinfo ml-2 ">
+        <div className="flex-1 h-full goal-info py-2 px-6">
+          <div className="content">
+            <div className="goal-detail-header flex">
+              <div className="people justify-start flex-1">
+                <GoalAvatar className="m-1" selectedGoal={selectedGoal}/>
+              </div>
+
+              <div className="justify-end actions flex items-center">
+                <button
+                  className="button is-danger ml-2"
+                  title={"Delete Goal"}
+                  disabled={editModeDisabled ||
+                  (!parent_goal && agreement && agreement.assignee_confirmed && agreement.reviewer_confirmed)}
+                  onClick={() => {
+                    this.setDeleteModalVisibility(true);
+                  }}
+                >
+                  <FaTrashAlt/>
+                </button>
+                <ConfirmModal
+                  title="Confirm Delete"
+                  active={this.state.isDeleteModalVisible}
+                  confirmButtonType="is-danger"
+                  confirmButtonText="Delete"
+                  onCloseModal={() => {
+                    this.setDeleteModalVisibility(false);
+                  }}
+                  onConfirm={this.handleDelete}
+                >
+                  Are you sure?
+                </ConfirmModal>
+
+                <button
+                  className="ml-3 text-gray-600 is-size-12 cursor-pointer p-2"
+                  onClick={onClose}
+                >
+                  <FaTimes size={24}/>
+                </button>
+              </div>
             </div>
 
-            <div className="justify-end actions flex items-center">
-              <button
-                className="button is-danger ml-2"
-                title={"Delete Goal"}
-                disabled={editModeDisabled ||
-                (!parent_goal && agreement && agreement.assignee_confirmed && agreement.reviewer_confirmed)}
-                onClick={() => {
-                  this.setDeleteModalVisibility(true);
-                }}
-              >
-                <FaTrashAlt/>
-              </button>
-              <ConfirmModal
-                title="Confirm Delete"
-                active={this.state.isDeleteModalVisible}
-                confirmButtonType="is-danger"
-                confirmButtonText="Delete"
-                onCloseModal={() => {
-                  this.setDeleteModalVisibility(false);
-                }}
-                onConfirm={this.handleDelete}
-              >
-                Are you sure?
-              </ConfirmModal>
-
-              <button
-                className="ml-3 text-gray-600 is-size-12 cursor-pointer p-2"
-                onClick={onClose}
-              >
-                <FaTimes size={24}/>
-              </button>
-            </div>
-          </div>
-
-          <div className="pt-2">
-            <div className="field">
-              <p className="control">
-                <TextareaAutosize
-                  disabled={editModeDisabled}
-                  className="input goal-title editable-input-and-show-value"
-                  name="title"
-                  placeholder="Enter a title"
-                  value={title ? title : ""}
-                  onKeyDown={e => e.keyCode !== 13}
-                  onKeyUp={e =>
-                    (e.target.value = e.target.value.replace(/[\r\n\v]+/g, " "))
-                  }
-                  onBlur={this.props.onUpdateGoal}
-                  onChange={e =>
-                    this.onChange({ [ e.target.name ]: e.target.value })
-                  }
-                />
-              </p>
-            </div>
-          </div>
-          <div className="pt-2">
-            <TextareaAutosize
-              disabled={editModeDisabled}
-              rows={3}
-              className="input editable-input-and-show-value"
-              name="description"
-              placeholder="Add description..."
-              onBlur={this.props.onUpdateGoal}
-              onChange={e => this.onChange({ [ e.target.name ]: e.target.value })}
-              value={description ? description : ""}
-            />
-          </div>
-
-          <SubGoalList parentGoal={selectedGoal} {...this.props} />
-
-          {agreement && (
-            <div>
-              <h3 className="goal-info-subheader">Linked to</h3>
-              <AgreementItem
-                size_class={""}
-                key={agreement._id}
-                agreement={agreement}
-                reviewer={this.props.reviewer}
-                assignee={this.props.assignee}
-              />
-            </div>
-          )}
-
-          {agreement_mode && (
-            <>
-              <h3 className="goal-info-subheader">
-                <label htmlFor={"goal_weight_" + selectedGoal._id}>
-                  Weight of Total Bonus
-                </label>
-              </h3>
-              <div className="flex">
-                <div className="flex-1 goal-weight-input control has-icons-right">
-                  <input
-                    id={"goal_weight_" + selectedGoal._id}
-                    className="input editable-input-and-show-value text-right"
+            <div className="pt-2">
+              <div className="field">
+                <p className="control">
+                  <TextareaAutosize
                     disabled={editModeDisabled}
-                    type="number"
-                    max="100"
-                    min="0"
-                    step="10"
-                    name="oa_weight"
-                    placeholder={"Percentage"}
+                    className="input goal-title editable-input-and-show-value"
+                    name="title"
+                    placeholder="Enter a title"
+                    value={title ? title : ""}
+                    onKeyDown={e => e.keyCode !== 13}
+                    onKeyUp={e =>
+                      (e.target.value = e.target.value.replace(/[\r\n\v]+/g, " "))
+                    }
                     onBlur={this.props.onUpdateGoal}
                     onChange={e =>
-                      this.onChange({
-                        [ e.target.name ]:
-                          e.target.value > 100 ? 100 : e.target.value
-                      })
+                      this.onChange({ [ e.target.name ]: e.target.value })
                     }
-                    value={(oa_weight || oa_weight === 0 ? oa_weight : "")}
                   />
-                  <span className="text-black icon is-middle is-right">%</span>
-                </div>
-                <div className="flex-1 goal-weight text-right font-bold">
-                  = {this.getWeightInDollars()} $
-                </div>
+                </p>
               </div>
-            </>
-          )}
-
-          {selectedGoal.parent_goal && (
-            <div>
-              <h3 className="goal-info-subheader">Contributing to</h3>
-              <GoalItem
-                goal={this.props.allGoals[ selectedGoal.parent_goal ]}
-                onSelect={this.onSelectGoal}
+            </div>
+            <div className="pt-2">
+              <TextareaAutosize
+                disabled={editModeDisabled}
+                rows={3}
+                className="input editable-input-and-show-value"
+                name="description"
+                placeholder="Add description..."
+                onBlur={this.props.onUpdateGoal}
+                onChange={e => this.onChange({ [ e.target.name ]: e.target.value })}
+                value={description ? description : ""}
               />
             </div>
-          )}
 
-          <h3 className="goal-info-subheader">Progress</h3>
-          {selectedGoal.progress_type &&
-          getMaximumProgress(selectedGoal) !== 0 ? (
-            <div className="flex w-full justify-between px-1">
-              <GoalProgress className="mt-0 flex-grow mr-4" goal={selectedGoal}/>
-              <ActiveLink href={"/app/goals/progress?id=" + selectedGoal._id}>
-                <EditButton className="is-small h-auto">
-                  <span className="pl-1">Edit Progress</span>
-                </EditButton>
-              </ActiveLink>
-            </div>
-          ) : (
-            <div>
-              <p>Define progress type to start.</p>
-              <div className="select">
-                <select
-                  name={"progress_type"}
-                  onChange={e =>
-                    this.onChangeAndSave({
-                      [ e.target.name ]: e.target.value
-                    })
-                  }
-                >
-                  <option value={""}>Please select</option>
-                  <option value={GOAL_TYPE.QUALITATIVE}>
-                    Qualitative Goal (Smileys)
-                  </option>
-                  <option value={GOAL_TYPE.COUNT}>Numeric Goal</option>
-                  <option value={GOAL_TYPE.BOOLEAN}>
-                    Goal to reach (Done or Not Done)
-                  </option>
-                </select>
+            <SubGoalList parentGoal={selectedGoal} {...this.props} />
+
+            {agreement && (
+              <div>
+                <h3 className="goal-info-subheader">Linked to</h3>
+                <AgreementItem
+                  size_class={""}
+                  key={agreement._id}
+                  agreement={agreement}
+                  reviewer={this.props.reviewer}
+                  assignee={this.props.assignee}
+                />
               </div>
-              <div className="pt-2">
-                {selectedGoal.progress_type === GOAL_TYPE.COUNT && (
-                  <label className="control font-bold">
-                    Maximum Progress
+            )}
+
+            {agreement_mode && (
+              <div>
+                <h3 className="goal-info-subheader">
+                  <label htmlFor={"goal_weight_" + selectedGoal._id}>
+                    Weight of Total Bonus
+                  </label>
+                </h3>
+                <div className="flex">
+                  <div className="flex-1 goal-weight-input control has-icons-right">
                     <input
-                      className="input"
-                      name={"maximum_progress"}
+                      id={"goal_weight_" + selectedGoal._id}
+                      className="input editable-input-and-show-value text-right"
+                      disabled={editModeDisabled}
                       type="number"
-                      placeholder="Maximum Progress"
-                      onBlur={e =>
-                        this.onChangeAndSave({
-                          [ e.target.name ]: e.target.value
+                      max="100"
+                      min="0"
+                      step="10"
+                      name="oa_weight"
+                      placeholder={"Percentage"}
+                      onBlur={this.props.onUpdateGoal}
+                      onChange={e =>
+                        this.onChange({
+                          [ e.target.name ]:
+                            e.target.value > 100 ? 100 : e.target.value
                         })
                       }
+                      value={(oa_weight || oa_weight === 0 ? oa_weight : "")}
                     />
-                  </label>
-                )}
+                    <span className="text-black icon is-middle is-right">%</span>
+                  </div>
+                  <div className="flex-1 goal-weight text-right font-bold">
+                    = {this.getWeightInDollars()} $
+                  </div>
+                </div>
               </div>
-            </div>
-          )}
-          <CommentBox relatedTo={selectedGoal._id}/>
+            )}
+
+            {selectedGoal.parent_goal && (
+              <div>
+                <h3 className="goal-info-subheader">Contributing to</h3>
+                <GoalItem
+                  goal={this.props.allGoals[ selectedGoal.parent_goal ]}
+                  onSelect={this.onSelectGoal}
+                />
+              </div>
+            )}
+
+            <h3 className="goal-info-subheader">Progress</h3>
+            {selectedGoal.progress_type &&
+            getMaximumProgress(selectedGoal) !== 0 ? (
+              <div className="flex w-full justify-between px-1">
+                <GoalProgress className="mt-0 flex-grow mr-4" goal={selectedGoal}/>
+                <ActiveLink href={"/app/goals/progress?id=" + selectedGoal._id}>
+                  <EditButton className="is-small">
+                    <span className="pl-1">Edit Progress</span>
+                  </EditButton>
+                </ActiveLink>
+              </div>
+            ) : (
+              <div>
+                <p>Define progress type to start.</p>
+                <div className="select">
+                  <select
+                    name={"progress_type"}
+                    onChange={e =>
+                      this.onChangeAndSave({
+                        [ e.target.name ]: e.target.value
+                      })
+                    }
+                  >
+                    <option value={""}>Please select</option>
+                    <option value={GOAL_TYPE.QUALITATIVE}>
+                      Qualitative Goal (Smileys)
+                    </option>
+                    <option value={GOAL_TYPE.COUNT}>Numeric Goal</option>
+                    <option value={GOAL_TYPE.BOOLEAN}>
+                      Goal to reach (Done or Not Done)
+                    </option>
+                  </select>
+                </div>
+                <div className="pt-2">
+                  {selectedGoal.progress_type === GOAL_TYPE.COUNT && (
+                    <label className="control font-bold">
+                      Maximum Progress
+                      <input
+                        className="input"
+                        name={"maximum_progress"}
+                        type="number"
+                        placeholder="Maximum Progress"
+                        onBlur={e =>
+                          this.onChangeAndSave({
+                            [ e.target.name ]: e.target.value
+                          })
+                        }
+                      />
+                    </label>
+                  )}
+                </div>
+              </div>
+            )}
+            <CommentBox relatedTo={selectedGoal._id}/>
+          </div>
         </div>
+        {/*language=CSS*/
+        }
+        <style jsx global>{`
+            .goalinfo {
+                min-height: 100%;
+                height: 100%;
+                background: white;
+                position: static;
+
+            }
+
+            @media screen and (max-width: 1023px) {
+                .goalinfo {
+                    position: absolute;
+                    z-index: 51;
+                    width: 100%;
+
+                    display: block;
+                    animation-duration: .5s;
+                    animation-name: slidein;
+                    animation-fill-mode: forwards;
+                    border: none !important;
+                    margin: 0 !important;
+                }
+            }
+
+            @keyframes slidein {
+                from {
+                    right: -300px;
+                }
+                to {
+                    right: 0;
+                }
+            }
+        `}</style>
       </div>
     );
   }
