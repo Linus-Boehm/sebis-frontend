@@ -79,8 +79,8 @@ class GoalInfo extends React.Component {
     const agreement_mode = this.props.agreementMode === true;
 
     return (
-      <div className="is-one-third border-l-2 border-gray-200 .flex-shrink-0 sidemenu section">
-        <div className="h-full goal-info p-2 ">
+      <div className="w-1/3 border-l-2 border-gray-200 flex goalinfo ml-2 ">
+        <div className="flex-1 h-full goal-info py-2 px-6">
           <div className="content">
             <div className="goal-detail-header flex">
               <div className="people justify-start flex-1">
@@ -276,7 +276,7 @@ class GoalInfo extends React.Component {
         {/*language=CSS*/
         }
         <style jsx global>{`
-            .sidemenu {
+            .goalinfo {
                 min-height: 100%;
                 height: 100%;
                 background: white;
@@ -285,24 +285,26 @@ class GoalInfo extends React.Component {
             }
 
             @media screen and (max-width: 1023px) {
-                .sidemenu {
+                .goalinfo {
                     position: absolute;
                     z-index: 51;
-                    width: 100vw;
-               
+                    width: 100%;
+
                     display: block;
                     animation-duration: .5s;
                     animation-name: slidein;
                     animation-fill-mode: forwards;
+                    border: none !important;
+                    margin: 0 !important;
                 }
             }
 
             @keyframes slidein {
                 from {
-                    left: -300px;
+                    right: -300px;
                 }
                 to {
-                    left: 0;
+                    right: 0;
                 }
             }
         `}</style>

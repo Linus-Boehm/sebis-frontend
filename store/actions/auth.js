@@ -42,7 +42,6 @@ export const login = ({ email, password }) => async dispatch => {
         payload: { token: data.token, user: data.user }
       });
       dispatch({ type: ASSIGN_TEAMS, data: data.teams });
-      Router.push("/app/dashboard");
       return data;
     }
   } catch (e) {
@@ -97,7 +96,7 @@ export const reauthenticate = async dispatch => {
 
 export const logout = () => async dispatch => {
   dispatch({ type: LOGOUT, payload: null });
-  Router.push("/auth/signin");
+  Router.push("/");
 };
 
 export const isAutheticated = () => async (dispatch, getState) => {

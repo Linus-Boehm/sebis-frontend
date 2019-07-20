@@ -19,15 +19,17 @@ class Dashboard extends React.Component {
   render() {
     return (
       <DefaultLayout forceAuth={true}>
-        <div className="flex h-full">
-          <div className="">
-            <div className="content">
-              <GoalsDashboardContainer/>
+        <div>
+          <div className="flex h-full">
+            <div className="flex-1">
+              <div className="content">
+                <GoalsDashboardContainer/>
+              </div>
             </div>
+            {this.props.selectedGoal._id && (
+              <GoalInfoContainer/>
+            )}
           </div>
-          {this.props.selectedGoal._id && (
-            <GoalInfoContainer/>
-          )}
         </div>
       </DefaultLayout>
     );

@@ -205,13 +205,25 @@ class DefaultLayout extends React.Component {
               (this.props.mainContentClasses || "")
             }
           >
-            {!this.props.hideSidebar && (
-              <MenuSidebar sideBarToggeled={this.state.sideBarToggled}/>
+            {this.props.auth.isAuthenticated && !this.props.hideSidebar && (
+              <MenuSidebar sideBarToggled={this.state.sideBarToggled}/>
             )}
             <div className="column">
               {this.props.children}
             </div>
           </section>
+        }
+        {!this.props.auth.isAuthenticated && this.props.forceAuth &&
+          <div>
+            <div className="message m-4 is-dark">
+              <div className="message-header">
+                <p>Loading...</p>
+              </div>
+              <div className="message-body">
+                <p>The application is loading...</p>
+              </div>
+            </div>
+          </div>
         }
         <footer className="footer">
           <div className="content has-text-centered">

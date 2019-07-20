@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import Layout from "../../components/layout/DefaultLayout";
 import * as actions from "../../store/actions/auth";
 import LoginButton from '../../components/utils/buttons/LoginButton'
+import Router from "next/router";
 
 class Signin extends React.Component {
   constructor(props) {
@@ -42,68 +43,88 @@ class Signin extends React.Component {
     this.setState({
       isLoading: false
     })
-  }
+  };
 
   onChange = (e) => {
     this.setState({ [ e.target.name ]: e.target.value });
-  }
+  };
 
   render() {
+    const auth = this.props.auth ? this.props.auth : {};
+    if(auth.token) {
+      Router.push("/app/dashboard");
+    }
+
     return (
       <Layout title="Sign In" hideSidebar>
         <div className="p-1 pt-5 pb-5">
           <h3 className="title-sign is-3">Sign In</h3>
         </div>
-        <div className="p-1 pt-5">
-          <form
-            onSubmit={this.handleSubmit}
-            className="container"
-            style={{ width: "540px" }}
-          >
-            {this.state.error && (
-              <div className={"message is-danger"}>
-                <div className="message-header">
-                  <p>Error</p>
+        {!auth.token &&
+          <div className="p-1 pt-5">
+            <form
+              onSubmit={this.handleSubmit}
+              className="container"
+              style={{width: "540px"}}
+            >
+              {this.state.error && (
+                <div className={"message is-danger"}>
+                  <div className="message-header">
+                    <p>Error</p>
+                  </div>
+                  <div className="message-body">{this.state.error}</div>
                 </div>
-                <div className="message-body">{this.state.error}</div>
+              )}
+              <div className="field">
+                <p className="control">
+                  <input
+                    className="input"
+                    type="email"
+                    name="email"
+                    placeholder="Email"
+                    required
+                    value={this.state.email}
+                    onChange={this.onChange}
+                  />
+                </p>
               </div>
-            )}
-            <div className="field">
-              <p className="control">
-                <input
-                  className="input"
-                  type="email"
-                  name="email"
-                  placeholder="Email"
-                  required
-                  value={this.state.email}
-                  onChange={this.onChange}
-                />
-              </p>
-            </div>
-            <div className="field">
-              <p className="control">
-                <input
-                  className="input"
-                  name="password"
-                  type="password"
-                  placeholder="Password"
-                  required
-                  value={this.state.password}
-                  onChange={this.onChange}
-                />
-              </p>
-            </div>
+              <div className="field">
+                <p className="control">
+                  <input
+                    className="input"
+                    name="password"
+                    type="password"
+                    placeholder="Password"
+                    required
+                    value={this.state.password}
+                    onChange={this.onChange}
+                  />
+                </p>
+              </div>
 
-            <div className="field pt-2">
-              <p className="control has-text-centered">
-                <LoginButton type="submit" loading={this.state.isLoading}>
-                  Login
-                </LoginButton>
-              </p>
+              <div className="field pt-2">
+                <p className="control has-text-centered">
+                  <LoginButton type="submit" loading={this.state.isLoading}>
+                    Login
+                  </LoginButton>
+                </p>
+              </div>
+            </form>
+          </div>
+        }
+        {
+          auth.token &&
+            <div>
+              <div className="message m-4 is-success">
+                <div className="message-header">
+                  <p>Logged in</p>
+                </div>
+                <div className="message-body">
+                  You're redirected to the dashboard...
+                </div>
+              </div>
             </div>
-          </form>
-        </div>
+        }
         <style jsx>
           {`
             .title-sign {
