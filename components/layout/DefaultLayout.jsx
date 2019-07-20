@@ -7,6 +7,7 @@ import "../../assets/css/progress-info.scss";
 import "../../assets/css/homepage.scss";
 import "../../assets/css/goal-item.scss";
 import "../../assets/css/print.scss";
+import "../../assets/css/sidebar.scss";
 import "react-datepicker/dist/react-datepicker.css";
 
 import ReactNotification from "react-notifications-component";
