@@ -46,7 +46,8 @@ class DefaultLayout extends React.Component {
     try {
       await this.props.dispatch(fetchUsers());
       await this.props.dispatch(fetchTeams());
-    } catch (e) {}
+    } catch (e) {
+    }
   };
 
   async componentDidMount() {
@@ -102,7 +103,7 @@ class DefaultLayout extends React.Component {
         >
           <div className="navbar-brand">
             <a className="navbar-item">
-              <img src="/static/logo.png" width="35" />
+              <img src="/static/logo.png" width="35"/>
             </a>
             <a className="navbar-item" href={logoUrl}>
               <img
@@ -121,9 +122,9 @@ class DefaultLayout extends React.Component {
               data-target="navbarmenu"
               onClick={this.toggleSidebar}
             >
-              <span aria-hidden="true" />
-              <span aria-hidden="true" />
-              <span aria-hidden="true" />
+              <span aria-hidden="true"/>
+              <span aria-hidden="true"/>
+              <span aria-hidden="true"/>
             </a>
           </div>
 
@@ -177,11 +178,9 @@ class DefaultLayout extends React.Component {
 
                   <div className="navbar-dropdown">
                     <span className="navbar-item">
-                      Hi {this.props.auth.user.firstname}
+                      Hi {this.props.auth.user.firstname} {this.props.auth.user.lastname}
                     </span>
-                    <hr className="navbar-divider" />
-                    <a className="navbar-item">My Account</a>
-                    <hr className="navbar-divider" />
+                    <hr className="navbar-divider"/>
                     <a
                       className="navbar-item has-text-danger"
                       onClick={this.logOut}
@@ -210,7 +209,7 @@ class DefaultLayout extends React.Component {
             }
           >
             {this.props.auth.isAuthenticated && !this.props.hideSidebar && (
-              <MenuSidebar sideBarToggled={this.state.sideBarToggled} />
+              <MenuSidebar sideBarToggled={this.state.sideBarToggled}/>
             )}
             <div className="column">{this.props.children}</div>
           </section>
@@ -223,7 +222,7 @@ class DefaultLayout extends React.Component {
               </div>
               <div className="message-body">
                 <p>
-                  <LoadingIcon className="spinner float-left" size="1em" /> The
+                  <LoadingIcon className="spinner float-left" size="1em"/> The
                   application is loading...
                 </p>
               </div>
@@ -235,7 +234,7 @@ class DefaultLayout extends React.Component {
             <span> © 2019 Goalify i. G.</span>
           </div>
         </footer>
-        <ReactNotification ref={this.notificationDOMRef} />
+        <ReactNotification ref={this.notificationDOMRef}/>
         <style jsx global>{`
           html,
           body,
