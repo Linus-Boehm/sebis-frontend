@@ -102,9 +102,9 @@ class ProgressInfo extends React.Component {
               <>
                 <div className={"flex-none w-2/6 field"}>
                   <FaCalendarAlt
-                    size={35}
+                    size={30}
                     color={"#718096"}
-                    className={" float-left"}
+                    className={" float-left ml-8"}
                   />
                   <h4 className={"field-info text-gray-400"}>End date</h4>
                   <h4 className={"field-value"}>
