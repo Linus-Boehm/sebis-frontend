@@ -17,7 +17,8 @@ class Signin extends React.Component {
     };
   }
 
-  static async getInitialProps({ store, req }) {}
+  static async getInitialProps({ store, req }) {
+  }
 
   handleSubmit = async e => {
     e.preventDefault();
@@ -45,7 +46,7 @@ class Signin extends React.Component {
   };
 
   onChange = e => {
-    this.setState({ [e.target.name]: e.target.value });
+    this.setState({ [ e.target.name ]: e.target.value });
   };
 
   render() {

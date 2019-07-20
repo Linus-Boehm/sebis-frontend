@@ -6,6 +6,7 @@ import { connect } from "react-redux";
 import { filter, orderBy } from "lodash";
 import moment from "moment";
 import CommentItem from "./CommentItem";
+import FeedItem from "./FeedItem";
 
 //var moment = require("moment");
 
@@ -15,7 +16,7 @@ class CommentBox extends Component {
   }
 
   displayUser(user_id) {
-    let user = this.props.users.userList[user_id];
+    let user = this.props.users.userList[ user_id ];
     if (!!user) {
       return user.firstname + " " + user.lastname;
     }
@@ -30,8 +31,8 @@ class CommentBox extends Component {
           commentTypes.indexOf(comment.comment_type) >= 0
         );
       }),
-      ["date"],
-      ["desc"]
+      [ "date" ],
+      [ "desc" ]
     );
   }
 
@@ -42,17 +43,27 @@ class CommentBox extends Component {
       !Array.isArray(commentTypes) ||
       commentTypes.length === 0
     ) {
-      commentTypes = ["comment", ""]; //to avoid breaking changes
+      commentTypes = [ "comment", "feed_comment", "" ]; //to avoid breaking changes
     }
     const commentItems = this.filterCommentsByRelatedId(commentTypes).map(
-      comment => (
-        <CommentItem
-          key={comment._id}
-          user={this.props.users.userList[comment.created_by]}
-          comment={comment}
-          className="my-2"
-        />
-      )
+      (comment) => {
+        if (comment.comment_type === 'comment') {
+          return (<CommentItem
+            key={comment._id}
+            user={this.props.users.userList[ comment.created_by ]}
+            comment={comment}
+            className="my-2"
+          />)
+        } else if (comment.comment_type === 'feed_comment') {
+          return (<FeedItem
+            key={comment._id}
+            comment={comment}
+            className="pb-1"
+          />)
+        } else {
+          return null
+        }
+      }
     );
 
     return (
@@ -67,14 +78,14 @@ class CommentBox extends Component {
         <div style={{ maxHeight: "300px" }} className="overflow-y-scroll">
           <div className="flex flex-col my-4">{commentItems}</div>
         </div>
-        <div className="columns" />
+        <div className="columns"/>
         <h3 className="blue-title goal-info-subheader hide-print">
           <label htmlFor={"comment-textarea-" + this.props.relatedTo}>
             Add a comment
           </label>
         </h3>
         <CommentForm
-          commentType={commentTypes[0]}
+          commentType={commentTypes[ 0 ]}
           className="px-1 hide-print"
           relatedTo={this.props.relatedTo}
         />
