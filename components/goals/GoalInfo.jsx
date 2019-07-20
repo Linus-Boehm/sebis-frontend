@@ -171,7 +171,7 @@ class GoalInfo extends React.Component {
             )}
 
             {agreement_mode && (
-              <>
+              <div>
                 <h3 className="goal-info-subheader">
                   <label htmlFor={"goal_weight_" + selectedGoal._id}>
                     Weight of Total Bonus
@@ -204,7 +204,7 @@ class GoalInfo extends React.Component {
                     = {this.getWeightInDollars()} $
                   </div>
                 </div>
-              </>
+              </div>
             )}
 
             {selectedGoal.parent_goal && (
@@ -221,7 +221,7 @@ class GoalInfo extends React.Component {
             {selectedGoal.progress_type &&
             getMaximumProgress(selectedGoal) !== 0 ? (
               <div className="flex w-full justify-between px-1">
-                <GoalProgress className="mt-0" goal={selectedGoal}/>
+                <GoalProgress className="mt-0 flex-grow mr-4" goal={selectedGoal}/>
                 <ActiveLink href={"/app/goals/progress?id=" + selectedGoal._id}>
                   <EditButton className="is-small">
                     <span className="pl-1">Edit Progress</span>
