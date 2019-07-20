@@ -45,6 +45,11 @@ class ProgressInfoContainer extends React.Component {
         } else {
             //Append new entry
             goalCopy.progress.push(progress)
+
+            if(!progress.is_reviewed) {
+                // just to inform the API to send out an email
+                goalCopy.notifyReviewer = true
+            }
         }
         await this.props.dispatch(GoalActions.updateGoal(goalCopy))
     };
