@@ -58,7 +58,19 @@ export function isProgressToReview(goal) {
 
 export function getProgressPoints(goal) {
   if(goal.progress !== undefined) {
-    return goal.progress.filter(progressInst => progressInst != null && progressInst.value != null)
+    return goal.progress.filter(progressInst => progressInst != null && progressInst.value != null).sort(
+      (p1, p2) => {
+        const date1 = new Date(p1.date);
+        const date2 = new Date(p2.date);
+        if(date1.getTime() > date2.getTime()) {
+          return 1;
+        } else if(date1.getTime() < date2.getTime()) {
+          return -1;
+        }
+
+        return 0;
+      }
+    )
   } else {
     return []
   }

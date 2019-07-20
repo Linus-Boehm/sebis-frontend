@@ -8,6 +8,7 @@ import ProgressChartContainer from "./ProgressChartContainer";
 import { keyBy, map } from 'lodash';
 import CommentBox from "../../utils/comment/CommentBox";
 import {getProgressPoints, markAllProgressAsReviewed} from "../../../services/Goal/GoalProgressService";
+import {GOAL_TYPE} from "../../../store/types/goal";
 
 class ProgressInfoContainer extends React.Component {
 
@@ -69,7 +70,6 @@ class ProgressInfoContainer extends React.Component {
             this.props.dispatch(GoalActions.assignSelectedProgress(data)),
             this.props.dispatch(CommentActions.fetchComments(data.progress._id)),
         ])
-
     };
 
     render() {
@@ -87,7 +87,7 @@ class ProgressInfoContainer extends React.Component {
                 />
                 {this.props.selectedProgressIndex >= 0 && <CommentBox feedTitle="Progress Feed" relatedTo={this.props.selectedGoalProgress._id}/>}
 
-                <ProgressChartContainer onSelect={this.onSelectProgress}/>
+                <ProgressChartContainer accumulated={this.props.selectedGoal.progress_type === GOAL_TYPE.COUNT} onSelect={this.onSelectProgress}/>
             </div>
         )
     }

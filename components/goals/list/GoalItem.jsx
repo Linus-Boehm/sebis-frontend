@@ -1,5 +1,4 @@
 import React from "react";
-import Avatar from "react-avatar";
 import GoalAvatar from "../../utils/user/GoalAvatar";
 
 class GoalItem extends React.Component {
@@ -27,7 +26,7 @@ class GoalItem extends React.Component {
 
     const { title } = goal || {};
 
-    return (
+    return goal !== undefined ? (
       <div
         className={`goal-item flex items-center bg-gray-200 hover:bg-gray-300 mb-2 p-2 cursor-pointer
          ${isSubGoal ? "ml-3" : ""}
@@ -56,7 +55,7 @@ class GoalItem extends React.Component {
           <GoalAvatar selectedGoal={goal} size={25} textSizeRatio={2}/>
         </div>
       </div>
-    );
+    ) : "";
   }
 }
 
