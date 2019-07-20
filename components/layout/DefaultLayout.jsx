@@ -7,6 +7,7 @@ import "../../assets/css/progress-info.scss";
 import "../../assets/css/homepage.scss";
 import "../../assets/css/goal-item.scss";
 import "../../assets/css/print.scss";
+import "../../assets/css/sidebar.scss";
 import "react-datepicker/dist/react-datepicker.css";
 
 import ReactNotification from "react-notifications-component";
@@ -25,6 +26,7 @@ import ActiveLink from "./ActiveLink";
 import uuidv4 from "uuid/v4";
 import * as AgreementActions from "../../store/actions/agreements";
 import LoadingIcon from "mdi-react/LoadingIcon";
+import Head from 'next/head';
 
 class DefaultLayout extends React.Component {
   constructor(props) {
@@ -102,14 +104,14 @@ class DefaultLayout extends React.Component {
           aria-label="main navigation"
         >
           <div className="navbar-brand">
-            <a className="navbar-item">
-              <img src="/static/logo.png" width="35"/>
-            </a>
             <a className="navbar-item" href={logoUrl}>
+              <img src="/static/logo.png" className={"h-full w-auto"}/>
               <img
                 src="/static/logo_name.png"
-                width="80"
-                style={{ marginLeft: "-20px" }}
+                className={"h-full w-auto ml-2"}
+                style={{
+                  marginBottom: "-.25rem"
+                }}
               />
             </a>
 
@@ -200,6 +202,9 @@ class DefaultLayout extends React.Component {
   render() {
     return (
       <div className={"main-wrapper w-full " + this.props.className}>
+        <Head>
+          <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+        </Head>
         {this.renderHeader()}
         {(this.props.auth.isAuthenticated || !this.props.forceAuth) && (
           <section

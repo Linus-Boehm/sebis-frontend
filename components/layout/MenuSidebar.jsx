@@ -10,8 +10,14 @@ import * as actions from "../../store/actions/auth";
 import {fetchTeams} from "../../store/actions/teams";
 import ActiveLink from "./ActiveLink";
 import {filter, findIndex} from "lodash";
+import {logout} from "../../store/actions/auth";
 
 class MenuSidebar extends React.Component {
+    logOut = async e => {
+        e.preventDefault();
+        await this.props.dispatch(logout());
+    };
+
     render() {
         let teams = filter(this.props.teams.teamList, team => {
             return (
@@ -80,6 +86,17 @@ class MenuSidebar extends React.Component {
                             </ul>
                         </div>
                     )}
+                    {this.props.auth.user &&
+                        <div className={"logout-mobile mt-16"}>
+                            <p className="menu-label">Hi {this.props.auth.user.firstname} {this.props.auth.user.lastname}</p>
+                            <a
+                              className="navbar-item has-text-danger"
+                              onClick={this.logOut}
+                            >
+                                Logout
+                            </a>
+                        </div>
+                    }
                 </div>
                 {/*language=CSS*/
                 }
