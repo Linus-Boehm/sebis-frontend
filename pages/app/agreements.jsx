@@ -15,7 +15,7 @@ class Dashboard extends React.Component {
 
     return (
       <DefaultLayout forceAuth={true}>
-        <div className="flex h-full">
+        <div className="w-full h-full pt-4">
           <div className="column">
             <div className="content">
               <AgreementsDashboardContainer/>

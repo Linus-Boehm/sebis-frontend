@@ -31,7 +31,7 @@ class New extends React.Component {
   render() {
     return (
       <DefaultLayout forceAuth={true}>
-        <div className="container">
+        <div className="w-full pt-4">
           <div className="content">
             <h1>New Team</h1>
             <form onSubmit={this.handleOnSubmit}>

@@ -188,7 +188,7 @@ class EditTeam extends React.Component {
 
         return (
             <DefaultLayout forceAuth={true}>
-                <div className="container">
+                <div className="w-full pt-4">
                     <div className="content">
                         <div className="flex">
                             <h1>Edit Team</h1>

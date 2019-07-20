@@ -12,12 +12,11 @@ class companyGoals extends React.Component {
   render() {
     return (
       <DefaultLayout forceAuth={true}>
-        <div className="flex h-full">
-          <div className="column">
-            <div className="content">
+        <div className="flex w-full h-full">
+            <div className="content pt-4 flex-1">
               <OrganizationGoalsList />
             </div>
-          </div>
+
           {this.props.selectedGoal._id && (
             <GoalInfoContainer />
           )}

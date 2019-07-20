@@ -58,7 +58,7 @@ class Signin extends React.Component {
     return (
       <Layout title="Sign In" hideSidebar>
         <div className="p-1 pt-5 pb-5">
-          <h3 className="title-sign is-3">Sign In</h3>
+          <h3 className="text-center title-sign is-3">Sign In</h3>
         </div>
         {!auth.token && (
           <div className="p-1 pt-5">

@@ -19,10 +19,10 @@ class Dashboard extends React.Component {
   render() {
     return (
       <DefaultLayout forceAuth={true}>
-        <div>
-          <div className="flex h-full">
+
+          <div className="w-full h-full flex  h-full">
             <div className="flex-1">
-              <div className="content">
+              <div className="content pt-4">
                 <GoalsDashboardContainer/>
               </div>
             </div>
@@ -30,7 +30,6 @@ class Dashboard extends React.Component {
               <GoalInfoContainer/>
             )}
           </div>
-        </div>
       </DefaultLayout>
     );
   }
