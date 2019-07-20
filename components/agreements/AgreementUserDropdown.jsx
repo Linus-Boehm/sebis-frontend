@@ -51,7 +51,7 @@ class AgreementUserDropdown extends React.Component {
   }
 
   getDropDownClass() {
-    return "team-member-dropdown z-5 absolute ";
+    return "team-member-dropdown z-50 absolute bg-white";
   }
 
   onSearchInput = e => {
