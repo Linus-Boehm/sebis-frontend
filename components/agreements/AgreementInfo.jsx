@@ -123,7 +123,7 @@ class AgreementInfo extends React.Component {
       });
     }
 
-    this.props.onUpdateAgreement();
+    await this.props.onUpdateAgreement();
   };
 
   render() {
@@ -388,12 +388,15 @@ class AgreementInfo extends React.Component {
               onCloseModal={() => {
                 this.setConfirmModalVisibility(false);
               }}
-              onConfirm={e => {
+              onConfirm={async (e) => {
                 this.setConfirmModalVisibility(false);
-                this.updateConfirm();
+                await this.updateConfirm();
               }}
             >
-              Are you sure you want to proceed confirming the agreement?
+              {!this.getMyConfirmState() ?
+                "Are you sure you want to proceed confirming the agreement?" :
+                "Are you sure you want to proceed cancelling the agreement confirmation?"
+              }
             </ConfirmModal>
           </Fragment>
         )}
