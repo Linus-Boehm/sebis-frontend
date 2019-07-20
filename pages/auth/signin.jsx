@@ -65,7 +65,7 @@ class Signin extends React.Component {
             <form
               onSubmit={this.handleSubmit}
               className="container"
-              style={{ width: "540px" }}
+              style={{ maxWidth: "540px" }}
             >
               {this.state.error && (
                 <div className={"message is-danger"}>

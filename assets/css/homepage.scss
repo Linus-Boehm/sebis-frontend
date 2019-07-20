@@ -31,21 +31,6 @@
     display: none;
   }
 
-  #navbarmenu {
-    display: -webkit-box;
-    display: flex;
-    -webkit-box-flex: 1;
-    flex-grow: 1;
-    flex-shrink: 0;
-    -webkit-box-align: stretch;
-    align-items: stretch;
-
-    justify-content: flex-end;
-    margin-top: -4rem;
-    padding-top: 1rem;
-    padding-bottom: 0;
-  }
-
   .main-content {
     padding: 0;
 
@@ -58,6 +43,26 @@
     }
   }
 }
+
+@media screen and (max-width: 1023px) {
+  .homepage {
+    #navbarmenu {
+      display: -webkit-box;
+      display: flex;
+      -webkit-box-flex: 1;
+      flex-grow: 1;
+      flex-shrink: 0;
+      -webkit-box-align: stretch;
+      align-items: stretch;
+
+      justify-content: flex-end;
+      margin-top: -4rem;
+      padding-top: 1rem;
+      padding-bottom: 0;
+    }
+  }
+}
+
 .main-content, .navbar {
   padding:
           env(safe-area-inset-top)
