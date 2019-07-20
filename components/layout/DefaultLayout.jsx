@@ -5,6 +5,7 @@ import "../../assets/css/goal-info.scss";
 import "../../assets/css/day-picker.scss";
 import "../../assets/css/progress-info.scss";
 import "../../assets/css/homepage.scss";
+import "../../assets/css/print.scss";
 import "react-datepicker/dist/react-datepicker.css";
 
 import ReactNotification from "react-notifications-component";
@@ -29,7 +30,7 @@ class DefaultLayout extends React.Component {
     this.notificationDOMRef = React.createRef();
     this.state = {
       sideBarToggled: false
-    }
+    };
   }
 
   logOut = async e => {
@@ -39,11 +40,11 @@ class DefaultLayout extends React.Component {
   };
 
   fetchData = async () => {
-      //These should not cause a fail if there are network issues
-      try {
-        await this.props.dispatch(fetchUsers());
-        await this.props.dispatch(fetchTeams());
-      }catch (e) {}
+    //These should not cause a fail if there are network issues
+    try {
+      await this.props.dispatch(fetchUsers());
+      await this.props.dispatch(fetchTeams());
+    } catch (e) {}
   };
 
   async componentDidMount() {
@@ -59,21 +60,21 @@ class DefaultLayout extends React.Component {
       // - if someone was added/removed from team
       // - User's name has changed
       this.interval = setInterval(() => {
-        this.fetchData()
+        this.fetchData();
       }, 5000);
     }
   }
 
   componentWillUnmount() {
     if (this.interval) {
-      clearInterval(this.interval)
+      clearInterval(this.interval);
     }
   }
 
   toggleSidebar = () => {
     this.setState({
       sideBarToggled: !this.state.sideBarToggled
-    })
+    });
   };
 
   onCreateAgreement = async () => {
@@ -89,17 +90,17 @@ class DefaultLayout extends React.Component {
   };
 
   renderHeader = () => {
-    let logoUrl = !this.props.auth.isAuthenticated ?"/":"/app/dashboard"
+    let logoUrl = !this.props.auth.isAuthenticated ? "/" : "/app/dashboard";
     return (
-    <header>
-      <nav
-        className="navbar border-b-2 border-gray-200"
-        role="navigation"
-        aria-label="main navigation"
-      >
-          <div className="navbar-brand" >
+      <header className="hide-print">
+        <nav
+          className="navbar border-b-2 border-gray-200"
+          role="navigation"
+          aria-label="main navigation"
+        >
+          <div className="navbar-brand">
             <a className="navbar-item">
-              <img src="/static/logo.png" width="35"/>
+              <img src="/static/logo.png" width="35" />
             </a>
             <a className="navbar-item" href={logoUrl}>
               <img
@@ -118,87 +119,88 @@ class DefaultLayout extends React.Component {
               data-target="navbarmenu"
               onClick={this.toggleSidebar}
             >
-              <span aria-hidden="true"/>
-              <span aria-hidden="true"/>
-              <span aria-hidden="true"/>
+              <span aria-hidden="true" />
+              <span aria-hidden="true" />
+              <span aria-hidden="true" />
             </a>
           </div>
 
-        <div
-          id="navbarmenu"
-          className="navbar-menu"
-          style={{ marginLeft: "60px" }}
-        >
-          {this.props.auth.isAuthenticated &&
-            <div className="navbar-start">
-              <ActiveLink
-                activeClassName="is-tab is-active"
-                href={"/app/dashboard"}
-              >
-                <a className="navbar-item">My Goals</a>
-              </ActiveLink>
-              <div className="ml-6 mt-2">
-                <button
-                  className="button is-primary is-small "
-                  style={{ marginTop: "7%" }}
-                  onClick={this.onCreateAgreement}
+          <div
+            id="navbarmenu"
+            className="navbar-menu"
+            style={{ marginLeft: "60px" }}
+          >
+            {this.props.auth.isAuthenticated && (
+              <div className="navbar-start">
+                <ActiveLink
+                  activeClassName="is-tab is-active"
+                  href={"/app/dashboard"}
                 >
-                  <span className="pl-1"> Create Agreement</span>
-                </button>
-              </div>
-            </div>
-          }
-
-          <div className="navbar-end pr-4">
-            {!this.props.auth.isAuthenticated ? (
-              <div className="navbar-item">
-                <div className="buttons">
-                  <Link prefetch href="/auth/signup">
-                    <a className="button is-primary">Sign Up</a>
-                  </Link>
-                  <Link prefetch href="/auth/signin">
-                    <a className="button is-link">Sign In</a>
-                  </Link>
-                </div>
-              </div>
-            ) : (
-              <div className="navbar-item has-dropdown is-hoverable">
-                <div className="navbar-link">
-                  <div className="pl-12">
-                    <UserAvatar
-                      user={this.props.auth.user}
-                      className="cursor-pointer"
-                    />
-                  </div>
-                </div>
-
-                <div className="navbar-dropdown">
-                  <span className="navbar-item">
-                    Hi {this.props.auth.user.firstname}
-                  </span>
-                  <hr className="navbar-divider"/>
-                  <a className="navbar-item">My Account</a>
-                  <hr className="navbar-divider"/>
-                  <a
-                    className="navbar-item has-text-danger"
-                    onClick={this.logOut}
+                  <a className="navbar-item">My Goals</a>
+                </ActiveLink>
+                <div className="ml-6 mt-2">
+                  <button
+                    className="button is-primary is-small "
+                    style={{ marginTop: "7%" }}
+                    onClick={this.onCreateAgreement}
                   >
-                    Logout
-                  </a>
+                    <span className="pl-1"> Create Agreement</span>
+                  </button>
                 </div>
               </div>
             )}
+
+            <div className="navbar-end pr-4">
+              {!this.props.auth.isAuthenticated ? (
+                <div className="navbar-item">
+                  <div className="buttons">
+                    <Link prefetch href="/auth/signup">
+                      <a className="button is-primary">Sign Up</a>
+                    </Link>
+                    <Link prefetch href="/auth/signin">
+                      <a className="button is-link">Sign In</a>
+                    </Link>
+                  </div>
+                </div>
+              ) : (
+                <div className="navbar-item has-dropdown is-hoverable">
+                  <div className="navbar-link">
+                    <div className="pl-12">
+                      <UserAvatar
+                        user={this.props.auth.user}
+                        className="cursor-pointer"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="navbar-dropdown">
+                    <span className="navbar-item">
+                      Hi {this.props.auth.user.firstname}
+                    </span>
+                    <hr className="navbar-divider" />
+                    <a className="navbar-item">My Account</a>
+                    <hr className="navbar-divider" />
+                    <a
+                      className="navbar-item has-text-danger"
+                      onClick={this.logOut}
+                    >
+                      Logout
+                    </a>
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
-        </div>
-      </nav>
-    </header>
-  )};
+        </nav>
+      </header>
+    );
+  };
 
   render() {
     return (
       <div className={"main-wrapper w-full " + this.props.className}>
         {this.renderHeader()}
-        {(this.props.auth.isAuthenticated || !this.props.forceAuth) &&
+        {(this.props.auth.isAuthenticated || !this.props.forceAuth) && (
           <section
             className={
               "main-content columns pt-2 relative" +
@@ -206,14 +208,12 @@ class DefaultLayout extends React.Component {
             }
           >
             {this.props.auth.isAuthenticated && !this.props.hideSidebar && (
-              <MenuSidebar sideBarToggeled={this.state.sideBarToggled}/>
+              <MenuSidebar sideBarToggeled={this.state.sideBarToggled} />
             )}
-            <div className="column">
-              {this.props.children}
-            </div>
+            <div className="column">{this.props.children}</div>
           </section>
-        }
-        {!this.props.auth.isAuthenticated && this.props.forceAuth &&
+        )}
+        {!this.props.auth.isAuthenticated && this.props.forceAuth && (
           <div>
             <div className="message m-4 is-dark">
               <div className="message-header">
@@ -224,13 +224,13 @@ class DefaultLayout extends React.Component {
               </div>
             </div>
           </div>
-        }
-        <footer className="footer">
+        )}
+        <footer className="footer hide-print">
           <div className="content has-text-centered">
             <span> © 2019 Goalify i. G.</span>
           </div>
         </footer>
-        <ReactNotification ref={this.notificationDOMRef}/>
+        <ReactNotification ref={this.notificationDOMRef} />
         <style jsx global>{`
           html,
           body,
@@ -238,12 +238,10 @@ class DefaultLayout extends React.Component {
           .main-wrapper {
             min-height: 100vh;
           }
-          
+
           .main-content {
             min-height: 80vh;
           }
-          
-          
         `}</style>
       </div>
     );
