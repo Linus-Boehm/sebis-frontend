@@ -4,6 +4,7 @@ import * as GoalActions from '../../store/actions/goals';
 import GoalInfo from './GoalInfo';
 import { pick } from "lodash";
 import * as CommentActions from "../../store/actions/comments";
+import * as AgreementActions from "../../store/actions/agreements";
 
 class GoalInfoContainer extends React.Component {
 
@@ -32,14 +33,25 @@ class GoalInfoContainer extends React.Component {
     }
   }
 
-  onUpdateGoal = async () => {
+  onUpdateGoal = async (e) => {
     const { selectedGoal } = this.props;
 
-    await this.props.dispatch(GoalActions.updateGoal(selectedGoal))
+    await this.props.dispatch(GoalActions.updateGoal(selectedGoal));
 
-    //UpdateGoal should now update the selectedGoal state
-    //const goal = Object.values(pick(this.props.allGoals, selectedGoal._id))[ 0 ];
-    //await this.props.dispatch(GoalActions.assignSelectedGoal(goal))
+    const agreement = this.props.agreements[ selectedGoal.related_to ];
+
+    if (!selectedGoal.parent_goal &&
+      selectedGoal.related_to &&
+      selectedGoal.related_model === 'ObjectiveAgreement' &&
+      agreement && !(agreement.reviewer_confirmed && agreement.assignee_confirmed)
+    ) {
+      await this.props.dispatch(AgreementActions.updateAgreement({
+          _id: agreement._id,
+          reviewer_confirmed: false,
+          assignee_confirmed: false
+        })
+      )
+    }
   };
 
   onSelectGoal = id => {
@@ -88,11 +100,16 @@ function mapStateToProps(state) {
     selectedAgreement
   } = state.agreements;
 
+  const {
+    user
+  } = state.auth;
+
   return {
     selectedGoal,
     selectedAgreement,
     allGoals: goals,
-    agreements: agreements
+    agreements: agreements,
+    currentUser: user
   };
 }
 

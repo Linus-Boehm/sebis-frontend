@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import Layout from "../../components/layout/DefaultLayout";
 import * as actions from "../../store/actions/auth";
 import SingupButton from "../../components/utils/buttons/SingupButton";
+import {resetPassword} from "../../services/BackendApi/routes/auth";
 
 class Signup extends React.Component {
   constructor(props) {
@@ -12,17 +13,19 @@ class Signup extends React.Component {
         password: "",
         confirm_password: ""
       },
-      error: null
+      error: ""
     };
   }
 
-  static getInitialProps(ctx) {}
+  static getInitialProps({query}) {
+    return {token: query.token}
+  }
 
   async handleSubmit(e) {
     e.preventDefault();
     try {
       if (this.state.form.password !== this.state.form.confirm_password) {
-        throw "Passwords do not match";
+        throw new Error("Passwords do not match");
       }
 
       console.log(this.state);
@@ -31,10 +34,11 @@ class Signup extends React.Component {
         error: null,
         isLoading: true
       });
-      await this.props.register(this.state.form, "register");
+      await resetPassword({password: this.state.form.password, token: this.props.token});
     } catch (e) {
       if (typeof e == "string") {
         this.setState({
+          ...this.state,
           error: e
         });
       }
