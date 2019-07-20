@@ -4,7 +4,7 @@ import DefaultLayout from "~/components/layout/DefaultLayout";
 import GoalsDashboardContainer from "~/components/goals/GoalsDashboardContainer";
 import GoalInfoContainer from "../../components/goals/GoalInfoContainer";
 import { fetchUsers } from "../../store/actions/users";
-import {assignSelectedGoal} from "../../store/actions/goals";
+import { assignSelectedGoal } from "../../store/actions/goals";
 
 class Dashboard extends React.Component {
   async componentDidMount() {
@@ -20,15 +20,13 @@ class Dashboard extends React.Component {
     return (
       <DefaultLayout forceAuth={true}>
         <div className="flex h-full">
-          <div className="column">
+          <div className="">
             <div className="content">
-              <GoalsDashboardContainer />
+              <GoalsDashboardContainer/>
             </div>
           </div>
           {this.props.selectedGoal._id && (
-            <div className="column is-one-third border-l-2 border-gray-200 .flex-shrink-0">
-              <GoalInfoContainer />
-            </div>
+            <GoalInfoContainer/>
           )}
         </div>
       </DefaultLayout>

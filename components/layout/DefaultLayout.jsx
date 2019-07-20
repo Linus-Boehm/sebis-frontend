@@ -60,7 +60,7 @@ class DefaultLayout extends React.Component {
       // - User's name has changed
       this.interval = setInterval(() => {
         this.fetchData()
-      }, 5000);
+      }, 10000);
     }
   }
 

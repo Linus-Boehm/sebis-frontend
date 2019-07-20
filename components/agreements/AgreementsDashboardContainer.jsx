@@ -19,7 +19,7 @@ class AgreementsDashboardContainer extends React.Component {
     this.fetchMyAgreements();
     this.interval = setInterval(() => {
       this.fetchMyAgreements()
-    }, 5000);
+    }, 10000);
   }
 
   componentWillUnmount() {

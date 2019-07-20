@@ -18,7 +18,7 @@ class GoalsDashboardContainer extends React.Component {
 
     this.interval = setInterval(() => {
       this.props.dispatch(fetchMyAgreements())
-    }, 5000);
+    }, 10000);
   }
 
   componentWillUnmount() {

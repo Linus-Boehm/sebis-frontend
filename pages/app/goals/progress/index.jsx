@@ -19,7 +19,7 @@ class ProgressIndex extends React.Component {
     this.fetchData()
     this.interval = setInterval(() => {
       this.fetchData()
-    }, 5000);
+    }, 10000);
   }
 
   componentWillUnmount() {
