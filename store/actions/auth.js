@@ -42,7 +42,6 @@ export const login = ({ email, password }) => async dispatch => {
         payload: { token: data.token, user: data.user }
       });
       dispatch({ type: ASSIGN_TEAMS, data: data.teams });
-      Router.push("/app/dashboard");
       return data;
     }
   } catch (e) {
