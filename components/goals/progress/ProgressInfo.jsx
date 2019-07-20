@@ -58,7 +58,7 @@ class ProgressInfo extends React.Component {
       ? parseFloat(selectedGoal.oa_weight)
       : 0;
     const maxBonus =
-      agreement != null ? (parseFloat(agreement.bonus) * weight) / 100 : 0;
+      agreement != null && agreement.bonus ? (parseFloat(agreement.bonus) * weight) / 100 : 0;
     const all_progress = getCurrentOverallProgress(selectedGoal);
     const maximum_progress = getMaximumProgress(selectedGoal);
     const bonus = (all_progress / maximum_progress) * maxBonus;
