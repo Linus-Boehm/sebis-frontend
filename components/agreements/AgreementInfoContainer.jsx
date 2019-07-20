@@ -72,7 +72,7 @@ class AgreementInfoContainer extends React.Component {
     this.interval = setInterval(() => {
       const agreement = this.props.agreements[ this.props.queryId ];
       this.fetchCommentsToAgreement(agreement._id);
-    }, 10000);
+    }, 5000);
   }
 
   componentWillUnmount() {
