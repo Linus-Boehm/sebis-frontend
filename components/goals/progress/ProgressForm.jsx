@@ -95,7 +95,7 @@ class ProgressForm extends React.Component {
             <div className={"flex-1 ml-2"}>
                 <label><h4 className={"field-info"}>Status</h4>
                     <div className="select">
-                        <select name={"is_reviewed"} disabled={!this.props.canChangedReviewed} value={progress.is_reviewed} onChange={e =>
+                        <select name={"is_reviewed"} disabled={!this.props.canReview} value={progress.is_reviewed} onChange={e =>
                             this.onChange({[e.target.name]: e.target.value})
                         }>
                             <option value={true}>Reviewed</option>
