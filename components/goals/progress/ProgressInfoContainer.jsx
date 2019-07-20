@@ -68,13 +68,13 @@ class ProgressInfoContainer extends React.Component {
         return (
             <div className="flex flex-col">
                 <ProgressInfo
+                    {...this.props}
                     onResetProgress={this.onResetProgress}
                     onUpdateGoal={this.onUpdateGoal}
                     onChangeInput={this.onChangeInput}
                     onChangeProgressInput={this.onChangeProgressInput}
                     onUpdateProgress={this.onUpdateProgress}
                     selectedProgressIndex={this.props.selectedProgressIndex}
-                    {...this.props}
                 />
                 {this.props.selectedProgressIndex >= 0 && <CommentBox feedTitle="Progress Feed" relatedTo={this.props.selectedGoalProgress._id}/>}
 
@@ -100,12 +100,17 @@ function mapStateToProps(state) {
         userList
     } = state.users;
 
+    const {
+        user
+    } = state.auth;
+
     return {
         selectedProgressIndex,
         selectedGoal,
         selectedGoalProgress,
         agreements,
         userList,
+        user,
         allGoals: goals
     };
 }

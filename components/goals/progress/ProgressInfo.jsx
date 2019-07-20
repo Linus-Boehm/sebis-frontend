@@ -47,6 +47,7 @@ class ProgressInfo extends React.Component {
       this.getAgreementById(selectedGoal.related_to);
     const reviewer = agreement ? this.props.userList[agreement.reviewer] : null;
     const assignee = agreement ? this.props.userList[agreement.assignee] : null;
+    const currentUser = this.props.user ? this.props.user : {};
 
     const weight = selectedGoal.oa_weight
       ? parseFloat(selectedGoal.oa_weight)
@@ -155,6 +156,7 @@ class ProgressInfo extends React.Component {
           )}
 
           <ProgressForm
+            canChangedReviewed={reviewer == null || currentUser._id === reviewer._id}
             progress={this.props.selectedGoalProgress}
             onChangeProgress={this.onChangeProgress}
             {...this.props}
