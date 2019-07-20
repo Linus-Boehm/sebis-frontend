@@ -58,7 +58,7 @@ class CommentBox extends Component {
           return (<FeedItem
             key={comment._id}
             comment={comment}
-            className="my-2"
+            className="pb-1"
           />)
         } else {
           return null

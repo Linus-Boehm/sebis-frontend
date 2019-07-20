@@ -11,7 +11,8 @@ class FeedItem extends Component {
           <div className="avatar-placeholder"/>
         </div>
         <div className="flex-1">
-          <div className="break-all"> {this.props.comment.text}</div>
+          <div className="break-all"
+               style={{ fontSize: 12, fontWeight: "bold" }}> {this.props.comment.text}</div>
         </div>
         <div
           className="flex"
