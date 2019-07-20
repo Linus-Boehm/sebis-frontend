@@ -147,7 +147,7 @@ class AgreementInfo extends React.Component {
     return (
       <div className="p-3">
         <div className="flex hide-print">
-          <Link href="/app/agreements">
+          <Link href={"/app/agreements"}>
             <div className="cursor-pointer hover:text-blue-300 flex">
               <span className="pt-1">
                 <Icon size="1em" path={mdiChevronLeft} />
