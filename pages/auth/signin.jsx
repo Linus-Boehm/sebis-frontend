@@ -112,6 +112,19 @@ class Signin extends React.Component {
             </form>
           </div>
         }
+        {
+          auth.token &&
+            <div>
+              <div className="message m-4 is-success">
+                <div className="message-header">
+                  <p>Logged in</p>
+                </div>
+                <div className="message-body">
+                  You're redirected to the dashboard...
+                </div>
+              </div>
+            </div>
+        }
         <style jsx>
           {`
             .title-sign {

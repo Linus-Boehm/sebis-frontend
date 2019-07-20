@@ -205,13 +205,25 @@ class DefaultLayout extends React.Component {
               (this.props.mainContentClasses || "")
             }
           >
-            {!this.props.hideSidebar && (
+            {this.props.auth.isAuthenticated && !this.props.hideSidebar && (
               <MenuSidebar sideBarToggeled={this.state.sideBarToggled}/>
             )}
             <div className="column">
               {this.props.children}
             </div>
           </section>
+        }
+        {!this.props.auth.isAuthenticated && this.props.forceAuth &&
+          <div>
+            <div className="message m-4 is-success">
+              <div className="message-header">
+                <p>Logged out</p>
+              </div>
+              <div className="message-body">
+                You're redirected to the homepage...
+              </div>
+            </div>
+          </div>
         }
         <footer className="footer">
           <div className="content has-text-centered">
