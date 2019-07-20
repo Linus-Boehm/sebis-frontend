@@ -42,7 +42,8 @@ class AgreementGoalsList extends React.Component {
           related_model: "ObjectiveAgreement",
           related_to: agreement._id,
           assignee: agreement.assignee,
-          oa_weight: 0
+          reviewer: agreement.reviewer,
+          oa_weight: 0,
         }}
 
         fetchInterval={10000}
