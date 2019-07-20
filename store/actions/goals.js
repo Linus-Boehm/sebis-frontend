@@ -165,6 +165,8 @@ export const createGoal = (goal) => async (dispatch) => {
 
 export const updateGoal = (goal) => async (dispatch) => {
   try {
+    goal.progress = goal.progress != null ? goal.progress.filter(progress => progress != null && progress.value != null) : [];
+
     let { data, status } = await api.goals.updateGoal(goal)
 
     if (status === 200) {

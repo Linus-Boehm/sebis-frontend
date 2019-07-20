@@ -17,11 +17,6 @@ class ProgressInfo extends React.Component {
   constructor(props) {
     super(props);
   }
-  //TODO Do we need this?
-  onChangeAndSave = async changes => {
-    await this.onChange(changes);
-    await this.props.onUpdateGoal();
-  };
 
   onChangeProgress = async changes => {
     await this.props.onChangeProgressInput(changes);
@@ -33,10 +28,6 @@ class ProgressInfo extends React.Component {
 
   addNewProgress = async () => {
     await this.props.addNewProgress();
-  };
-  //TODO Do we need this?
-  onChange = async changes => {
-    await this.props.onChangeInput(changes);
   };
 
   getAgreementById(agreement) {
