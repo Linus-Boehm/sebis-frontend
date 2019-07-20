@@ -206,7 +206,7 @@ class DefaultLayout extends React.Component {
             }
           >
             {this.props.auth.isAuthenticated && !this.props.hideSidebar && (
-              <MenuSidebar sideBarToggeled={this.state.sideBarToggled}/>
+              <MenuSidebar sideBarToggled={this.state.sideBarToggled}/>
             )}
             <div className="column">
               {this.props.children}
