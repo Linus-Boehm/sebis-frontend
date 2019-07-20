@@ -223,7 +223,7 @@ class GoalInfo extends React.Component {
               <div className="flex w-full justify-between px-1">
                 <GoalProgress className="mt-0 flex-grow mr-4" goal={selectedGoal}/>
                 <ActiveLink href={"/app/goals/progress?id=" + selectedGoal._id}>
-                  <EditButton className="is-small">
+                  <EditButton className="is-small h-auto">
                     <span className="pl-1">Edit Progress</span>
                   </EditButton>
                 </ActiveLink>
