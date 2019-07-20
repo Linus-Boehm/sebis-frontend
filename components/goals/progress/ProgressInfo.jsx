@@ -140,7 +140,7 @@ class ProgressInfo extends React.Component {
                 <div className={"flex-none w-2/6 field"}>
                   <h4 className={"field-info text-gray-400"}>Bonus</h4>
                   <h4 className="field-value">
-                    {bonus}$ / {maxBonus}$
+                    {Math.round(bonus * 100) / 100.0}$ / {Math.round(maxBonus * 100) / 100.0}$
                   </h4>
                 </div>
               </>
