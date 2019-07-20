@@ -4,7 +4,7 @@ import GoalAvatar from "../../utils/user/GoalAvatar";
 
 class GoalItem extends React.Component {
   highlightByFilter = (text, filter) => {
-    if (filter === "") return <span>{text}</span>;
+    if (filter === "" || filter === undefined) return <span>{text}</span>;
 
     const regex = new RegExp(filter, "ig");
     const parts = text.split(regex);
