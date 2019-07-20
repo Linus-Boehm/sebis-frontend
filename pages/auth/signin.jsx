@@ -100,7 +100,7 @@ class Signin extends React.Component {
                     onChange={this.onChange}
                   />
                 </p>
-                <Link prefetch href="/auth/forgotPw">
+                <Link prefetch href={"/auth/forgotPw"}>
                   <a className="is-link">Forgot password</a>
                 </Link>
               </div>
