@@ -13,20 +13,7 @@ class UserSearchSelect extends React.Component {
     };
   }
 
-  toggleDropdown = e => {
-    //e.preventDefault()
-    this.setState({
-      ...this.state,
-      isToggled: !this.state.isToggled
-    });
-  };
 
-  getDropDownClass() {
-    return (
-      "team-member-dropdown z-50 absolute " +
-      (this.state.isToggled ? "hidden" : "show")
-    );
-  }
 
   render() {
     const userItems =
@@ -50,7 +37,7 @@ class UserSearchSelect extends React.Component {
       );
     return (
       <div
-        className={"user-search-wrapper relative " + this.props.className}
+        className={"user-search-wrapper relative z-100 " + this.props.className}
         onClick={this.props.onClick}
       >
         <div className="field">
