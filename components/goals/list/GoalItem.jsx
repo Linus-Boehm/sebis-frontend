@@ -4,7 +4,7 @@ import GoalAvatar from "../../utils/user/GoalAvatar";
 
 class GoalItem extends React.Component {
   highlightByFilter = (text, filter) => {
-    if (filter === "") return <span>{text}</span>;
+    if (filter === "" || filter === undefined) return <span>{text}</span>;
 
     const regex = new RegExp(filter, "ig");
     const parts = text.split(regex);
@@ -27,22 +27,18 @@ class GoalItem extends React.Component {
 
     const { title } = goal || {};
 
-    let resizedTitle = (title || "").substring(0, 100)
-    if (title.length > 100)
-      resizedTitle += " ..."
-
     return (
       <div
-        className={`flex items-center bg-gray-200 hover:bg-gray-300 mb-2 p-2 cursor-pointer 
+        className={`goal-item flex items-center bg-gray-200 hover:bg-gray-300 mb-2 p-2 cursor-pointer
          ${isSubGoal ? "ml-3" : ""}
-         ${isSelected ? "bg-blue-300 hover:bg-blue-300" : ""}
+         ${isSelected ? "is-selected bg-blue-300 hover:bg-blue-300" : ""}
         `}
         onClick={() => {
           onSelect(goal._id);
         }}
       >
-        <div className="flex-grow ml-3 max-w-full break-all select-none">
-          {this.highlightByFilter(resizedTitle, searchFilter)}
+        <div className="flex-grow pr-2 ml-3 max-w-full max-w-full select-none container-max break-all goal-text-item">
+          {this.highlightByFilter(title, searchFilter)}
         </div>
         {goal.related_model === "ObjectiveAgreement" && !isSubGoal && (
           <span

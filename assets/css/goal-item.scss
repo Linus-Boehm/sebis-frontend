@@ -1,0 +1,27 @@
+.goal-item {
+  .goal-text-item {
+    max-height: 1.5rem;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .goal-text-item:after {
+    content: " ";
+    box-shadow: #edf2f7 -3rem 0px 3rem -1rem inset;
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 3rem;
+  }
+  &:hover {
+    .goal-text-item:after {
+      box-shadow: #e2e8f0 -3rem 0px 3rem -1rem inset;
+    }
+  }
+  &.is-selected {
+    .goal-text-item:after {
+      box-shadow: #90cdf4 -3rem 0px 3rem -1rem inset;
+    }
+  }
+}
