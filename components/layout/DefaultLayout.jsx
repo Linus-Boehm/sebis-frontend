@@ -4,6 +4,7 @@ import "../../assets/css/forms.scss";
 import "../../assets/css/goal-info.scss";
 import "../../assets/css/day-picker.scss";
 import "../../assets/css/progress-info.scss";
+import "../../assets/css/homepage.scss";
 import "react-datepicker/dist/react-datepicker.css";
 
 import ReactNotification from "react-notifications-component";
@@ -194,7 +195,7 @@ class DefaultLayout extends React.Component {
 
   render() {
     return (
-      <div className="main-wrapper w-full">
+      <div className={"main-wrapper w-full " + this.props.className}>
         {this.renderHeader()}
         {(this.props.auth.isAuthenticated || !this.props.forceAuth) &&
           <section
