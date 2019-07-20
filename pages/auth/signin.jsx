@@ -2,8 +2,9 @@ import React from "react";
 import { connect } from "react-redux";
 import Layout from "../../components/layout/DefaultLayout";
 import * as actions from "../../store/actions/auth";
-import LoginButton from '../../components/utils/buttons/LoginButton'
+import LoginButton from "../../components/utils/buttons/LoginButton";
 import Router from "next/router";
+import Link from "next/link";
 
 class Signin extends React.Component {
   constructor(props) {
@@ -16,13 +17,11 @@ class Signin extends React.Component {
     };
   }
 
-  static async getInitialProps({ store, req }) {
-  }
+  static async getInitialProps({ store, req }) {}
 
-  handleSubmit = async (e) => {
+  handleSubmit = async e => {
     e.preventDefault();
     try {
-
       this.setState({
         error: null,
         isLoading: true
@@ -42,16 +41,16 @@ class Signin extends React.Component {
 
     this.setState({
       isLoading: false
-    })
+    });
   };
 
-  onChange = (e) => {
-    this.setState({ [ e.target.name ]: e.target.value });
+  onChange = e => {
+    this.setState({ [e.target.name]: e.target.value });
   };
 
   render() {
     const auth = this.props.auth ? this.props.auth : {};
-    if(auth.token) {
+    if (auth.token) {
       Router.push("/app/dashboard");
     }
 
@@ -60,12 +59,12 @@ class Signin extends React.Component {
         <div className="p-1 pt-5 pb-5">
           <h3 className="title-sign is-3">Sign In</h3>
         </div>
-        {!auth.token &&
+        {!auth.token && (
           <div className="p-1 pt-5">
             <form
               onSubmit={this.handleSubmit}
               className="container"
-              style={{width: "540px"}}
+              style={{ width: "540px" }}
             >
               {this.state.error && (
                 <div className={"message is-danger"}>
@@ -100,6 +99,9 @@ class Signin extends React.Component {
                     onChange={this.onChange}
                   />
                 </p>
+                <Link prefetch href="/auth/forgotPw">
+                  <a className="is-link">Forgot password</a>
+                </Link>
               </div>
 
               <div className="field pt-2">
@@ -111,20 +113,19 @@ class Signin extends React.Component {
               </div>
             </form>
           </div>
-        }
-        {
-          auth.token &&
-            <div>
-              <div className="message m-4 is-success">
-                <div className="message-header">
-                  <p>Logged in</p>
-                </div>
-                <div className="message-body">
-                  You're redirected to the dashboard...
-                </div>
+        )}
+        {auth.token && (
+          <div>
+            <div className="message m-4 is-success">
+              <div className="message-header">
+                <p>Logged in</p>
+              </div>
+              <div className="message-body">
+                You're redirected to the dashboard...
               </div>
             </div>
-        }
+          </div>
+        )}
         <style jsx>
           {`
             .title-sign {
