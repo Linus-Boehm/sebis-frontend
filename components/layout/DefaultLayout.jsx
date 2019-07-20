@@ -196,19 +196,21 @@ class DefaultLayout extends React.Component {
     return (
       <div className="main-wrapper w-full">
         {this.renderHeader()}
-        <section
-          className={
-            "main-content columns pt-2 relative" +
-            (this.props.mainContentClasses || "")
-          }
-        >
-          {this.props.auth.isAuthenticated && !this.props.hideSidebar && (
-            <MenuSidebar sideBarToggeled={this.state.sideBarToggeled}/>
-          )}
-          <div className="column">
-            {this.props.children}
-          </div>
-        </section>
+        {(this.props.auth.isAuthenticated || !this.props.forceAuth) &&
+          <section
+            className={
+              "main-content columns pt-2 relative" +
+              (this.props.mainContentClasses || "")
+            }
+          >
+            {!this.props.hideSidebar && (
+              <MenuSidebar sideBarToggeled={this.state.sideBarToggeled}/>
+            )}
+            <div className="column">
+              {this.props.children}
+            </div>
+          </section>
+        }
         <footer className="footer">
           <div className="content has-text-centered">
             <span> © 2019 Goalify i. G.</span>
