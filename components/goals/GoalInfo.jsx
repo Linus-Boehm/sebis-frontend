@@ -135,7 +135,7 @@ class GoalInfo extends React.Component {
                   }}
                   onConfirm={this.handleDelete}
                 >
-                  Are you sure?
+                  Are you sure you want to delete Goal <strong className={"break-all"}>{title}</strong>?
                 </ConfirmModal>
 
                 <button
@@ -249,7 +249,7 @@ class GoalInfo extends React.Component {
               <div className="flex w-full justify-between px-1">
                 <GoalProgress className="mt-0 flex-grow mr-4" goal={selectedGoal}/>
                 <ActiveLink href={"/app/goals/progress?id=" + selectedGoal._id}>
-                  <EditButton className="is-small">
+                  <EditButton className="is-small h-auto">
                     <span className="pl-1">Edit Progress</span>
                   </EditButton>
                 </ActiveLink>

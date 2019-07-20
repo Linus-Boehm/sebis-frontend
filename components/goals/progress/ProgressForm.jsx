@@ -35,9 +35,7 @@ class ProgressForm extends React.Component {
         } = this.props;
 
         const icon_arr = Object.keys(GOAL_QUALITATIVE_ICONS).map(key => ({key, value: GOAL_QUALITATIVE_ICONS[key]}));
-
         const canSubmit = progress.value !== undefined;
-
         const isLocked = this.isLocked();
 
         const classNames = require('classnames');
@@ -57,7 +55,7 @@ class ProgressForm extends React.Component {
                 />
             </div>
 
-            <div className={"flex-1"}>
+            <div className={"flex-1 ml-2"}>
                 <label><h4 className={"field-info"}>Progress</h4>
                     {selectedGoal.progress_type === GOAL_TYPE.COUNT &&
                     <input disabled={isLocked} className="input" name="value" type="number" placeholder="0"
@@ -94,10 +92,10 @@ class ProgressForm extends React.Component {
                 </label>
             </div>
 
-            <div className={"flex-1"}>
+            <div className={"flex-1 ml-2"}>
                 <label><h4 className={"field-info"}>Status</h4>
                     <div className="select">
-                        <select name={"is_reviewed"} value={progress.is_reviewed} onChange={e =>
+                        <select name={"is_reviewed"} disabled={!this.props.canReview} value={progress.is_reviewed} onChange={e =>
                             this.onChange({[e.target.name]: e.target.value})
                         }>
                             <option value={true}>Reviewed</option>
@@ -107,7 +105,7 @@ class ProgressForm extends React.Component {
                 </label>
             </div>
 
-            <div className={"ml-auto mt-8 flex-0"}>
+            <div className={"ml-auto mt-8 flex-0  ml-2"}>
 
 
                 {this.props.selectedProgressIndex > 0 ? (

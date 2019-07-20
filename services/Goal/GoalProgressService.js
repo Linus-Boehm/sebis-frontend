@@ -32,6 +32,30 @@ export function getCurrentOverallProgress(goal) {
   }
 }
 
+export function markAllProgressAsReviewed(goal) {
+  let goalCopy = {...goal};
+  goalCopy.progress = getProgressPoints(goalCopy).map(
+    progress => {
+      return  {
+        ...progress,
+        is_reviewed: true
+      }
+    }
+  );
+  return goalCopy;
+}
+
+
+export function isProgressToReview(goal) {
+  if(goal.progress !== undefined) {
+    return goal.progress.reduce((acc, current) => {
+      return acc || !current.is_reviewed
+    }, false)
+  } else {
+    return []
+  }
+}
+
 export function getProgressPoints(goal) {
   if(goal.progress !== undefined) {
     return goal.progress.filter(progressInst => progressInst != null && progressInst.value != null)

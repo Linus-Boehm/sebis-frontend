@@ -112,14 +112,14 @@ class Index extends React.Component {
             </table>
           </div>
           <ConfirmModal
-            title="Attention!"
+            title="Confirm User Deletion"
             active={this.state.modalActive}
             confirmButtonType="is-danger"
             confirmButtonText="Delete"
             onCloseModal={this.closeModal}
             onConfirm={this.onDeleteConfirm}
           >
-            Do you realy like to delete this user?
+            Do you really like to delete the user{this.state.user && <strong className={"break-all"}> {this.state.user.firstname} {this.state.user.lastname}</strong> }?
           </ConfirmModal>
         </div>
       </DefaultLayout>

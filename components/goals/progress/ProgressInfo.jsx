@@ -9,7 +9,7 @@ import moment from "moment";
 import GoalProgress from "./GoalProgress";
 import {
   getCurrentOverallProgress,
-  getMaximumProgress
+  getMaximumProgress, isProgressToReview
 } from "../../../services/Goal/GoalProgressService";
 import ProgressForm from "./ProgressForm";
 
@@ -30,6 +30,10 @@ class ProgressInfo extends React.Component {
     await this.props.addNewProgress();
   };
 
+  reviewFull = async() => {
+    await this.props.reviewFull();
+  };
+
   getAgreementById(agreement) {
     if (this.props.agreements[agreement] != null) {
       return this.props.agreements[agreement];
@@ -47,6 +51,8 @@ class ProgressInfo extends React.Component {
       this.getAgreementById(selectedGoal.related_to);
     const reviewer = agreement ? this.props.userList[agreement.reviewer] : null;
     const assignee = agreement ? this.props.userList[agreement.assignee] : null;
+    const currentUser = this.props.user ? this.props.user : {};
+    const canReview = reviewer == null || currentUser._id === reviewer._id;
 
     const weight = selectedGoal.oa_weight
       ? parseFloat(selectedGoal.oa_weight)
@@ -56,6 +62,7 @@ class ProgressInfo extends React.Component {
     const all_progress = getCurrentOverallProgress(selectedGoal);
     const maximum_progress = getMaximumProgress(selectedGoal);
     const bonus = (all_progress / maximum_progress) * maxBonus;
+    const shouldReviewAll = isProgressToReview(selectedGoal);
 
     return (
       <div>
@@ -65,12 +72,11 @@ class ProgressInfo extends React.Component {
               {title}
             </h2>
 
-            <div className="ml-auto text-right">
-              <BaseButton className={"mx-1"}>Confirm Progress</BaseButton>
-              <BaseButton className={"mx-1"} type={"is-dark"}>
-                End Review
-              </BaseButton>
-            </div>
+            {canReview &&
+              <div className="ml-auto text-right">
+                <BaseButton disabled={!shouldReviewAll} onClick={this.reviewFull} className={"mx-1"}>Confirm full Progress</BaseButton>
+              </div>
+            }
           </div>
 
           <div className={"flex flex-wrap h-full"}>
@@ -155,6 +161,7 @@ class ProgressInfo extends React.Component {
           )}
 
           <ProgressForm
+            canReview={canReview}
             progress={this.props.selectedGoalProgress}
             onChangeProgress={this.onChangeProgress}
             {...this.props}
