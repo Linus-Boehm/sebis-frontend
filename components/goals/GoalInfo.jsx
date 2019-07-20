@@ -109,7 +109,7 @@ class GoalInfo extends React.Component {
                   }}
                   onConfirm={this.handleDelete}
                 >
-                  Are you sure?
+                  Are you sure you want to delete Goal <strong className={"break-all"}>{title}</strong>?
                 </ConfirmModal>
 
                 <button

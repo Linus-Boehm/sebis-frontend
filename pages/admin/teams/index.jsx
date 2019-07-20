@@ -117,7 +117,7 @@ class Index extends React.Component {
                         onCloseModal={this.closeModal}
                         onConfirm={this.onDeleteConfirm}
                     >
-                        Do you realy like to delete this team?
+                        Do you really like to delete the team{this.state.team && <strong className={"break-all"}> {this.state.team.name}</strong> }?
                     </ConfirmModal>
                 </div>
             </DefaultLayout>

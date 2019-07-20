@@ -393,7 +393,7 @@ class AgreementInfo extends React.Component {
                 this.updateConfirm();
               }}
             >
-              Are you sure you want to proceed?
+              Are you sure you want to proceed confirming the agreement?
             </ConfirmModal>
           </Fragment>
         )}
