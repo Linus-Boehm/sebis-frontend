@@ -49,7 +49,7 @@ export function markAllProgressAsReviewed(goal) {
 export function isProgressToReview(goal) {
   if(goal.progress !== undefined) {
     return goal.progress.reduce((acc, current) => {
-      return acc && !current.is_reviewed
+      return acc || !current.is_reviewed
     }, false)
   } else {
     return []

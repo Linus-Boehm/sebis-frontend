@@ -62,7 +62,7 @@ class ProgressInfo extends React.Component {
     const all_progress = getCurrentOverallProgress(selectedGoal);
     const maximum_progress = getMaximumProgress(selectedGoal);
     const bonus = (all_progress / maximum_progress) * maxBonus;
-    const shouldReviewAll = isProgressToReview(selectedGoal)
+    const shouldReviewAll = isProgressToReview(selectedGoal);
 
     return (
       <div>
