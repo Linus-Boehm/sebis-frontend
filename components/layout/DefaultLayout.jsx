@@ -28,7 +28,7 @@ class DefaultLayout extends React.Component {
     super(props);
     this.notificationDOMRef = React.createRef();
     this.state = {
-      sideBarToggeled: false
+      sideBarToggled: false
     }
   }
 
@@ -69,11 +69,12 @@ class DefaultLayout extends React.Component {
       clearInterval(this.interval)
     }
   }
-  toggleSidebar = ()=> {
+
+  toggleSidebar = () => {
     this.setState({
-      sideBarToggeled: !this.state.sideBarToggeled
+      sideBarToggled: !this.state.sideBarToggled
     })
-  }
+  };
 
   onCreateAgreement = async () => {
     const _id = uuidv4();
@@ -205,7 +206,7 @@ class DefaultLayout extends React.Component {
             }
           >
             {!this.props.hideSidebar && (
-              <MenuSidebar sideBarToggeled={this.state.sideBarToggeled}/>
+              <MenuSidebar sideBarToggeled={this.state.sideBarToggled}/>
             )}
             <div className="column">
               {this.props.children}
