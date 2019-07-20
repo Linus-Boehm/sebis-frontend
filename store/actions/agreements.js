@@ -5,6 +5,7 @@ import {
   DELETE_AGREEMENT
 } from "../types/agreement";
 import api from "~/services/BackendApi";
+import {assignSelectedGoal} from "./goals";
 
 export const resetSelectedAgreement = () => async dispatch => {
   dispatch({
@@ -17,6 +18,7 @@ export const assignSelectedAgreement = data => async dispatch => {
     type: ASSIGN_SELECTED_AGREEMENT,
     data
   });
+  dispatch(assignSelectedGoal({}))
 };
 
 export const fetchAgreementById = (id, useCache = true) => async (

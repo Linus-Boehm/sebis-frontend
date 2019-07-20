@@ -4,9 +4,11 @@ import DefaultLayout from "~/components/layout/DefaultLayout";
 import GoalsDashboardContainer from "~/components/goals/GoalsDashboardContainer";
 import GoalInfoContainer from "../../components/goals/GoalInfoContainer";
 import { fetchUsers } from "../../store/actions/users";
+import {assignSelectedGoal} from "../../store/actions/goals";
 
 class Dashboard extends React.Component {
   async componentDidMount() {
+    await this.props.dispatch(assignSelectedGoal({}));
     await this.props.dispatch(fetchUsers());
   }
 

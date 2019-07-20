@@ -30,7 +30,7 @@ class ProgressInfoContainer extends React.Component {
 
     onResetProgress = async () =>{
         await this.props.dispatch(GoalActions.resetSelectedGoalProgress())
-    }
+    };
 
     onUpdateProgress = async() => {
         //Add Progress to selectedGoal & Update goal

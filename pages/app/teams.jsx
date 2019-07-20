@@ -3,18 +3,23 @@ import {connect} from "react-redux";
 import DefaultLayout from "~/components/layout/DefaultLayout";
 import TeamDashboardContainer from "../../components/teams/TeamDashboardContainer";
 import GoalInfoContainer from "../../components/goals/GoalInfoContainer";
-import {fetchUsers} from "../../store/actions/users";
 import {fetchTeamById, resetTeam} from "../../store/actions/teams";
-import {fetchTeamGoals} from "../../store/actions/goals";
+import {assignSelectedGoal, fetchTeamGoals} from "../../store/actions/goals";
 
 class teams extends React.Component {
     componentDidMount() {
+        this.props.dispatch(assignSelectedGoal({}));
         this.props.dispatch(resetTeam());
         this.props.dispatch(fetchTeamById(this.props.currentId));
         this.props.dispatch(fetchTeamGoals(this.props.currentId));
     }
 
-    //TODO on Update
+    componentWillReceiveProps = async(nextProps, nextContext) => {
+        if(nextProps.currentId !== this.props.currentId) {
+            await this.props.dispatch(assignSelectedGoal({}));
+        }
+    };
+
     static async getInitialProps({query}) {
         return {currentId: query.id};
     }
