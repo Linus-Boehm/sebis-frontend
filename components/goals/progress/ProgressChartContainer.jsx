@@ -1,51 +1,43 @@
 import React from "react";
 import {connect} from "react-redux";
 import {fetchUsers} from "~/store/actions/users";
-import {fetchGoalById} from "../../../store/actions/goals";
 import ProgressLineChart from "../../utils/progress/ProgressLineChart";
-import AddButton from "../../utils/buttons/AddButton";
 import {getProgressPoints} from "../../../services/Goal/GoalProgressService";
-
-const data = [{name: 'Day1', uv: 400}, {name: 'Day2', uv: 600}];
 
 class ProgressChartContainer extends React.Component {
     constructor(props) {
-        super(props)
+        super(props);
+        console.log(props)
         this.state = {
-            cumulated: true
+            accumulated: props.accumulated !== undefined ? props.accumulated : true
         }
     }
 
     switchCommulative = (val) => {
         this.setState({
             ...this.state,
-            cumulated: val
-
+            accumulated: val
         })
-    }
-
-
-
+    };
 
     render() {
-        const maxProgress = this.props.selectedGoal.maximum_progress?parseFloat(this.props.selectedGoal.maximum_progress):null
+        const maxProgress = this.props.selectedGoal.maximum_progress ? parseFloat(this.props.selectedGoal.maximum_progress) : null;
         return (
-
             <div className="flex flex-col w-full mt-4 pt-4">
                 {this.props.selectedGoal.progress && this.props.selectedGoal.progress.length > 0 ?
                     (
                         <div className="w-full">
                             <div className="flex -mx-2 w-full pl-16">
-                                <a className={"progress-chart-switch mx-2 " + (!this.state.cumulated ? ' is-active' : '')}
+                                <a className={"progress-chart-switch mx-2 " + (!this.state.accumulated ? ' is-active' : '')}
                                    onClick={() => {
                                        this.switchCommulative(false)
                                    }}>Noncommulative</a>
-                                <a className={"progress-chart-switch mx-2 " + (this.state.cumulated ? ' is-active' : '')}
+                                <a className={"progress-chart-switch mx-2 " + (this.state.accumulated ? ' is-active' : '')}
                                    onClick={() => {
                                        this.switchCommulative(true)
                                    }}>Commulative</a>
                             </div>
-                            <ProgressLineChart {...this.props} maxProgress={maxProgress} cumulated={this.state.cumulated}
+                            <ProgressLineChart {...this.props} maxProgress={maxProgress} accumulated={this.state.accumulated}
                                                progress={getProgressPoints(this.props.selectedGoal)}/>
                         </div>
                     ) :
@@ -54,21 +46,20 @@ class ProgressChartContainer extends React.Component {
                     </div>)}
 
 
-        {/*language=CSS*/
-        }
-        <style jsx global>{`
-            .progress-chart-switch {
-                color: #E4E4E4;
-                font-weight: bold;
-            }
+                {/*language=CSS*/
+                }
+                <style jsx global>{`
+                    .progress-chart-switch {
+                        color: #E4E4E4;
+                        font-weight: bold;
+                    }
 
-            .progress-chart-switch.is-active {
-                color: #5A5A5A;
-            }
-        `}</style>
-        </div>
-    )
-        ;
+                    .progress-chart-switch.is-active {
+                        color: #5A5A5A;
+                    }
+                `}</style>
+            </div>
+        );
     }
 }
 
