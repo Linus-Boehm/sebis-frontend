@@ -37,9 +37,9 @@ class GoalInfo extends React.Component {
     this.setState({ isDeleteModalVisible });
   };
 
-  onChangeAndSave = async changes => {
+  onChangeAndSave = async (changes, e) => {
     await this.onChange(changes);
-    await this.props.onUpdateGoal();
+    await this.props.onUpdateGoal(e);
   };
 
   onChange = async changes => {
@@ -67,8 +67,31 @@ class GoalInfo extends React.Component {
     return "0";
   };
 
+  isAgreementEditable() {
+    if (
+      !this.props.selectedAgreement ||
+      ((this.props.selectedAgreement.assignee_confirmed === true &&
+        this.props.selectedAgreement.reviewer_confirmed === true) ||
+        this.getMyConfirmState() === true)
+    ) {
+      return false;
+    }
+    return true;
+  }
+
+  getMyConfirmState = () => {
+    if (
+      this.props.currentUser &&
+      this.props.currentUser._id === this.props.selectedAgreement.reviewer
+    ) {
+      return this.props.selectedAgreement.reviewer_confirmed;
+    } else {
+      return this.props.selectedAgreement.assignee_confirmed;
+    }
+  };
+
   render() {
-    const { selectedGoal, onClose, editModeDisabled } = this.props;
+    const { selectedGoal, onClose } = this.props;
 
     const { title, description, oa_weight, parent_goal } = selectedGoal;
 
@@ -78,8 +101,11 @@ class GoalInfo extends React.Component {
 
     const agreement_mode = this.props.agreementMode === true;
 
+    const isAgreementRunning = agreement && agreement.assignee_confirmed && agreement.reviewer_confirmed;
+    const editModeDisabled = !this.isAgreementEditable();
+
     return (
-      <div className="w-1/3 border-l-2 border-gray-200 flex goalinfo ml-2 ">
+      <div className="w-1/3 border-l-2 border-gray-200 flex goalinfo ml-2 h-full">
         <div className="flex-1 h-full goal-info py-2 px-6">
           <div className="content">
             <div className="goal-detail-header flex">
@@ -92,7 +118,7 @@ class GoalInfo extends React.Component {
                   className="button is-danger ml-2"
                   title={"Delete Goal"}
                   disabled={editModeDisabled ||
-                  (!parent_goal && agreement && agreement.assignee_confirmed && agreement.reviewer_confirmed)}
+                  (!parent_goal && isAgreementRunning)}
                   onClick={() => {
                     this.setDeleteModalVisibility(true);
                   }}
@@ -237,7 +263,7 @@ class GoalInfo extends React.Component {
                     onChange={e =>
                       this.onChangeAndSave({
                         [ e.target.name ]: e.target.value
-                      })
+                      }, e)
                     }
                   >
                     <option value={""}>Please select</option>
