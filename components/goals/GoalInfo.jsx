@@ -271,7 +271,7 @@ class GoalInfo extends React.Component {
                     </option>
                     <option value={GOAL_TYPE.COUNT}>Numeric Goal</option>
                     <option value={GOAL_TYPE.BOOLEAN}>
-                      Goal to reach (Reached or not reached)
+                      Goal to reach
                     </option>
                   </select>
                 </div>
