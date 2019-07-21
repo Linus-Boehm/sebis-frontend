@@ -26,6 +26,7 @@ class Home extends React.Component {
               data-aos-delay="100"
               data-aos-offset="200"
               data-aos-easing="ease-out-quart"
+              style={{ fontWeight: "bold", color: "#344258" }}
             >
               {" "}
               Get your company goals towards key results
@@ -53,7 +54,7 @@ class Home extends React.Component {
                   />
                   <h4
                     className="title is-6 is-tight is-light"
-                    style={{ textAlign: "center" }}
+                    style={{ textAlign: "center", color: "#344258" }}
                   >
                     Digitize goalsheets
                   </h4>
@@ -81,7 +82,7 @@ class Home extends React.Component {
 
                   <h4
                     className="title is-6 is-tight is-light"
-                    style={{ textAlign: "center" }}
+                    style={{ textAlign: "center", color: "#344258" }}
                   >
                     Holistic overview of all goals
                   </h4>
@@ -108,7 +109,7 @@ class Home extends React.Component {
                   />
                   <h4
                     className="title is-6 is-tight is-light"
-                    style={{ textAlign: "center" }}
+                    style={{ textAlign: "center", color: "#344258" }}
                   >
                     Track your progress
                   </h4>
@@ -121,7 +122,9 @@ class Home extends React.Component {
           </div>
 
           <div className="mt-16 content index-section pricing-section">
-            <h2 className="text-center mt-16">Pricing </h2>
+            <h2 className="text-center mt-16" style={{ color: "#344258" }}>
+              Pricing{" "}
+            </h2>
             <div className="columns w-full justify-around">
               <div className="column px-4 is-4">
                 <div
@@ -131,8 +134,16 @@ class Home extends React.Component {
                   data-aos-offset="200"
                   data-aos-easing="ease-out-quart"
                 >
-                  <p className="pricing-title">FREE PLAN</p>
-                  <p className="inner-text"> Up to 6 members for free</p>
+                  <p
+                    className="pricing-title text-center"
+                    style={{ fontWeight: "bold", color: "#344258" }}
+                  >
+                    FREE PLAN
+                  </p>
+                  <p className="inner-text text-center">
+                    {" "}
+                    Up to 6 members for free
+                  </p>
                   <div className="flex w-full justify-center">
                     <ActiveLink href={"/auth/signup"}>
                       <button className="button is-primary mt-4">
@@ -150,8 +161,13 @@ class Home extends React.Component {
                   data-aos-offset="200"
                   data-aos-easing="ease-out-quart"
                 >
-                  <p className="pricing-title">PRO PLAN</p>
-                  <p> Licence per user</p>
+                  <p
+                    className="pricing- text-center"
+                    style={{ fontWeight: "bold", color: "#344258" }}
+                  >
+                    PRO PLAN
+                  </p>
+                  <p className="text-center"> Licence per user</p>
                   <div className="flex w-full justify-center">
                     <ActiveLink href={"/auth/signup"}>
                       <button className="button is-primary mt-4">
@@ -177,6 +193,12 @@ class Home extends React.Component {
             min-height: 600px;
             height: 70vh;
             padding-top: 200px;
+          }
+
+          .box-format {
+            box-shadow: 2px 2px 10px 0px #000000;
+            -moz-box-shadow: 2px 2px 10px 0px #000000;
+            -webkit-box-shadow: 2px 2px 10px 0px #000000;
           }
         `}</style>
       </DefaultLayout>
