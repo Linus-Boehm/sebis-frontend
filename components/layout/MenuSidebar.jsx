@@ -45,8 +45,8 @@ class MenuSidebar extends React.Component {
 
         return (
             <div
-                className={"sidemenu column is-2 is-narrow-touch is-fullheight border-r-2 border-gray-200 " + (this.props.sideBarToggled ? "is-active" : "")}>
-                <div className="section flex flex-col overflow-y-scroll">
+                className={"sidemenu column is-2 is-narrow-touch border-r-2 border-gray-200 flex flex-col flex-1 flex-grow " + (this.props.sideBarToggled ? "is-active" : "")}>
+                <div className="section flex flex-col flex-1 overflow-y-scroll">
                     <div>
                         <p className="menu-label">Goals</p>
                         <ul className="menu-list">

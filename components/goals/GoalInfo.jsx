@@ -315,7 +315,8 @@ class GoalInfo extends React.Component {
                     position: absolute;
                     z-index: 51;
                     width: 100%;
-
+                    height: auto;
+                    min-height: 100vh;
                     display: block;
                     animation-duration: .5s;
                     animation-name: slidein;
