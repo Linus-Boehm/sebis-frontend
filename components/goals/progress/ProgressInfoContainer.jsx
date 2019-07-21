@@ -51,7 +51,8 @@ class ProgressInfoContainer extends React.Component {
                 goalCopy.notifyReviewer = true
             }
         }
-        await this.props.dispatch(GoalActions.updateGoal(goalCopy))
+        await this.props.dispatch(GoalActions.updateGoal(goalCopy));
+        await this.onResetProgress()
     };
 
     onUpdateGoal = async () => {

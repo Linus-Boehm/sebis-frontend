@@ -38,7 +38,6 @@ class ProgressForm extends React.Component {
         const canSubmit = progress.value !== undefined;
         const isLocked = this.isLocked();
 
-        console.log(progress)
 
         const classNames = require('classnames');
 
@@ -111,9 +110,7 @@ class ProgressForm extends React.Component {
             </div>
 
             <div className={"ml-auto mt-8 flex-0  ml-2"}>
-
-
-                {this.props.selectedProgressIndex > 0 ? (
+                {progress.isEditMode ? (
                     <div className="flex -mx-1">
                         <BaseButton className="mx-1" onClick={this.props.onResetProgress}
                                     type="is-warning">Cancel</BaseButton>
