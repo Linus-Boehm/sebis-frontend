@@ -42,7 +42,7 @@ class EditUser extends React.Component {
   render() {
     return (
       <DefaultLayout forceAuth={true}>
-        <div className="container">
+        <div className="mt-8">
           <div className="content">
             <div className="flex">
               <h1>Edit User</h1>
