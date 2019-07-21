@@ -13,7 +13,6 @@ const initialState = {
     date: new Date().toDateString(),
     value: undefined,
     is_reviewed: false,
-    _id: uuidv4(),
     isEditMode: false
   },
   selectedProgressIndex: -1,
@@ -45,7 +44,7 @@ export default (state = initialState, { type, data, fetchKey }) => {
     case ASSIGN_SELECTED_GOAL:
       return {
         ...state,
-        selectedGoal: { ...initialState.selectedGoal, ...data }
+        selectedGoal: {...data }
       };
 
     case ASSIGN_SELECTED_GOAL_PROGRESS:
