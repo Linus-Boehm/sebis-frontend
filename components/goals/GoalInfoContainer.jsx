@@ -2,9 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import * as GoalActions from '../../store/actions/goals';
 import GoalInfo from './GoalInfo';
-import { pick } from "lodash";
 import * as CommentActions from "../../store/actions/comments";
 import * as AgreementActions from "../../store/actions/agreements";
+import {resetSelectedGoalProgress} from "../../store/actions/goals";
 
 class GoalInfoContainer extends React.Component {
 
@@ -17,7 +17,9 @@ class GoalInfoContainer extends React.Component {
     }))
   };
 
-  componentDidMount() {
+  componentDidMount = async() => {
+    await this.props.dispatch(resetSelectedGoalProgress());
+
     this.interval = setInterval(() => {
       const { selectedGoal } = this.props;
 
@@ -25,13 +27,15 @@ class GoalInfoContainer extends React.Component {
         this.props.dispatch(CommentActions.fetchComments(selectedGoal._id));
       }
     }, 5000);
-  }
+  };
 
-  componentWillUnmount() {
+  componentWillUnmount = async() => {
     if (this.interval) {
       clearInterval(this.interval)
     }
-  }
+
+    await this.props.dispatch(resetSelectedGoalProgress());
+  };
 
   onUpdateGoal = async (e) => {
     const { selectedGoal } = this.props;
