@@ -16,21 +16,43 @@ class Home extends React.Component {
 
     render() {
         return (
-            <DefaultLayout className={"homepage"} hideSidebar>
+            <DefaultLayout className={"homepage "} hideSidebar>
                 <div className="-mx-4">
+                <div className="">
                     <div className="top-hero header-seaction relative">
                         <div className="slogan flex flex-col"
                              style={{fontWeight: "bold", color: "#344258"}}>
-                            <div className="flex justify-center pb-4">
+                            <div data-aos="fade-up"
+                                 data-aos-delay="800"
+                                 data-aos-offset="0"
+                                 data-aos-easing="ease-out-quart"
+                                 data-aos-once="true" className="flex justify-center pb-4 aos-init">
                                 <img src="/static/goalify_final.png" style={{maxWidth:"70%", maxHeight:"120px"}}/>
 
                             </div>
                             <p data-aos="fade-up"
-                               data-aos-delay="100"
-                               data-aos-offset="200"
+                               data-aos-delay="1000"
+                               data-aos-offset="0"
                                data-aos-easing="ease-out-quart"
-                               className="">Get your company goals towards key results
+                               data-aos-once="true"
+                               className="aos-init">Get your company goals towards key results
                             </p>
+                            <div data-aos="fade-up"
+                                 data-aos-delay="1200"
+                                 data-aos-offset="0"
+                                 data-aos-easing="ease-out-quart"
+                                 data-aos-once="true" className="flex flex-col justify-center pb-4 sm:flex-row mt-8 aos-init">
+                                <ActiveLink href={"/auth/signin"}>
+                                    <button className="button is-primary mx-4 my-2">
+                                        Sign In
+                                    </button>
+                                </ActiveLink>
+                                <ActiveLink href={"/auth/signup"}>
+                                    <button className="button is-link mx-4 my-2">
+                                        Sign Up
+                                    </button>
+                                </ActiveLink>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -42,8 +64,9 @@ class Home extends React.Component {
                                 <div
                                     className="feature"
                                     data-aos="fade-up"
-                                    data-aos-delay="100"
-                                    data-aos-offset="200"
+                                    data-aos-delay="500"
+                                    data-aos-once="true"
+                                    data-aos-offset="0"
                                     data-aos-easing="ease-out-quart"
                                 >
                                     <img
@@ -128,13 +151,13 @@ class Home extends React.Component {
                                 <h2 className="text-center mt-16 pb-4" style={{color: "#344258"}}>
                                     Pricing
                                 </h2>
-                                <div className="columns w-full justify-around pb-16">
-                                    <div className="column px-4 is-4">
+                                <div className="flex flex-col sm:flex-row w-full justify-around pb-16">
+                                    <div className=" px-4 is-4 m-2">
                                         <div
-                                            className="rounded-lg box-format shadow-xl p-4 bg-white"
+                                            className="feature-box rounded-lg box-format shadow-xl p-4 bg-white flex-1 flex flex-col"
                                             data-aos="fade-up"
-                                            data-aos-delay="100"
-                                            data-aos-offset="200"
+                                            data-aos-delay="200"
+                                            data-aos-offset="300"
                                             data-aos-easing="ease-out-quart"
                                         >
                                             <p
@@ -156,12 +179,12 @@ class Home extends React.Component {
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="column px-4 is-4">
+                                    <div className=" px-4 is-4 m-2 flex">
                                         <div
-                                            className="rounded-lg box-format shadow-xl p-4 bg-white"
+                                            className="feature-box rounded-lg box-format shadow-xl p-4 bg-white flex-1 flex flex-col"
                                             data-aos="fade-up"
-                                            data-aos-delay="150"
-                                            data-aos-offset="200"
+                                            data-aos-delay="250"
+                                            data-aos-offset="300"
                                             data-aos-easing="ease-out-quart"
                                         >
                                             <p
@@ -184,6 +207,7 @@ class Home extends React.Component {
                             </div>
                         </div>
                     </div>
+                </div>
                 </div>
 
                 {/*language=CSS*/}
@@ -210,7 +234,7 @@ class Home extends React.Component {
 
                     .header-seaction {
                         width: 100%;
-                        height: 100vh;
+                        min-height: 100vh;
                         background-image: url('/static/homepage.png');
                         background-position: center;
                         background-repeat: no-repeat;
@@ -220,7 +244,9 @@ class Home extends React.Component {
                     .index-heading {
                         color: #344258;
                     }
-
+                    .feature-box{
+                        min-width: 250px;
+                    }
                     .feature img {
                         display: block;
                         margin: 0 auto;
@@ -229,13 +255,11 @@ class Home extends React.Component {
                     }
 
                     .pricing-section {
-                        padding-bottom: 120px;
                     }
 
                     .index-section {
-                        min-height: 600px;
-                        height: 60vh;
-                        padding-top: 150px;
+                        min-height: 100vh;
+                        height: auto;
                     }
 
 
