@@ -15,7 +15,7 @@ This provides a full REST API under `http://localhost:3001`
 
 ### Setup using docker
 * Run `./exec_in_docker.sh` (Only if not running yet)
-* Run `docker exec -it sebis-frontend-buildimage yarn start-json-server`
+* Run `docker exec -it sebis-frontend-buildimage`
 
 ##Run in production
 * Use `yarn seed` to seed the database
