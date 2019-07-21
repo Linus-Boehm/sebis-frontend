@@ -51,10 +51,15 @@ class Home extends React.Component {
                     data-aos-offset="200"
                     data-aos-easing="ease-out-quart"
                   />
-                  <h4 className="title is-6 is-tight is-light">
+                  <h4
+                    className="title is-6 is-tight is-light"
+                    style={{ textAlign: "center" }}
+                  >
                     Digitize goalsheets
                   </h4>
-                  <p>Manage, create and review in a collaborative way</p>
+                  <p style={{ textAlign: "center" }}>
+                    Manage, create and review in a collaborative way
+                  </p>
                 </div>
               </div>
               <div className="column is-4">
@@ -74,10 +79,15 @@ class Home extends React.Component {
                     data-aos-easing="ease-out-quart"
                   />
 
-                  <h4 className="title is-6 is-tight is-light">
+                  <h4
+                    className="title is-6 is-tight is-light"
+                    style={{ textAlign: "center" }}
+                  >
                     Holistic overview of all goals
                   </h4>
-                  <p>Manage Personal, Team and Company Goals</p>
+                  <p style={{ textAlign: "center" }}>
+                    Manage Personal, Team and Company Goals
+                  </p>
                 </div>
               </div>
               <div className="column is-4">
@@ -96,10 +106,15 @@ class Home extends React.Component {
                     data-aos-offset="200"
                     data-aos-easing="ease-out-quart"
                   />
-                  <h4 className="title is-6 is-tight is-light">
+                  <h4
+                    className="title is-6 is-tight is-light"
+                    style={{ textAlign: "center" }}
+                  >
                     Track your progress
                   </h4>
-                  <p>Enabled through three different metrics</p>
+                  <p style={{ textAlign: "center" }}>
+                    Enabled through three different metrics
+                  </p>
                 </div>
               </div>
             </div>
