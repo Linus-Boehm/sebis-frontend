@@ -68,10 +68,10 @@ class AgreementInfoContainer extends React.Component {
     }
 
     await this.props.dispatch(
-      AgreementActions.updateAgreement(selectedAgreement)
+      AgreementActions.updateAgreement(updatedAgreement)
     );
     await this.props.dispatch(
-      AgreementActions.assignSelectedAgreement(selectedAgreement)
+      AgreementActions.assignSelectedAgreement(updatedAgreement)
     );
   };
 

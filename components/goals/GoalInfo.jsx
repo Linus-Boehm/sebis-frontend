@@ -67,26 +67,26 @@ class GoalInfo extends React.Component {
     return "0";
   };
 
-  isAgreementEditable() {
+  isAgreementEditable(agreement) {
     if (
-      !this.props.selectedAgreement ||
-      ((this.props.selectedAgreement.assignee_confirmed === true &&
-        this.props.selectedAgreement.reviewer_confirmed === true) ||
-        this.getMyConfirmState() === true)
+      !agreement ||
+      ((agreement.assignee_confirmed === true &&
+        agreement.reviewer_confirmed === true) ||
+        this.getMyConfirmState(agreement) === true)
     ) {
       return false;
     }
     return true;
   }
 
-  getMyConfirmState = () => {
+  getMyConfirmState = (agreement) => {
     if (
       this.props.currentUser &&
-      this.props.currentUser._id === this.props.selectedAgreement.reviewer
+      this.props.currentUser._id === agreement.reviewer
     ) {
-      return this.props.selectedAgreement.reviewer_confirmed;
+      return agreement.reviewer_confirmed;
     } else {
-      return this.props.selectedAgreement.assignee_confirmed;
+      return agreement.assignee_confirmed;
     }
   };
 
@@ -102,7 +102,7 @@ class GoalInfo extends React.Component {
     const agreement_mode = this.props.agreementMode === true;
 
     const isAgreementRunning = agreement && agreement.assignee_confirmed && agreement.reviewer_confirmed;
-    const editModeDisabled = !this.isAgreementEditable();
+    const editModeDisabled = !parent_goal && !this.isAgreementEditable(agreement);
 
     return (
       <div className="w-1/3 border-l-2 border-gray-200 flex goalinfo ml-2 h-full">
