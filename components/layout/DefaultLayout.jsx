@@ -205,7 +205,7 @@ class DefaultLayout extends React.Component {
                 {(this.props.auth.isAuthenticated || !this.props.forceAuth) && (
                     <div
                         className={
-                            "main-content flex w-full h-full pt-0 relative items-stretch" +
+                            "main-content flex w-full h-full pt-0 relative items-stretch " +
                             (this.props.mainContentClasses || "")
                         }
                     >

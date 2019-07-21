@@ -101,8 +101,6 @@ class MenuSidebar extends React.Component {
                 }
                 <style jsx global>{`
                     .sidemenu {
-                        min-height: 100%;
-                        height: 100%;
                         background: white;
                         position: static;
 
