@@ -56,6 +56,17 @@ class AgreementInfoContainer extends React.Component {
   onUpdateAgreement = async () => {
     const { selectedAgreement } = this.props;
 
+    const updatedAgreement = { ...selectedAgreement }
+
+    if (
+      this.props.currentUser &&
+      this.props.currentUser._id === this.props.selectedAgreement.reviewer
+    ) {
+      delete updatedAgreement.assignee_confirmed
+    } else {
+      delete updatedAgreement.reviewer_confirmed
+    }
+
     await this.props.dispatch(
       AgreementActions.updateAgreement(selectedAgreement)
     );
