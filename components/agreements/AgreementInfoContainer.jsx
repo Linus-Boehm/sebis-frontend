@@ -56,7 +56,7 @@ class AgreementInfoContainer extends React.Component {
   onUpdateAgreement = async () => {
     const { selectedAgreement } = this.props;
 
-    const updatedAgreement = { ...selectedAgreement }
+    const updatedAgreement = { ...selectedAgreement };
 
     if (
       this.props.currentUser &&
@@ -70,8 +70,11 @@ class AgreementInfoContainer extends React.Component {
     await this.props.dispatch(
       AgreementActions.updateAgreement(updatedAgreement)
     );
+
+    const agreement = this.props.agreements[ this.props.queryId ];
+
     await this.props.dispatch(
-      AgreementActions.assignSelectedAgreement(updatedAgreement)
+      AgreementActions.assignSelectedAgreement(agreement)
     );
   };
 
