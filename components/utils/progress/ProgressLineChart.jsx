@@ -16,10 +16,9 @@ class ProgressLineChart extends React.Component {
   }
 
   calculateProgress() {
-    //TODO switch duration between
     const progress = this.props.progress ? this.props.progress : [];
 
-    const maxPoints = this.props.maxPoints ? this.props.maxPoints : 8;
+    const maxPoints = this.props.maxPoints ? this.props.maxPoints : 100;
     return take(progress, maxPoints)
   }
 
