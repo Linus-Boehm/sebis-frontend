@@ -84,7 +84,7 @@ class Index extends React.Component {
         ));
         return (
             <DefaultLayout forceAuth={true}>
-                <div className="w-full pt-4">
+                <div className="w-full mt-8">
                     <div className="content">
                         <div className="flex">
                             <h1>Teams</h1>

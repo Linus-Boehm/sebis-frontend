@@ -86,8 +86,7 @@ class Index extends React.Component {
       );
     return (
       <DefaultLayout forceAuth={true}>
-        <div className="container">
-          <div className="content">
+          <div className="content mt-8">
             <div className="flex">
               <h1>Users</h1>
               <div className="ml-auto">
@@ -121,7 +120,6 @@ class Index extends React.Component {
           >
             Do you really like to delete the user{this.state.user && <strong className={"break-all"}> {this.state.user.firstname} {this.state.user.lastname}</strong> }?
           </ConfirmModal>
-        </div>
       </DefaultLayout>
     );
   }
