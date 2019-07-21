@@ -12,6 +12,14 @@ import {GOAL_TYPE} from "../../../store/types/goal";
 
 class ProgressInfoContainer extends React.Component {
 
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            showPopover: false
+        };
+    }
+
     onChangeInput = (changes) => {
         const {selectedGoal} = this.props;
 
@@ -30,7 +38,8 @@ class ProgressInfoContainer extends React.Component {
         }, index: selectedProgressIndex}))
     };
 
-    onResetProgress = async () =>{
+    onResetProgress = async () => {
+        this.closePopover();
         await this.props.dispatch(GoalActions.resetSelectedGoalProgress())
     };
 
@@ -39,12 +48,12 @@ class ProgressInfoContainer extends React.Component {
         let goalCopy = {...this.props.selectedGoal};
         const index = this.props.selectedProgressIndex;
         const progress = this.props.selectedGoalProgress;
-        if (index>=0) {
+        if (index >= 0) {
             //Update entry
             goalCopy.progress[index] =  progress
         } else {
             //Append new entry
-            goalCopy.progress.push(progress)
+            goalCopy.progress.push(progress);
 
             if(!progress.is_reviewed) {
                 // just to inform the API to send out an email
@@ -59,9 +68,6 @@ class ProgressInfoContainer extends React.Component {
         const {selectedGoal} = this.props;
 
         await this.props.dispatch(GoalActions.updateGoal(selectedGoal))
-
-        //const goal = Object.values(pick(this.props.allGoals, selectedGoal._id))[0];
-        //await this.props.dispatch(GoalActions.assignSelectedGoal(goal))
     };
 
     reviewFull = async() => {
@@ -79,6 +85,21 @@ class ProgressInfoContainer extends React.Component {
         ])
     };
 
+    closePopover = () => {
+        this.setState({
+            ...this.state,
+            showPopover: false
+        })
+    }
+
+    openPopover = () => {
+        this.setState({
+            ...this.state,
+            showPopover: true
+        })
+    };
+
+
     render() {
         return (
             <div className="flex flex-col">
@@ -94,7 +115,13 @@ class ProgressInfoContainer extends React.Component {
                 />
                 {this.props.selectedProgressIndex >= 0 && <CommentBox feedTitle="Progress Feed" relatedTo={this.props.selectedGoalProgress._id}/>}
 
-                <ProgressChartContainer accumulated={this.props.selectedGoal.progress_type === GOAL_TYPE.COUNT} onSelect={this.onSelectProgress}/>
+                <ProgressChartContainer
+                  showPopover={this.state.showPopover}
+                  closePopover={this.closePopover}
+                  openPopover={this.openPopover}
+                  accumulated={this.props.selectedGoal.progress_type === GOAL_TYPE.COUNT}
+                  onSelect={this.onSelectProgress}
+                />
             </div>
         )
     }

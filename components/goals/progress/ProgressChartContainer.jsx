@@ -7,10 +7,9 @@ import {getProgressPoints} from "../../../services/Goal/GoalProgressService";
 class ProgressChartContainer extends React.Component {
     constructor(props) {
         super(props);
-        console.log(props)
         this.state = {
             accumulated: props.accumulated !== undefined ? props.accumulated : true
-        }
+        };
     }
 
     switchCommulative = (val) => {
@@ -38,7 +37,7 @@ class ProgressChartContainer extends React.Component {
                                    }}>Commulative</a>
                             </div>
                             <ProgressLineChart {...this.props} maxProgress={maxProgress} accumulated={this.state.accumulated}
-                                               progress={getProgressPoints(this.props.selectedGoal)}/>
+                                               progress={getProgressPoints(this.props.selectedGoal)} />
                         </div>
                     ) :
                     (<div className="w-full h-64">

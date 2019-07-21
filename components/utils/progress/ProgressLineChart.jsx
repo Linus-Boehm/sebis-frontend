@@ -11,8 +11,7 @@ class ProgressLineChart extends React.Component {
     this.state = {
       currentPopoverIndex: -1,
       cx: 0,
-      cy: 0,
-      showPopover: false
+      cy: 0
     };
   }
 
@@ -37,10 +36,7 @@ class ProgressLineChart extends React.Component {
   }
 
   closePopover = () => {
-    this.setState({
-      ...this.state,
-      showPopover: false,
-    })
+    this.props.closePopover();
   };
 
   handleClick = (e, data, progress) => {
@@ -50,11 +46,11 @@ class ProgressLineChart extends React.Component {
     }
     this.setState({
       ...this.state,
-      showPopover: true,
       currentPopoverIndex: index,
       cx,
       cy
     });
+    this.props.openPopover();
   };
 
   render() {
@@ -82,11 +78,11 @@ class ProgressLineChart extends React.Component {
             <Area isAnimationActive={false} fillOpacity={1} fill="url(#color1)" type={!!this.props.accumulated ? "monotone" : "linear"}
                   dataKey="v" stroke="#3392FF" dot={<ChartDot onClick={(e, index) => {
               this.handleClick(e, index, progress)
-            }} selectedIndex={this.state.currentPopoverIndex} progress={progress}/>}/>
+            }} selectedIndex={this.props.showPopover ? this.state.currentPopoverIndex : -1} progress={progress}/>}/>
 
           </AreaChart>
         </ResponsiveContainer>
-        {this.state.showPopover && <ProgressChartPopOver style={{'top': this.state.cy, 'left': this.state.cx}}
+        {this.props.showPopover && <ProgressChartPopOver style={{'top': this.state.cy, 'left': this.state.cx}}
                                                          activeindex={this.state.currentPopoverIndex}
                                                          progress={progress} onClose={this.closePopover}/>}
         <div className="progress-chart-legend">
