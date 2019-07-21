@@ -207,17 +207,17 @@ class DefaultLayout extends React.Component {
         </Head>
         {this.renderHeader()}
         {(this.props.auth.isAuthenticated || !this.props.forceAuth) && (
-          <section
+          <div
             className={
-              "main-content columns pt-2 relative" +
+              "main-content flex w-full pt-0 relative flex-wrap " +
               (this.props.mainContentClasses || "")
             }
           >
             {this.props.auth.isAuthenticated && !this.props.hideSidebar && (
               <MenuSidebar sideBarToggled={this.state.sideBarToggled}/>
             )}
-            <div className="column">{this.props.children}</div>
-          </section>
+            <div className="flex flex-col flex-1 mx-4">{this.props.children}</div>
+          </div>
         )}
         {!this.props.auth.isAuthenticated && this.props.forceAuth && (
           <div>

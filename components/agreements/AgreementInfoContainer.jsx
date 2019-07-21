@@ -123,7 +123,7 @@ class AgreementInfoContainer extends React.Component {
 
   render() {
     return (
-      <div className="flex h-full">
+      <div className="w-full h-full pt-4 h-full">
         <div className="column">
           <div className="content">
             <AgreementInfo
