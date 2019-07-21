@@ -69,10 +69,9 @@ class GoalInfo extends React.Component {
 
   isAgreementEditable(agreement) {
     if (
-      !agreement ||
-      ((agreement.assignee_confirmed === true &&
-        agreement.reviewer_confirmed === true) ||
-        this.getMyConfirmState(agreement) === true)
+      agreement && (
+      (agreement.assignee_confirmed === true && agreement.reviewer_confirmed === true) ||
+      this.getMyConfirmState(agreement) === true)
     ) {
       return false;
     }
