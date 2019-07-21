@@ -66,13 +66,14 @@ class Home extends React.Component {
                   data-aos-easing="ease-out-quart"
                 >
                   <img
-                    src="/static/images/chained.svg"
+                    src="/static/images/cubes2.svg"
                     alt=""
                     data-aos="fade-up"
                     data-aos-delay="300"
                     data-aos-offset="200"
                     data-aos-easing="ease-out-quart"
                   />
+
                   <h4 className="title is-6 is-tight is-light">
                     Holistic overview of all goals
                   </h4>
@@ -88,7 +89,7 @@ class Home extends React.Component {
                   data-aos-easing="ease-out-quart"
                 >
                   <img
-                    src="/static/images/chained.svg"
+                    src="/static/images/cubes3.svg"
                     alt=""
                     data-aos="fade-up"
                     data-aos-delay="500"
