@@ -267,7 +267,7 @@ class Home extends React.Component {
                     }
 
                     .index-section {
-                        min-height: 100vh;
+                        min-height: 60vh;
                         height: auto;
                     }
 
