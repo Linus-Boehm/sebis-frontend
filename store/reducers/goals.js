@@ -25,6 +25,7 @@ const initialState = {
 
 export default (state = initialState, { type, data, fetchKey }) => {
   console.log("reducer:goals:" + type);
+  const initialId = {"_id": uuidv4()};
 
   switch (type) {
     case RESET_SELECTED_GOAL:
@@ -38,7 +39,7 @@ export default (state = initialState, { type, data, fetchKey }) => {
       return {
         ...state,
         selectedProgressIndex: -1,
-        selectedGoalProgress: {...initialState.selectedGoalProgress}
+        selectedGoalProgress: {...initialState.selectedGoalProgress, ...initialId}
       };
 
 
@@ -50,7 +51,6 @@ export default (state = initialState, { type, data, fetchKey }) => {
 
     case ASSIGN_SELECTED_GOAL_PROGRESS:
       const {progress,index} = data;
-      const initialId = {"_id": uuidv4()};
       const initial = {
         ...initialState.selectedGoalProgress,
         ...initialId
