@@ -4,6 +4,9 @@ import Layout from "../../components/layout/DefaultLayout";
 import * as actions from "../../store/actions/auth";
 import SingupButton from "../../components/utils/buttons/SingupButton";
 import {resetPassword} from "../../services/BackendApi/routes/auth";
+import {logout} from "../../store/actions/auth";
+import {LOGOUT} from "../../store/types/auth";
+import Router from "next/dist/client/router";
 
 class Signup extends React.Component {
   constructor(props) {
@@ -25,7 +28,11 @@ class Signup extends React.Component {
     e.preventDefault();
     try {
       if (this.state.form.password !== this.state.form.confirm_password) {
-        throw new Error("Passwords do not match");
+        this.setState({
+          ...this.state,
+          error: "Passwords do not match"
+        });
+        return;
       }
 
       console.log(this.state);
@@ -34,21 +41,26 @@ class Signup extends React.Component {
         error: null,
         isLoading: true
       });
+      //await this.props.dispatch({ type: LOGOUT, payload: null });
+
+
       await resetPassword({password: this.state.form.password, token: this.props.token});
+      Router.push("/auth/signin?reset=true");
     } catch (e) {
-      if (typeof e == "string") {
-        this.setState({
-          ...this.state,
-          error: e
-        });
-      }
+      this.setState({
+        ...this.state,
+        error: "Token not valid"
+      });
       console.log(e);
       //TODO add notification
+    }finally {
+      this.setState({
+        ...this.state,
+        isLoading: false
+      });
     }
 
-    this.setState({
-      isLoading: false
-    });
+
   }
 
   onChange = e => {
