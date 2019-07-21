@@ -35,7 +35,7 @@ class Home extends React.Component {
         </div>
         <div className="container">
           <div className="content-wrapper index-section is-medium my-8 py-8">
-            <div className="columns is-vcentered">
+            <div className="columns">
               <div className="column is-4">
                 <div
                   className="feature"
@@ -187,6 +187,7 @@ class Home extends React.Component {
             display: block;
             margin: 0 auto;
             max-height: 120px;
+            margin-bottom: 25px;
           }
 
           .index-section {

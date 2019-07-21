@@ -4,11 +4,11 @@
 	 viewBox="0 0 612 792" style="enable-background:new 0 0 612 792;" xml:space="preserve">
 <style type="text/css">
 	.st0{display:none;}
-	.st1{display:inline;fill:#3C019E;}
+	.st1{display:inline;fill:#0E1743;}
 	.st2{fill:none;stroke:#FFFFFF;stroke-width:5;stroke-miterlimit:10;}
 	.st3{fill:none;stroke:url(#SVGID_1_);stroke-miterlimit:10;}
 	.st4{fill:none;stroke:url(#SVGID_2_);stroke-miterlimit:10;}
-	.st5{fill:#3C019E;}
+	.st5{fill:#0E1743;}
 	.st6{fill:#03105B;}
 	.st7{fill:url(#SVGID_3_);}
 	.st8{fill:none;stroke:url(#SVGID_4_);stroke-miterlimit:10;}
@@ -41,7 +41,7 @@
 	.st35{fill:none;stroke:url(#SVGID_31_);stroke-miterlimit:10;}
 	.st36{fill:none;stroke:url(#SVGID_32_);stroke-miterlimit:10;}
 	.st37{fill:url(#SVGID_33_);}
-	.st38{fill:none;stroke:#00D1B2;stroke-width:5;stroke-miterlimit:10;}
+	.st38{fill:none;stroke:#4285f4;stroke-width:5;stroke-miterlimit:10;}
 	.st39{fill:none;stroke:url(#SVGID_34_);stroke-miterlimit:10;}
 	.st40{fill:none;stroke:url(#SVGID_35_);stroke-miterlimit:10;}
 	.st41{fill:url(#SVGID_36_);}
@@ -90,7 +90,7 @@
 	.st84{fill:none;stroke:url(#SVGID_79_);stroke-miterlimit:10;}
 	.st85{fill:none;stroke:url(#SVGID_80_);stroke-miterlimit:10;}
 	.st86{fill:url(#SVGID_81_);}
-	.st87{fill:#00D1B2;}
+	.st87{fill:#4285f4;}
 </style>
 <g id="Calque_2" class="st0">
 	<rect y="0.8" class="st1" width="612" height="791.2"/>
