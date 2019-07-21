@@ -46,11 +46,13 @@ class ProgressInfoContainer extends React.Component {
     onUpdateProgress = async() => {
         //Add Progress to selectedGoal & Update goal
         let goalCopy = {...this.props.selectedGoal};
+        // init progress
+        goalCopy.progress = getProgressPoints(goalCopy);
         const index = this.props.selectedProgressIndex;
         const progress = this.props.selectedGoalProgress;
         if (index >= 0) {
             //Update entry
-            goalCopy.progress[index] =  progress
+            goalCopy.progress[index] = progress
         } else {
             //Append new entry
             goalCopy.progress.push(progress);
