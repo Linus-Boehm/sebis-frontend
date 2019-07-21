@@ -49,8 +49,8 @@ class ProgressInfo extends React.Component {
     const agreement =
       selectedGoal.related_model === "ObjectiveAgreement" &&
       this.getAgreementById(selectedGoal.related_to);
-    const reviewer = agreement ? this.props.userList[agreement.reviewer] : null;
-    const assignee = agreement ? this.props.userList[agreement.assignee] : null;
+    const reviewer = agreement ? this.props.userList[agreement.reviewer] : {};
+    const assignee = agreement ? this.props.userList[agreement.assignee] : {};
     const currentUser = this.props.user ? this.props.user : {};
     const canReview = reviewer == null || currentUser._id === reviewer._id;
 

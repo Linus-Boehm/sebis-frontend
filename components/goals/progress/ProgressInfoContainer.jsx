@@ -51,6 +51,12 @@ class ProgressInfoContainer extends React.Component {
         const index = this.props.selectedProgressIndex;
         const progress = this.props.selectedGoalProgress;
         if (index >= 0) {
+            if(!goalCopy.progress[index].is_reviewed && progress.is_reviewed) {
+                goalCopy.reviewed_progress = true
+            } else {
+                goalCopy.updated_progress = true;
+            }
+
             //Update entry
             goalCopy.progress[index] = progress
         } else {
@@ -59,7 +65,9 @@ class ProgressInfoContainer extends React.Component {
 
             if(!progress.is_reviewed) {
                 // just to inform the API to send out an email
-                goalCopy.notifyReviewer = true
+                goalCopy.added_progress = true
+            } else {
+                goalCopy.added_progress_reviewed = true
             }
         }
         await this.props.dispatch(GoalActions.updateGoal(goalCopy));
@@ -73,10 +81,10 @@ class ProgressInfoContainer extends React.Component {
     };
 
     reviewFull = async() => {
-        await this.onChangeInput(
-          markAllProgressAsReviewed(this.props.selectedGoal)
-        );
-        await this.onUpdateGoal()
+        const goalCopy = markAllProgressAsReviewed(this.props.selectedGoal);
+        goalCopy.reviewed_progress = true;
+        await this.props.dispatch(GoalActions.updateGoal(goalCopy));
+        await this.onResetProgress()
     };
 
     onSelectProgress = async (e, data) => {
@@ -92,7 +100,7 @@ class ProgressInfoContainer extends React.Component {
             ...this.state,
             showPopover: false
         })
-    }
+    };
 
     openPopover = () => {
         this.setState({

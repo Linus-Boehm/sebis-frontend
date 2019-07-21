@@ -8,6 +8,7 @@ import {
 import api from '~/services/BackendApi';
 import * as CommentActions from "./comments";
 import * as AgreementActions from "./agreements";
+import {fetchComments} from "./comments";
 
 export const resetSelectedGoal = () => async (dispatch) => {
   dispatch({
@@ -167,7 +168,7 @@ export const updateGoal = (goal) => async (dispatch) => {
   try {
     goal.progress = goal.progress != null ? goal.progress.filter(progress => progress != null && progress.value != null) : [];
 
-    let { data, status } = await api.goals.updateGoal(goal)
+    let { data, status } = await api.goals.updateGoal(goal);
 
     if (status === 200) {
       await dispatch({
@@ -179,6 +180,7 @@ export const updateGoal = (goal) => async (dispatch) => {
         data: [ data ],
         fetchKey: 'lastUpdated'
       });
+      await dispatch(fetchComments(goal._id));
       return data
     }
 
