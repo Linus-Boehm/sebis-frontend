@@ -241,7 +241,7 @@ class Home extends React.Component {
                     .header-seaction {
                         width: 100%;
                         min-height: 100vh;
-                        background-image: url('/static/homepage.png');
+                        background-image: url('/static/homepage.jpg');
                         background-position: center;
                         background-repeat: no-repeat;
                         background-size: cover;
