@@ -107,12 +107,8 @@ class DefaultLayout extends React.Component {
         >
           <div className="navbar-brand">
             <a className="navbar-item" href={logoUrl}>
-              <img src="/static/logo.png" className={"h-full w-auto"}/>
-              <img
-                src="/static/logo_name.png"
-                className={"h-full w-auto ml-2"}
+              <img src="/static/goalify_final.png" className={"h-full"}/>
 
-              />
             </a>
 
             <a

@@ -21,13 +21,9 @@ class Home extends React.Component {
                     <div className="top-hero header-seaction relative">
                         <div className="slogan flex flex-col"
                              style={{fontWeight: "bold", color: "#344258"}}>
-                            <div className="flex">
-                                <img src="/static/logo.png" className={"h-full w-auto"}/>
-                                <img
-                                    src="/static/logo_name.png"
-                                    className={"h-full w-auto ml-2"}
+                            <div className="flex justify-center pb-4">
+                                <img src="/static/goalify_final.png" style={{maxWidth:"70%", maxHeight:"120px"}}/>
 
-                                />
                             </div>
                             <p data-aos="fade-up"
                                data-aos-delay="100"
