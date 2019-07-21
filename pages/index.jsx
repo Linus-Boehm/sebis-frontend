@@ -43,16 +43,17 @@ class Home extends React.Component {
                                      data-aos-easing="ease-out-quart"
                                      data-aos-once="true"
                                      className="flex flex-col justify-center pb-4 sm:flex-row mt-8 aos-init">
-                                    <ActiveLink href={"/auth/signin"}>
+                                     <ActiveLink href={"/auth/signup"}>
                                         <button className="button is-primary mx-4 my-2">
-                                            Sign In
-                                        </button>
-                                    </ActiveLink>
-                                    <ActiveLink href={"/auth/signup"}>
-                                        <button className="button is-link mx-4 my-2">
                                             Sign Up
                                         </button>
                                     </ActiveLink>
+                                    <ActiveLink href={"/auth/signin"}>
+                                        <button className="button is-link mx-4 my-2">
+                                            Sign In
+                                        </button>
+                                    </ActiveLink>
+                                    
                                 </div>
                             </div>
                         </div>
