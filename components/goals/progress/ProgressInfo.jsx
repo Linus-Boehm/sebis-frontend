@@ -80,7 +80,7 @@ class ProgressInfo extends React.Component {
           </div>
 
           <div className={"flex flex-wrap h-full"}>
-            {selectedGoal.assignee && (
+            {selectedGoal && selectedGoal.assignee && (
               <div className={"flex-none w-2/6 field"}>
                 <GoalAvatar
                   className="m-1 float-left"
