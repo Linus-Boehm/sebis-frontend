@@ -196,7 +196,7 @@ class DefaultLayout extends React.Component {
 
   render() {
     return (
-      <div className={"main-wrapper w-full " + this.props.className}>
+      <div className={"main-wrapper w-full " + (this.props.className?this.props.className:"")}>
         <Head>
           <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
         </Head>
@@ -235,7 +235,12 @@ class DefaultLayout extends React.Component {
           </div>
         </footer>
         <ReactNotification ref={this.notificationDOMRef}/>
+        {/*language=CSS*/}
+
         <style jsx global>{`
+        .homepage .burger{
+            visibility: hidden;
+          }
           html,
           body,
           #__next,
