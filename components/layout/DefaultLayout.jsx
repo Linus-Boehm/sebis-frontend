@@ -106,7 +106,7 @@ class DefaultLayout extends React.Component {
                     aria-label="main navigation"
                 >
                     <div className="navbar-brand">
-                        <a className="navbar-item" href={logoUrl}>
+                        <a className="navbar-item ml-4" href={logoUrl}>
                             <img src="/static/goalify_final.png" className={"h-full"}/>
 
                         </a>
@@ -138,7 +138,7 @@ class DefaultLayout extends React.Component {
                                 >
                                     <a className="navbar-item ">My Goals</a>
                                 </ActiveLink>
-                                <div className="ml-6 mt-2">
+                                <div className="ml-6 mt-1">
                                     <button
                                         className="button is-primary is-small "
                                         style={{marginTop: "7%"}}
@@ -167,6 +167,7 @@ class DefaultLayout extends React.Component {
                                     <div className="navbar-link">
                                         <div className="pl-12">
                                             <UserAvatar
+                                                size={35}
                                                 user={this.props.auth.user}
                                                 className="cursor-pointer"
                                             />
@@ -240,11 +241,11 @@ class DefaultLayout extends React.Component {
 
                 <style jsx global>{`
                     .my-goals-item {
-                        display: none;
+                        visibility: hidden;
                     }
 
                     .homepage .my-goals-item {
-                        display: block;
+                        visibility: visible;
                     }
 
                     .homepage .burger {
