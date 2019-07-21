@@ -10,9 +10,6 @@
 * With `yarn dev` you can start the dev Server (Hotreloading per default)
 
 
-
-This provides a full REST API under `http://localhost:3001`
-
 ### Setup using docker
 * Run `./exec_in_docker.sh` (Only if not running yet)
 * Run `docker exec -it sebis-frontend-buildimage`
