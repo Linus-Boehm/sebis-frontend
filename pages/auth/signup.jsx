@@ -16,7 +16,8 @@ class Signup extends React.Component {
                 confirm_password: "",
                 organization_name: ""
             },
-            error: null
+            error: null,
+            sended: false
         };
     }
 
@@ -33,23 +34,32 @@ class Signup extends React.Component {
             console.log(this.state);
 
             this.setState({
+                ...this.state,
                 error: null,
                 isLoading: true
             });
             await this.props.register(this.state.form, "register");
+            this.setState({
+                ...this.state,
+                sended: true
+            });
         } catch (e) {
             if (typeof e == "string") {
                 this.setState({
+                    ...this.state,
                     error: e
                 });
             }
             console.log(e);
             //TODO add notification
+        }finally {
+            this.setState({
+                ...this.state,
+                isLoading: false
+            });
         }
 
-        this.setState({
-            isLoading: false
-        });
+
     }
 
     onChange = (e) => {
@@ -71,6 +81,14 @@ class Signup extends React.Component {
                             className="container"
                             style={{maxWidth: "540px"}}
                         >
+                            {this.state.sended && (
+                                <article className="message is-info">
+                                    <div className="message-body">
+                                        We have sent an email to {this.state.form.email} with instructions on how to
+                                        activate your account
+                                    </div>
+                                </article>
+                            )}
                             {this.state.error && (
                                 <div className={"message is-danger"}>
                                     <div className="message-header">

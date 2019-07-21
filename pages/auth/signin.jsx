@@ -17,7 +17,8 @@ class Signin extends React.Component {
     };
   }
 
-  static async getInitialProps({ store, req }) {
+  static async getInitialProps({ store, query }) {
+    return {reset: !!query.reset}
   }
 
   handleSubmit = async e => {
@@ -67,6 +68,13 @@ class Signin extends React.Component {
               className="container"
               style={{ maxWidth: "540px" }}
             >
+              {this.props.reset && (
+                  <article className="message is-info">
+                    <div className="message-body">
+                      Password reset was successful
+                    </div>
+                  </article>
+              )}
               {this.state.error && (
                 <div className={"message is-danger"}>
                   <div className="message-header">
