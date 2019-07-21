@@ -17,20 +17,25 @@ class Home extends React.Component {
     render() {
         return (
             <DefaultLayout className={"homepage"} hideSidebar>
-                <div>
-                    <div className="top-hero">
-                        <img className={"image"} src="/static/homepage.png" alt={""}/>
-                        <p
-                            className="slogan"
-                            data-aos="fade-up"
-                            data-aos-delay="100"
-                            data-aos-offset="200"
-                            data-aos-easing="ease-out-quart"
-                            style={{fontWeight: "bold", color: "#344258"}}
-                        >
-                            {" "}
-                            Get your company goals towards key results
-                        </p>
+                <div className="-mx-4">
+                    <div className="top-hero header-seaction relative">
+                        <div className="slogan flex flex-col"
+                             style={{fontWeight: "bold", color: "#344258"}}>
+                            <div className="flex">
+                                <img src="/static/logo.png" className={"h-full w-auto"}/>
+                                <img
+                                    src="/static/logo_name.png"
+                                    className={"h-full w-auto ml-2"}
+
+                                />
+                            </div>
+                            <p data-aos="fade-up"
+                               data-aos-delay="100"
+                               data-aos-offset="200"
+                               data-aos-easing="ease-out-quart"
+                               className="">Get your company goals towards key results
+                            </p>
+                        </div>
                     </div>
                 </div>
                 <div className="container">
@@ -187,6 +192,35 @@ class Home extends React.Component {
 
                 {/*language=CSS*/}
                 <style jsx>{`
+                    .slogan {
+                        position: absolute;
+                        top: 50%;
+                        left: 50%;
+                        color: #000;
+                        transform: translateX(-50%) translateY(-50%);
+                        font-size: 20px;
+                        text-align: center;
+                    }
+                    @media screen and (min-width: 600px) {
+                        .slogan {
+                            font-size: 28px;
+                        }
+                    }
+                    @media screen and (min-width: 1023px) {
+                        .slogan {
+                            font-size: 40px;
+                        }
+                    }
+
+                    .header-seaction {
+                        width: 100%;
+                        height: 100vh;
+                        background-image: url('/static/homepage.png');
+                        background-position: center;
+                        background-repeat: no-repeat;
+                        background-size: cover;
+                    }
+
                     .index-heading {
                         color: #344258;
                     }
@@ -197,9 +231,11 @@ class Home extends React.Component {
                         max-height: 120px;
                         margin-bottom: 25px;
                     }
-                    .pricing-section{
+
+                    .pricing-section {
                         padding-bottom: 120px;
                     }
+
                     .index-section {
                         min-height: 600px;
                         height: 60vh;

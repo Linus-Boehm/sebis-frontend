@@ -1,12 +1,14 @@
 import "../../assets/css/tailwind.css";
 import "../../assets/css/bulma.scss";
 import "../../assets/css/forms.scss";
+import "../../assets/css/print.scss";
+
+//TODO move into the pages/components as import or into the styled jsx section to avoid conflicts
 import "../../assets/css/goal-info.scss";
 import "../../assets/css/day-picker.scss";
 import "../../assets/css/progress-info.scss";
-import "../../assets/css/homepage.scss";
 import "../../assets/css/goal-item.scss";
-import "../../assets/css/print.scss";
+
 import "../../assets/css/sidebar.scss";
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -109,9 +111,7 @@ class DefaultLayout extends React.Component {
               <img
                 src="/static/logo_name.png"
                 className={"h-full w-auto ml-2"}
-                style={{
-                  marginBottom: "-.25rem"
-                }}
+
               />
             </a>
 
@@ -133,7 +133,6 @@ class DefaultLayout extends React.Component {
           <div
             id="navbarmenu"
             className="navbar-menu"
-            style={{ marginLeft: "60px" }}
           >
             {this.props.auth.isAuthenticated && (
               <div className="navbar-start">
@@ -159,10 +158,10 @@ class DefaultLayout extends React.Component {
               {!this.props.auth.isAuthenticated ? (
                 <div className="navbar-item">
                   <div className="buttons">
-                    <Link prefetch href="/auth/signup">
+                    <Link prefetch href={"/auth/signup"}>
                       <a className="button is-primary">Sign Up</a>
                     </Link>
-                    <Link prefetch href="/auth/signin">
+                    <Link prefetch href={"/auth/signin"}>
                       <a className="button is-link">Sign In</a>
                     </Link>
                   </div>

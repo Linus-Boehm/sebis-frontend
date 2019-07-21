@@ -1,5 +1,4 @@
-import "../../assets/css/bulma.scss";
-import "../../assets/css/tailwind.css";
+
 import Link from "next/link";
 import {connect} from "react-redux";
 import React from "react";
