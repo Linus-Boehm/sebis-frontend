@@ -1,6 +1,8 @@
 # sebis-frontend
 Our MVP of a University Project for a digital Objective Agreement
 University Course- Web App Engineering of SS19 TU Munich - https://wwwmatthes.in.tum.de/pages/1mqqqoqe7gapz/SEBA-Master-Web-Application-Engineering
+
+Backend Project: https://github.com/Linus-Boehm/goalify-backend
 ## Setup
 * Clone project
 * cd into project folder
